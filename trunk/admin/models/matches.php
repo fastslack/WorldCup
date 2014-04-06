@@ -188,10 +188,9 @@ class WorldcupModelMatches extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 't.date');
-		$orderDirn = $this->state->get('list.direction', 'ASC');
+		$ordering = $this->state->get('list.fullordering');
 
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($ordering);
 
 		return $query;
 	}
@@ -210,29 +209,6 @@ class WorldcupModelMatches extends JModelList
 		// Return
 		return $teams->getTeamsList($tournament);
 	}
-
-	/**
-	 * Get the matches for specific tournament
-	 *
-	 * @param  int  $tournament  The tournament.
-	 * @param  int  $phase  		 The phase.
-	 *
-	 * @return object An object with the matches data.
-	 *
-	function loadMatches($tournament, $phase) {
-		// Get the correct equipment
-		$query = $this->_db->getQuery(true);
-		// Select some values
-		$query->select("m.*, p.name AS pname");
-		// Set the from table
-		$query->from($this->_db->qn('#__worldcup_matches').' AS m');
-		$query->join('LEFT', '#__worldcup_places AS p ON p.id = m.place');
-		// Conditions
-		$query->where("m.tid = {$tournament}");
-		$query->where("m.phase = {$tournament}");
-		// Retrieve the data.
-		return $this->_db->setQuery($query)->loadObjectList();
-	}*/
 
 	/**
 	 * Method to test whether a record can be deleted.
