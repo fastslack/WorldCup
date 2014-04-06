@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in {3..33}; do
+#echo "Welcome $i times"
+  echo $i.png $((i-1)).png
+done

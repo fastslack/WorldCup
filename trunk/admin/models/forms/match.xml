@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset name="teams">
+    <field name="id" type="hidden" />
+
+		<field name="tid" type="sql" size="1" default="0" label="COM_WORLDCUP_MATCHES_TID" query="SELECT t.* FROM #__worldcup_tournaments AS t ORDER BY id DESC" key_field="id" value_field="name" description="PARAMFILE" />
+
+		<field	name="date" 	type="calendar"	label="COM_METS_PATIENT_BIRTHDATE_LABEL" description="COM_METS_PATIENT_BIRTHDATE_DESC" size="10"	class="inputbox" primary="true" />
+
+		<field name="group" type="sql" size="1" default="0" label="COM_WORLDCUP_MATCHES_TID" query="SELECT id, name FROM #__worldcup_groups ORDER BY name ASC" key_field="id" value_field="name" description="PARAMFILE" />
+
+		<field name="place" type="sql" size="1" default="0" label="COM_WORLDCUP_MATCHES_PLACE" query="SELECT id, name FROM #__worldcup_places ORDER BY name ASC" key_field="id" value_field="name" description="PARAMFILE" />
+
+		<field name="team1" type="sql" size="1" default="0" label="COM_WORLDCUP_MATCHES_TEAM1" query="SELECT id, name FROM #__worldcup_teams ORDER BY name ASC" key_field="id" value_field="name" description="PARAMFILE" />
+
+		<field name="team2" type="sql" size="1" default="0" label="COM_WORLDCUP_MATCHES_TEAM2" query="SELECT id, name FROM #__worldcup_teams ORDER BY name ASC" key_field="id" value_field="name" description="PARAMFILE" />
+
+		<field name="phase" type="list" default="0"
+			label="COM_WORLDCUP_MATCHES_PHASE"
+			description="COM_WORLDCUP_MATCHES_PHASE_DESC"
+			class="span2 small" >
+			<option value="0">COM_WORLDCUP_MATCHES_PHASE_CLASIFICATION</option>
+			<option value="1">COM_WORLDCUP_MATCHES_PHASE_ROUND18</option>
+			<option value="2">COM_WORLDCUP_MATCHES_PHASE_QUARTER</option>
+			<option value="3">COM_WORLDCUP_MATCHES_PHASE_SEMIFINALS</option>
+			<option value="4">COM_WORLDCUP_MATCHES_PHASE_THIRDPLACE</option>
+			<option value="5">COM_WORLDCUP_MATCHES_PHASE_FINAL</option>
+		</field>
+
+		<field name="published" type="list" default="0"
+			label="COM_WORLDCUP_MATCHES_PUBLISHED"
+			description="COM_WORLDCUP_MATCHES_PUBLISHED_DESC"
+			class="span2 small" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+  </fieldset>
+</form>

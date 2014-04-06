@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Default Bet Layout">
+		<message>
+			<![CDATA[STANDARD ARTICLE LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Default Bet Layout</name>
+		<description>Default Bet Layout</description>
+		<params>
+		</params>
+	</state>
+</metadata>

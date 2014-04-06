@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PROJECT="worldcup"
+VERSION="0.3.0alpha1"
+
+rm com_${PROJECT}-${VERSION}.zip
+
+cp -r ../trunk ${PROJECT}-${VERSION}
+
+mtwRemoveSVNFiles ${PROJECT}-${VERSION}
+
+mv ${PROJECT}-${VERSION}-without-svn/ com_${PROJECT}
+
+#rm com_${PROJECT}/admin/extensions/*.gz
+#rm com_${PROJECT}/admin/${PROJECT}_config.php
+rm com_${PROJECT}/admin/${PROJECT}.xml
+
+zip -r com_${PROJECT}-${VERSION}.zip com_${PROJECT}/
+
+# Cleanup
+rm -rf com_${PROJECT}/
+rm -rf ${PROJECT}-${VERSION}
+rm -rf com_${PROJECT}-latest.zip
+
+ln -s com_${PROJECT}-${VERSION}.zip com_${PROJECT}-latest.zip
+

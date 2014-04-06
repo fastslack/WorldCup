@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="component"
+		label="COM_WORLDCUP_COMPONENT_LABEL"
+		description="COM_WORLDCUP_COMPONENT_DESC"
+	>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_WORLDCUP_CONFIG_TITLE_LABEL"
+			description="COM_WORLDCUP_CONFIG_TITLE_DESC"
+			default="5"
+		/>
+		
+		<field
+			name="exactmatch"
+			type="text"
+			filter="integer"
+			label="COM_WORLDCUP_CONFIG_EXACTMATCH_LABEL"
+			description="COM_WORLDCUP_CONFIG_EXACTMATCH_DESC"
+			default="5"
+		/>
+
+		<field
+			name="simplematch"
+			type="text"
+			filter="integer"
+			label="COM_WORLDCUP_CONFIG_SIMPLEMATCH_LABEL"
+			description="COM_WORLDCUP_CONFIG_SIMPLEMATCH_DESC"
+			default="5"
+		/>
+
+		<field
+			name="equalmatch"
+			type="text"
+			filter="integer"
+			label="COM_WORLDCUP_CONFIG_EQUALMATCH_LABEL"
+			description="COM_WORLDCUP_CONFIG_EQUALMATCH_DESC"
+			default="5"
+		/>
+
+	</fieldset>
+
+	<fieldset name="permissions"
+		description="JCONFIG_PERMISSIONS_DESC"
+		label="JCONFIG_PERMISSIONS_LABEL"
+	>
+
+		<field name="rules" type="rules"
+			component="com_WORLDCUP"
+			filter="rules"
+			validate="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			section="component" />
+	</fieldset>
+</config>
