@@ -70,7 +70,7 @@ class WorldcupViewGroups extends JViewLegacy {
 			JToolbarHelper::unpublish('groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		JToolBarHelper::back();
+		JToolBarHelper::cancel('groups.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::spacer();
 	}
 

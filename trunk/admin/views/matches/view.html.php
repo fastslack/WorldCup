@@ -81,7 +81,7 @@ class WorldcupViewMatches extends JViewLegacy {
 			JToolbarHelper::unpublish('matches.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		JToolBarHelper::back();
+		JToolBarHelper::cancel('matches.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::spacer();
 	}
 

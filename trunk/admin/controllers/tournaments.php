@@ -16,80 +16,58 @@ defined('_JEXEC') or die();
 class WorldcupControllerTournaments extends JControllerAdmin
 {
 	/**
-	 * constructor (registers additional tasks to methods)
-	 * @return void
+	 * Proxy for getModel.
+	 * @since   1.0
 	 */
-	function __construct() {
-		parent::__construct();
-
-		require_once(JPATH_COMPONENT.DS.'tables'.DS.'tournaments.php');	
-	}
-
-  function display() {
-  
-    JRequest::setVar( 'view', 'tournaments' );
-    //echo $task;
-
-    parent::display();
-  }
-
-  function add() {
-  
-    JRequest::setVar( 'view', 'tournaments' );
-    JRequest::setVar( 'layout', 'form'  );
-
-    parent::display();
-  }
-
-  function edit() {
-  
-    JRequest::setVar( 'view', 'tournaments' );
-    JRequest::setVar( 'layout', 'form'  );
-
-    parent::display();
-  }
-
-	/**
-	 * save a record (and redirect to main page)
-	 * @return void
-	 */
-	function save()	{
-
-		$db =& JFactory::getDBO();
-		$post = JRequest::get( 'post' );
-
-		$tournaments = new TableWorldCuptournaments($db);
-		$tournaments->bind($post);
-
-		if ($tournaments->store()) {
-			$msg = JText::_( 'Tournament added!' );
-		} else {
-			$msg = JText::_( 'Error adding Tournament' );
-		}
-
-		$link = 'index.php?option=com_worldcup&controller=tournaments';
-		$this->setRedirect($link, $msg);
+	public function getModel($name = 'Team', $prefix = 'WorldcupModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
 
 	/**
-	 * cancel editing a record
-	 * @return void
+	 * Method to provide child classes the opportunity to process after the delete task.
+	 *
+	 * @param   JModelLegacy   $model   The model for the component
+	 * @param   mixed          $ids     array of ids deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
 	 */
-	function cancel() {
-		$msg = JText::_( 'Configuration Cancelled' );
-		$this->setRedirect( 'index.php?option=com_worldcup', $msg );
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
 	}
+
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   1.6
+	 */
+	public function cancel($key = null)
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$this->setRedirect( 'index.php?option=com_worldcup', null );
+	}
+
+/*
+	@@ Unused method
 
   function remove() {
-    /* Check for request forgeries */
+    // Check for request forgeries 
     JRequest::checkToken() or jexit( 'Invalid Token' );
 
-    /* Initialize variables */
+    // Initialize variables 
     $db     =& JFactory::getDBO();
     $hid    = JRequest::getVar( 'cid', array(), 'post', 'array' );
     $n      = count( $hid );
 
-		/* Deleting */
+		// Deleting 
   	$query = 'DELETE FROM #__worldcup_tournaments'
     . ' WHERE id = ' . implode( ' OR id = ', $hid );
 
@@ -98,9 +76,10 @@ class WorldcupControllerTournaments extends JControllerAdmin
       JError::raiseWarning( 500, $db->getError() );
     }
 
-		/* TODO - Remove assigned users */
+		// TODO - Remove assigned users 
 
 		$this->setRedirect( 'index.php?option=com_worldcup&controller=tournaments' );
     $this->setMessage( JText::sprintf( 'tournaments removed', $n ) );
   }
+*/
 }

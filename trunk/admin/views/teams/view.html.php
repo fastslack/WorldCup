@@ -70,7 +70,7 @@ class WorldcupViewTeams extends JViewLegacy {
 			JToolbarHelper::unpublish('teams.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		JToolBarHelper::back();
+		JToolBarHelper::cancel('teams.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::spacer();
 	}
 

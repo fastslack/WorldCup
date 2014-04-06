@@ -53,7 +53,7 @@ class WorldcupViewUsers extends JViewLegacy {
 		JToolBarHelper::addNew('user.add');
 		JToolBarHelper::editList('user.edit');
 		JToolBarHelper::deleteList('', 'users.delete');
-		JToolBarHelper::back();
+		JToolBarHelper::cancel('users.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::spacer();
 	}
 

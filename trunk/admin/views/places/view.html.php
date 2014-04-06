@@ -70,7 +70,7 @@ class WorldcupViewPlaces extends JViewLegacy {
 			JToolbarHelper::unpublish('places.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 
-		JToolBarHelper::back();
+		JToolBarHelper::cancel('places.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::spacer();
 	}
 

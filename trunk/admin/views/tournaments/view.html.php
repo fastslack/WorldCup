@@ -60,7 +60,7 @@ class WorldcupViewTournaments extends JViewLegacy {
 		JToolBarHelper::addNew('tournament.add');
 		JToolBarHelper::editList('tournament.edit');
 		JToolBarHelper::deleteList('', 'tournaments.delete');
-		JToolBarHelper::back();
+		JToolBarHelper::cancel('tournaments.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::spacer();
 	}
 
@@ -79,11 +79,6 @@ class WorldcupViewTournaments extends JViewLegacy {
 			't.id' => JText::_('JGRID_HEADING_ID')
 		);
 	}
-
-
-
-
-
 
 	function _displayForm ($tpl = null) {
 		global $mainframe;
