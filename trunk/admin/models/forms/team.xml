@@ -3,9 +3,9 @@
   <fieldset name="teams">
     <field name="id" type="hidden" />
 
-		<field name="tid" type="sql" size="1" default="0" label="COM_WORLDCUP_TEAMS_TID" query="SELECT t.* FROM #__worldcup_tournaments AS t ORDER BY id DESC" key_field="id" value_field="name" description="PARAMFILE" />
+		<field name="tid" type="sql" size="1" default="0" label="COM_WORLDCUP_TEAMS_TID" query="SELECT t.id, t.title AS name FROM #__worldcup_tournaments AS t ORDER BY id DESC" key_field="id" value_field="name" description="PARAMFILE" />
 
-		<field	name="name"	 type="text"	label="COM_WORLDCUP_TEAMS_NAME" description="COM_WORLDCUP_TEAMS_NAME_DESC"
+		<field	name="name"	type="text"	label="COM_WORLDCUP_TEAMS_NAME" description="COM_WORLDCUP_TEAMS_NAME_DESC"
 			size="20"	class="input-xxlarge"	default="" primary="true" />
 
 		<field name="group" type="sql" size="1" default="0" label="COM_WORLDCUP_TEAMS_GROUP" query="SELECT id, name FROM #__worldcup_groups ORDER BY name ASC" key_field="id" value_field="name" description="PARAMFILE" />

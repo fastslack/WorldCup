@@ -21,6 +21,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_worldcup.matchs');
 $saveOrder	= $listOrder == 't.ordering';
 $sortFields = $this->getSortFields();
+
+// Get the filter phase
+$phase = !empty($this->state->get('filter.phase')) ? $this->state->get('filter.phase') : 0;
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -58,11 +61,15 @@ $sortFields = $this->getSortFields();
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 	<?php else : ?>
-
+		<table>
+		<tr>
+			<td align="left" width="100%">
+				<h3><?php echo $this->phases[$phase]; ?></h3>
+			</td>
+		</tr>
+		</table>
 		<table class="table table-striped">
-			<thead><?php echo $this->loadTemplate('head');?></thead>
-			<tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
-			<tbody><?php echo $this->loadTemplate('body');?></tbody>
+			<?php echo $this->loadTemplate('phase');?>
 		</table>
 
 	<?php endif; ?>

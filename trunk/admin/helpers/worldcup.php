@@ -1,21 +1,48 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * @package		Joomla
- * @subpackage	Modules
+ * @package		Matware
+ * @subpackage	Worldcup
  */
-class WorldCupHelper
+class WorldcupHelper
 {
+	/**
+	 * Returns an array with the different phases
+	 *
+	 * @param   int  $teamscount  The total of teams.
+	 *
+	 * @return  array  Array containing the list of phases.
+	 *
+	 * @since   1.0
+	 */
+	function getPhases($teamscount = 0) { 
+
+		// Declare phases
+		$phases = array();
+		$phases[0] = JText::_( 'Clasification' );
+		if ($teamscount > 12) {
+			$phases[1] = JText::_( 'Round of 16' );
+		}
+		$phases[2] = JText::_( 'Quarter-finals' ); 
+		$phases[3] = JText::_( 'Semi-finals' ); 
+		$phases[4] = JText::_( 'Match for third place' );
+		$phases[5] = JText::_( 'Final' );
+
+		return $phases;
+	}
 
 	function getTournaments($tid) { 
 		$db =& JFactory::getDBO();

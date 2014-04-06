@@ -33,13 +33,12 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php echo JText::_('COM_WORLDCUP_MATCHES_TEAM1'); ?>
 	</th>
 	<th>
+		&nbsp;
+	</th>
+	<th>
 		<?php echo JText::_('COM_WORLDCUP_MATCHES_TEAM2'); ?>
 	</th>
 	<th>
 		<?php echo JText::_('COM_WORLDCUP_MATCHES_PHASE'); ?>
-	</th>
-
-	<th width="5">
-		<?php echo JText::_('JGRID_HEADING_ID'); ?>
 	</th>
 </tr>

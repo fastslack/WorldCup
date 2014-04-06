@@ -5,7 +5,7 @@
 
     <field name="title" type="text" label="COM_WORLDCUP_TOURNAMENT_TITLE" description="COM_WORLDCUP_TOURNAMENT_TITLE_DESC" size="6" class="input-xxlarge" default="" />
 
-		<field	name="place"	 type="text"	label="COM_WORLDCUP_TOURNAMENT_PLACE" description="COM_WORLDCUP_TOURNAMENT_PLACE_DESC"
+		<field	name="place" type="text"	label="COM_WORLDCUP_TOURNAMENT_PLACE" description="COM_WORLDCUP_TOURNAMENT_PLACE_DESC"
 			size="20"	class="input-xxlarge"	default="" />
 
 		<field name="mode" type="list" default="0"

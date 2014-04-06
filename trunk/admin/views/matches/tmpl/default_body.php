@@ -25,6 +25,10 @@ foreach($this->items as $i => $item):
 	$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 	//$canEditOwn = $user->authorise('core.edit.own',   'com_worldcup.team.'.$item->id) && $item->created_by == $userId;
 	$canChange  = $user->authorise('core.edit.state', 'com_worldcup.team.'.$item->id) && $canCheckin;
+
+	$date =& JFactory::getDate($item->date);          
+	$format = '%b/%d %H:%M';
+
 ?>
 	<tr class="row<?php echo $i % 2; ?>">
 		<td>
@@ -44,7 +48,7 @@ foreach($this->items as $i => $item):
 			</div>
 		</td>
 		<td>
-			<a href="index.php?option=com_worldcup&view=match&layout=edit&id=<?php echo $item->id; ?>"><?php echo $item->date; ?></a>
+			<a href="index.php?option=com_worldcup&view=match&layout=edit&id=<?php echo $item->id; ?>"><?php echo $date->toFormat($format); ?></a>
 		</td>
 		<td>
 			<?php echo $item->group_name; ?>

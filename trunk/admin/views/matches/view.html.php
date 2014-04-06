@@ -25,6 +25,11 @@ class WorldcupViewMatches extends JViewLegacy {
 
 	function display($tpl = null) {
 
+		// Loading the helper
+		JLoader::import('helpers.worldcup', JPATH_COMPONENT_ADMINISTRATOR);
+
+		$model = $this->getModel();
+
 		$this->state		= $this->get('State');
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
@@ -38,16 +43,16 @@ class WorldcupViewMatches extends JViewLegacy {
 			return false;
 		}
 
+		$tid = $this->state->get('filter.tid');
+
+		// Get the teams
+		$this->teams = $model->getTeamsList($tid);
+
+		// Count the teams
+		$teamscount = count($this->teams);
+
 		// Declare phases
-		$this->phases = array();
-		$this->phases[0] = JText::_( 'Clasification' );
-		//if ($teamscount > 12) {
-			$this->phases[1] = JText::_( 'Round of 16' );
-		//}
-		$this->phases[2] = JText::_( 'Quarter-finals' ); 
-		$this->phases[3] = JText::_( 'Semi-finals' ); 
-		$this->phases[4] = JText::_( 'Match for third place' );
-		$this->phases[5] = JText::_( 'Final' );
+		$this->phases = WorldcupHelper::getPhases($teamscount);
 
 		// Add the toolbar
 		$this->addToolBar();

@@ -1,7 +1,0 @@
-<?php
-$worldcupConfig['disable'] = "";
-$worldcupConfig['exactmatch'] = "2";
-$worldcupConfig['simplematch'] = "1";
-$worldcupConfig['equalmatch'] = "1";
-?>
-

@@ -14,6 +14,10 @@
 defined('_JEXEC') or die('Restricted access');
 // import the Joomla modellist library
 jimport('joomla.application.component.modellist');
+
+// Import the plannings class
+JLoader::register('WorldcupTeams', JPATH_COMPONENT_ADMINISTRATOR.'/includes/teams.php');
+
 /**
  * WorldcupModelMatches Model
  */
@@ -86,6 +90,9 @@ class WorldcupModelMatches extends JModelList
 		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group');
 		$this->setState('filter.group', $group);
 
+		$phase = $this->getUserStateFromRequest($this->context . '.filter.phase', 'filter_phase');
+		$this->setState('filter.phase', $phase);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_worldcup');
 		$this->setState('params', $params);
@@ -113,6 +120,7 @@ class WorldcupModelMatches extends JModelList
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.tid');
 		$id .= ':' . $this->getState('filter.group');
+		$id .= ':' . $this->getState('filter.phase');
 
 		return parent::getStoreId($id);
 	}
@@ -128,7 +136,7 @@ class WorldcupModelMatches extends JModelList
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		// Select some fields
-		$query->select('t.id, t.date, t.published, t.phase');
+		$query->select('t.id, t.date, t.published, t.phase, t.team1, t.team2');
 		// From the hello table
 		$query->from($db->quoteName('#__worldcup_matches') . ' AS t');
 
@@ -141,11 +149,11 @@ class WorldcupModelMatches extends JModelList
 			->join('LEFT', '#__worldcup_places AS p ON p.id = t.place');
 
 		// Join over the team 1
-		$query->select('team1.name AS team1')
+		$query->select('team1.name AS team1_name')
 			->join('LEFT', '#__worldcup_teams AS team1 ON team1.id = t.team1');
 
 		// Join over the team2
-		$query->select('team2.name AS team2')
+		$query->select('team2.name AS team2_name')
 			->join('LEFT', '#__worldcup_teams AS team2 ON team2.id = t.team2');
 
 		// Filter by search in date
@@ -169,6 +177,10 @@ class WorldcupModelMatches extends JModelList
 			$query->where('t.tid = ' . (int) $tid);
 		}
 
+		// Filter by phase id
+		$phase = !empty($this->getState('filter.phase')) ? $this->getState('filter.phase') : 0;
+		$query->where('t.phase = ' . (int) $phase);
+
 		// Filter by group id
 		if ($group = $this->getState('filter.group'))
 		{
@@ -183,6 +195,44 @@ class WorldcupModelMatches extends JModelList
 
 		return $query;
 	}
+
+	/**
+	 * Get the teams of specific tournament
+	 *
+	 * @param  int  $tournament  The tournament.
+	 *
+	 * @return array An array with the teams data.
+	 */
+	public function getTeamsList($tournament)
+	{
+		// Create the teams instance
+		$teams = new WorldcupTeams();
+		// Return
+		return $teams->getTeamsList($tournament);
+	}
+
+	/**
+	 * Get the matches for specific tournament
+	 *
+	 * @param  int  $tournament  The tournament.
+	 * @param  int  $phase  		 The phase.
+	 *
+	 * @return object An object with the matches data.
+	 *
+	function loadMatches($tournament, $phase) {
+		// Get the correct equipment
+		$query = $this->_db->getQuery(true);
+		// Select some values
+		$query->select("m.*, p.name AS pname");
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_matches').' AS m');
+		$query->join('LEFT', '#__worldcup_places AS p ON p.id = m.place');
+		// Conditions
+		$query->where("m.tid = {$tournament}");
+		$query->where("m.phase = {$tournament}");
+		// Retrieve the data.
+		return $this->_db->setQuery($query)->loadObjectList();
+	}*/
 
 	/**
 	 * Method to test whether a record can be deleted.
