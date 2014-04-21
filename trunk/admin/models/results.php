@@ -14,14 +14,10 @@
 defined('_JEXEC') or die('Restricted access');
 // import the Joomla modellist library
 jimport('joomla.application.component.modellist');
-
-// Import the plannings class
-JLoader::register('WorldcupTeams', JPATH_COMPONENT_ADMINISTRATOR.'/includes/teams.php');
-
 /**
- * WorldcupModelMatches Model
+ * WorldcupModelResults Model
  */
-class WorldcupModelMatches extends JModelList
+class WorldcupModelResults extends JModelList
 {
 	/**
 	 * Constructor.
@@ -60,7 +56,7 @@ class WorldcupModelMatches extends JModelList
 	* @return      JTable  A database object
 	* @since       2.5
 	*/
-	public function getTable($type = 'Match', $prefix = 'WorldcupTable', $config = array()) 
+	public function getTable($type = 'Result', $prefix = 'WorldcupTable', $config = array()) 
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -83,15 +79,6 @@ class WorldcupModelMatches extends JModelList
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $published);
-
-		$tournament = $this->getUserStateFromRequest($this->context . '.filter.tournament', 'filter_tournament', 1, 'int');
-		$this->setState('filter.tid', $tournament);
-
-		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group');
-		$this->setState('filter.group', $group);
-
-		$phase = $this->getUserStateFromRequest($this->context . '.filter.phase', 'filter_phase');
-		$this->setState('filter.phase', $phase);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_worldcup');
@@ -118,9 +105,6 @@ class WorldcupModelMatches extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.state');
-		$id .= ':' . $this->getState('filter.tid');
-		$id .= ':' . $this->getState('filter.group');
-		$id .= ':' . $this->getState('filter.phase');
 
 		return parent::getStoreId($id);
 	}
@@ -136,25 +120,9 @@ class WorldcupModelMatches extends JModelList
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		// Select some fields
-		$query->select('t.id, t.date, t.published, t.phase, t.team1, t.team2');
+		$query->select('*');
 		// From the hello table
-		$query->from($db->quoteName('#__worldcup_matches') . ' AS t');
-
-		// Join over the groups
-		$query->select('g.name AS group_name')
-			->join('LEFT', '#__worldcup_groups AS g ON g.id = t.group');
-
-		// Join over the place
-		$query->select('p.name AS place')
-			->join('LEFT', '#__worldcup_places AS p ON p.id = t.place');
-
-		// Join over the team 1
-		$query->select('team1.name AS team1_name')
-			->join('LEFT', '#__worldcup_teams AS team1 ON team1.id = t.team1');
-
-		// Join over the team2
-		$query->select('team2.name AS team2_name')
-			->join('LEFT', '#__worldcup_teams AS team2 ON team2.id = t.team2');
+		$query->from($db->quoteName('#__worldcup_results') . ' AS t');
 
 		// Filter by search in date
 		$search = $this->getState('filter.search');
@@ -171,44 +139,35 @@ class WorldcupModelMatches extends JModelList
 			}
 		}
 
-		// Filter by tournament id
-		if ($tid = $this->getState('filter.tid'))
-		{
-			$query->where('t.tid = ' . (int) $tid);
-		}
-
-		// Filter by phase id
-		$phase = !empty($this->getState('filter.phase')) ? $this->getState('filter.phase') : 0;
-		$query->where('t.phase = ' . (int) $phase);
-
-		// Filter by group id
-		if ($group = $this->getState('filter.group'))
-		{
-			$query->where('t.group = ' . (int) $group);
-		}
-
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
-
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$ordering = $this->state->get('list.fullordering');
+		$query->order($db->escape($ordering));
 
 		return $query;
 	}
 
 	/**
-	 * Get the teams of specific tournament
+	 * Get the groups of the tournament
 	 *
-	 * @param  int  $tournament  The tournament.
+	 * @return  object  The list of groups.
 	 *
-	 * @return array An array with the teams data.
+	 * @since   1.0
 	 */
-	public function getTeamsList($tournament)
+	public function getGroups($tournament)
 	{
-		// Create the teams instance
-		$teams = new WorldcupTeams();
-		// Return
-		return $teams->getTeamsList($tournament);
+		// Get the comparation table
+		$query = $this->_db->getQuery(true);
+		// Select some values
+		$query->select("g.*");
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_groups') . ' as g');
+		// Get the correct column
+		$query->where("g.tid = {$tournament}");
+		// Order 
+		$query->order($this->_db->escape('g.id ASC'));
+
+		// Retrieve the data.
+		return $this->_db->setQuery($query)->loadObjectList('id');
 	}
 
 	/**

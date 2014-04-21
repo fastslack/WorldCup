@@ -17,10 +17,6 @@
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
-		<field name="tid" type="sql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="t.id, t.title AS name" sql_from="#__worldcup_tournaments AS t" sql_order="t.id DESC" sql_filter="" key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" />
-
-		<field name="group" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="g.id, g.name AS name" sql_from="#__worldcup_groups AS g" sql_group="name" sql_order="g.id ASC" sql_filter="tid"	key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" />
-
 	</fields>
 	<fields name="list">
 		<field
@@ -29,13 +25,21 @@
 			label="COM_CONTENT_LIST_FULL_ORDERING"
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
-			default="t.group ASC"
+			default="t.title ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="t.name ASC">JGLOBAL_NAME_ASC</option>
-			<option value="t.name DESC">JGLOBAL_NAME_DESC</option>
-			<option value="t.group ASC">JGLOBAL_GROUP_ASC</option>
-			<option value="t.group DESC">JGLOBAL_GROUP_DESC</option>
+			<option value="t.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="t.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="t.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="t.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="t.access ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="t.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="t.created_by ASC">JAUTHOR_ASC</option>
+			<option value="t.created_by DESC">JAUTHOR_DESC</option>
+			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="t.created ASC">JDATE_ASC</option>
+			<option value="t.created DESC">JDATE_DESC</option>
 			<option value="t.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="t.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

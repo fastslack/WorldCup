@@ -1,101 +1,57 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-class worldcupControllerResults extends worldcupController
+class WorldcupControllerResults extends JControllerAdmin
 {
 	/**
-	 * constructor (registers additional tasks to methods)
-	 * @return void
+	 * Proxy for getModel.
+	 * @since   1.0
 	 */
-	function __construct() {
-		parent::__construct();
-
-		require_once(JPATH_COMPONENT.DS.'tables'.DS.'results.php');	
-		//require_once(JPATH_COMPONENT.DS.'tables'.DS.'usergroups.php');
+	public function getModel($name = 'Result', $prefix = 'WorldcupModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
-
-  function display() {
-  
-    JRequest::setVar( 'view', 'results' );
-    //echo $task;
-
-    parent::display();
-  }
-
-  function add() {
-  
-    JRequest::setVar( 'view', 'results' );
-    JRequest::setVar( 'layout', 'form'  );
-
-    parent::display();
-  }
-
-  function edit() {
-  
-    JRequest::setVar( 'view', 'results' );
-    JRequest::setVar( 'layout', 'form'  );
-
-    parent::display();
-  }
 
 	/**
-	 * save a record (and redirect to main page)
-	 * @return void
+	 * Method to provide child classes the opportunity to process after the delete task.
+	 *
+	 * @param   JModelLegacy   $model   The model for the component
+	 * @param   mixed          $ids     array of ids deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
 	 */
-	function save()	{
-
-		$db =& JFactory::getDBO();
-		$post = JRequest::get( 'post' );
-		//print_r($post);
-
-		$post['date'] = $post['tdate'] ." ". $post['hour'].":".$post['minutes'];
-		//echo "<br><br>".$post['date'];
-
-		$results = new TableWorldCupResults($db);
-		$results->bind($post);
-
-		if ($results->store()) {
-			$msg = JText::_( 'Match added!' );
-		} else {
-			$msg = JText::_( '1: Error adding match' );
-		}
-
-		$link = 'index.php?option=com_worldcup&controller=results';
-		$this->setRedirect($link, $msg);
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
 	}
 
-  function remove() {
-    /* Check for request forgeries */
-    JRequest::checkToken() or jexit( 'Invalid Token' );
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   1.6
+	 */
+	public function cancel($key = null)
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-    /* Initialize variables */
-    $db     =& JFactory::getDBO();
-    $hid    = JRequest::getVar( 'cid', array(), 'post', 'array' );
-    $n      = count( $hid );
-
-		/* Deleting */
-  	$query = 'DELETE FROM #__worldcup_results'
-    . ' WHERE id = ' . implode( ' OR id = ', $hid );
-
-    $db->setQuery( $query );
-    if (!$db->query()) {
-      JError::raiseWarning( 500, $db->getError() );
-    }
-
-		/* TODO - Remove all history */
-
-		$this->setRedirect( 'index.php?option=com_worldcup&controller=results' );
-    $this->setMessage( JText::sprintf( 'Results removed', $n ) );
-  }
-
+		$this->setRedirect( 'index.php?option=com_worldcup', null );
+	}
 }
-?>

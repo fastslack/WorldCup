@@ -46,7 +46,7 @@ class WorldcupTeams extends JObject
 	 *
 	 * @return array An array with the teams data.
 	 */
-	public function getTeamsList($tournament)
+	public function getTeamsList($tournament, $group = false)
 	{
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
@@ -56,6 +56,37 @@ class WorldcupTeams extends JObject
 		$query->from($this->_db->qn('#__worldcup_teams'));
 		// Conditions
 		$query->where("tid = {$tournament}");
+
+		if ($group !== false) {
+			$query->where("`group` = {$group}");
+		}
+
+		// Retrieve the data.
+		return $this->_db->setQuery($query)->loadObjectList('id');
+	}
+
+	/**
+	 * Get the teams of specific tournament
+	 *
+	 * @param  int  $tournament  The tournament.
+	 *
+	 * @return array An array with the teams data.
+	 */
+	public function getTeamsArray($tournament, $group = false)
+	{
+		// Get the correct equipment
+		$query = $this->_db->getQuery(true);
+		// Select some values
+		$query->select("id, name");
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_teams'));
+		// Conditions
+		$query->where("tid = {$tournament}");
+
+		if ($group !== false) {
+			$query->where("`group` = {$group}");
+		}
+
 		// Retrieve the data.
 		return $this->_db->setQuery($query)->loadAssocList('id');
 	}
