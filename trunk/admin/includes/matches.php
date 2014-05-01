@@ -77,72 +77,34 @@ class WorldcupMatches extends JObject
 	}
 
 	/**
-	* Get the matches of specific tournament
-	*
-	* @param  int  $tournament  The tournament id.
-	* @param  int  $phase  The phase id.
-	*
-	* @return object An object with the matches data.
-	*/
-	public function getSecondPhaseTable ($tournament, $user_id) {
+	 * Get the matches of specific tournament
+	 *
+	 * @param  int  $tournament  The tournament id.
+	 * @param  int  $group  The group id.
+	 *
+	 * @return object An object with the matches data.
+	 */
+	public function getResultsList($tournament, $group = false)
+	{
+		// Get the correct equipment
+		$query = $this->_db->getQuery(true);
+		// Select some values
+		$query->select("r.mid, m.team1, m.team2, r.local, r.visit");
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_results').' AS r');
+		// Join
+		$query->join('LEFT', '#__worldcup_matches AS m ON m.id = r.mid');
+		// Conditions
+		$query->where("m.tid = {$tournament}");
 
-		$data = array();
-		$db =& JFactory::getDBO();
-
-		$betsObj = new WorldcupBets();
-		$teamsObj = new WorldcupTeams();
-		$tournamentObj = new WorldcupTournaments();
-
-		// Get the groups
-		$groups = $tournamentObj->getGroupsList($tournament);
-
-		$values = array('points', 'gf', 'ge');
-
-
-		for($i=1;$i<=count($groups);$i++) {
-
-			$group = $groups[$i];
-
-			// Get teams	
-			$teams[$i] = $teamsObj->getTeamsArray($tournament, $group->id);
-
-			// Get bets
-			$bets = $betsObj->getBetsGroupList($tournament, $user_id, $group->id);
-
-			// Foreach bets
-			foreach ($bets as $bet)
-			{
-				foreach ($values as $val)
-				{
-					if (!isset($teams[$i][$bet->team1][$val])) {
-						$teams[$i][$bet->team1][$val] = 0;
-					}
-
-					if (!isset($teams[$i][$bet->team2][$val])) {
-						$teams[$i][$bet->team2][$val] = 0;
-					}
-				}
-
-				if ($bet->local > $bet->visit ) {
-					$teams[$i][$bet->team1]['points'] += 3;
-				}else if ($bet->local < $bet->visit ) {
-					$teams[$i][$bet->team2]['points'] += 3;
-				}else if ($bet->local == $bet->visit ) {
-					$teams[$i][$bet->team1]['points'] += 1;
-					$teams[$i][$bet->team2]['points'] += 1;	
-				}
-
-				$teams[$i][$bet->team1]['gf'] += $bet->local;
-				$teams[$i][$bet->team2]['gf'] += $bet->visit;
-
-				$teams[$i][$bet->team1]['ge'] += $bet->visit;
-				$teams[$i][$bet->team2]['ge'] += $bet->local;	
-			}
-
-			$data[$i] = $this->__orderBy($teams[$i]);
+		if ($group !== false) {
+			$query->where("m.group = {$group}");
 		}
 
-		return $data;
+		$query->order("r.mid ASC");
+
+		// Retrieve the data.
+		return $this->_db->setQuery($query)->loadObjectList();
 	}
 
 	/**

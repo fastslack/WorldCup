@@ -70,7 +70,7 @@ foreach($this->items as $i => $item):
 						echo $item->team1;
 					}else{
 						?><img src="components/com_worldcup/images/flags/<?php echo $item->team1; ?>.png">&nbsp;&nbsp;<?php
-						echo $this->teams[$item->team1]['name'];
+						echo $this->teams[$item->team1]->name;
 					}
 				?>
 			</td>
@@ -83,7 +83,7 @@ foreach($this->items as $i => $item):
 						echo $item->team2;
 					}else{
 						?><img src="components/com_worldcup/images/flags/<?php echo $item->team2; ?>.png">&nbsp;&nbsp;<?php
-						echo $this->teams[$item->team2]['name'];
+						echo $this->teams[$item->team2]->name;
 					}
 				?>
 			</td>
