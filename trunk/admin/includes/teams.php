@@ -77,7 +77,7 @@ class WorldcupTeams extends JObject
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
 		// Select some values
-		$query->select("id, name");
+		$query->select("id, name, NULL as points, NULL as gf, NULL as ge, NULL as diff ");
 		// Set the from table
 		$query->from($this->_db->qn('#__worldcup_teams'));
 		// Conditions
