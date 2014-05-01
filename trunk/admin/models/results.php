@@ -80,6 +80,9 @@ class WorldcupModelResults extends JModelList
 		$published = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $published);
 
+		$tid = $this->getUserStateFromRequest($this->context . '.filter.tid', 'filter_tid', 1, 'string');
+		$this->setState('filter.tid', $published);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_worldcup');
 		$this->setState('params', $params);
@@ -105,6 +108,7 @@ class WorldcupModelResults extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.tid');
 
 		return parent::getStoreId($id);
 	}

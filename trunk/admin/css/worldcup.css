@@ -143,17 +143,22 @@ tr.even td{border-bottom: 1px solid #CCCCCE;}
 
 .save {
   cursor: pointer;
-	width: 32px;
-	height: 32px;
+	width: 24px;
+	height: 24px;
+	float: left;
+}
+
+.edit {
+  cursor: pointer;
+	width: 24px;
+	height: 24px;
 	float: left;
 }
 
 .delete {
-	position: relative;
-	bottom: 14px;
   cursor: pointer;
-	width: 32px;
-	height: 32px;
-	margin-left: 20px;
+	width: 24px;
+	height: 24px;
+	float: left;
 }
 

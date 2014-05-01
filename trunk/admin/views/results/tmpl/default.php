@@ -1,16 +1,37 @@
 <?php
 /**
-* Worldcup
-*
-* @version $Id:
-* @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
-* @author Matias Aguirre
-* @email maguirre@matware.com.ar
-* @link http://www.matware.com.ar/
-* @license GNU General Public License version 2 or later; see LICENSE
+ * WorldCup
+ *
+ * @author      Matias Aguirre
+ * @email       maguirre@matware.com.ar
+ * @url         http://www.matware.com.ar
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+defined('_JEXEC') or die('Restricted access');
+
+/*
+function recursiveArraySearch($haystack, $needle, $index = null) {
+	$aIt     = new RecursiveArrayIterator($haystack);
+	$it    = new RecursiveIteratorIterator($aIt);
+   
+  while($it->valid()) {       
+    if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+        return $aIt->key();
+    }
+   
+    $it->next();
+  }
+ 
+  return false;
+} 
 */
-defined('_JEXEC') or die('Restricted access'); 
+$teams = $this->teams;
+$matches = $this->matches;
+$results = $this->results;
+$groups = $this->groups;
+$data = $this->data;
+
+$format = 'd/m H:i';
 
 JHtml::_('behavior.framework', true);
 
@@ -21,6 +42,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_worldcup.results');
 $saveOrder	= $listOrder == 't.ordering';
 $sortFields = $this->getSortFields();
+
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -39,7 +61,10 @@ $sortFields = $this->getSortFields();
 		Joomla.tableOrdering(order, dirn, '');
 	}
 </script>
+<script type="text/javascript" src="components/com_worldcup/js/results.js"></script>
+<link rel="stylesheet" href="components/com_worldcup/css/worldcup.css" type="text/css" />
 <form action="<?php echo JRoute::_('index.php?option=com_worldcup&view=results'); ?>" method="post" name="adminForm" id="adminForm">
+
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -53,24 +78,19 @@ $sortFields = $this->getSortFields();
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 	<div class="clearfix"> </div>
-	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
-	<?php else : ?>
 
-		<table class="table table-striped">
-			<thead><?php echo $this->loadTemplate('head');?></thead>
-			<tfoot><?php echo $this->loadTemplate('foot');?></tfoot>
-			<tbody><?php echo $this->loadTemplate('body');?></tbody>
-		</table>
+	<?php 
+		for($i=0;$i<=5;$i++)
+		{
+			echo $this->getResultList($i); 
+		}
+	?>
 
-	<?php endif; ?>
-
-  <input type="hidden" name="option" value="com_worldcup" />
-  <input type="hidden" name="task" value="" />
-  <input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-	<?php echo JHtml::_('form.token'); ?>
+<input type="hidden" name="option" value="com_worldcup" />
+<input type="hidden" name="controller" value="results" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" />
+<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+<?php echo JHTML::_( 'form.token' ); ?>
 </form>
