@@ -29,15 +29,8 @@ class WorldcupViewBet extends JViewLegacy
 	*/
 	public function display($tpl = null) 
 	{
-		// get the Data
-		$this->state = $this->get('State');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors'))) 
-		{
-	    JError::raiseError(500, implode('<br />', $errors));
-	    return false;
-		}
+		// Loader
+		JLoader::import('helpers.worldcup', JPATH_COMPONENT_ADMINISTRATOR);
 
 		// Get the user id and tournament id
 		$user_id = JFactory::getApplication()->input->get('id');
@@ -47,6 +40,16 @@ class WorldcupViewBet extends JViewLegacy
 		$matchesObj = new WorldcupMatches();
 		$teamsObj = new WorldcupTeams();
 		$tournamentObj = new WorldcupTournaments();
+
+		// get the Data
+		$this->state = $this->get('State');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) 
+		{
+	    JError::raiseError(500, implode('<br />', $errors));
+	    return false;
+		}
 
 		// Get groups
 		$this->groups = $tournamentObj->getGroupsList($tid);
@@ -68,17 +71,10 @@ class WorldcupViewBet extends JViewLegacy
 		$this->bets = $betsObj->getBetsList($tid, $user_id);
 		// Get teams
 		$this->teams = $teamsObj->getTeamsList($tid);		
-		## Get the second phase table of this user
-		$this->data = $matchesObj->getSecondPhaseTable ($tid, $user_id);
-
+		// Get the second phase table of this user
+		$this->data = $tournamentObj->getGroupsTable($tid, $user_id);
 		// Get Phases
-		$this->phases = array();
-		$this->phases[] = JText::_( 'Clasification' ); 
-		$this->phases[] = JText::_( 'Round of 16' ); 
-		$this->phases[] = JText::_( 'Quarter-finals' ); 
-		$this->phases[] = JText::_( 'Semi-finals' ); 
-		$this->phases[] = JText::_( 'Match for third place' );
-		$this->phases[] = JText::_( 'Final' );
+		$this->phases =	WorldcupHelper::getPhases(count($this->teams));
 
 		// Set the toolbar
 		$this->addToolBar();
