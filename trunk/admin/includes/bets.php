@@ -47,7 +47,7 @@ class WorldcupBets extends JObject
 	 *
 	 * @return object An object with the bets data.
 	 */
-	public function getBetsList($tournament, $user_id = false)
+	public function getBetsList($tournament, $user_id = false, $phase_id = false)
 	{
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
@@ -62,6 +62,10 @@ class WorldcupBets extends JObject
 
 		if ($user_id !== false) {
 			$query->where("b.uid = {$user_id}");
+		}
+
+		if ($phase_id !== false) {
+			$query->where("m.phase = {$phase_id}");
 		}
 
 		$query->order("m.id ASC");
