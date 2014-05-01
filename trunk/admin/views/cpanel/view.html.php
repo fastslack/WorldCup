@@ -28,6 +28,8 @@ class WorldcupViewCpanel extends JViewLegacy
 
 		$this->version = (string)$xml->version;
 
+		JToolbarHelper::preferences('com_worldcup');
+
 		parent::display($tpl);
 	}
 }
