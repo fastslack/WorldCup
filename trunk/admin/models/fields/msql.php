@@ -139,18 +139,18 @@ class JFormFieldMSQL extends JFormFieldList
 			if (empty($this->query))
 			{
 				// Get the query from the form
-				$query = array();
-				$query['select'] = (string) $this->element['sql_select'];
-				$query['from'] = (string) $this->element['sql_from'];
-				$query['join'] = $this->element['sql_join'] ? (string) $this->element['sql_join'] : '';
-				$query['group'] = $this->element['sql_group'] ? (string) $this->element['sql_group'] : '';
-				$query['order'] = (string) $this->element['sql_order'];
+				$conditions = array();
+				$conditions['select'] = (string) $this->element['sql_select'];
+				$conditions['from'] = (string) $this->element['sql_from'];
+				$conditions['join'] = $this->element['sql_join'] ? (string) $this->element['sql_join'] : '';
+				$conditions['group'] = $this->element['sql_group'] ? (string) $this->element['sql_group'] : '';
+				$conditions['order'] = (string) $this->element['sql_order'];
 
 				// Get the filters
-				$filter = $this->element['sql_filter'] ? (string) $this->element['sql_filter'] : '';
+				$this->filter = $this->element['sql_filter'] ? (string) $this->element['sql_filter'] : '';
 
 				// Process the query
-				$this->query = $this->processQuery($query, $filter);
+				$this->query = $this->processQuery($conditions);
 			}
 
 			$this->keyField   = $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
@@ -171,7 +171,7 @@ class JFormFieldMSQL extends JFormFieldList
 	 *
 	 * @since   12.1
 	 */
-	protected function processQuery($conditions, $filter)
+	protected function processQuery($conditions)
 	{
 		// Get the database object.
 		$db = JFactory::getDbo();
@@ -193,11 +193,12 @@ class JFormFieldMSQL extends JFormFieldList
 		}
 
 		// Process the filters
-		if (!empty($filter))
+		if (!empty($this->filter))
 		{
-			$html_filters = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
-
-			$filters = explode(",", $filter);
+			// Get the filters in state
+			$html_filters = JFactory::getApplication()->getUserState('filter');
+			// Explode the user defined filters
+			$filters = explode(",", $this->filter);
 
 			foreach($filters as $k => $value)
 			{
