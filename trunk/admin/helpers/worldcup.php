@@ -32,14 +32,14 @@ class WorldcupHelper
 
 		// Declare phases
 		$phases = array();
-		$phases[0] = JText::_( 'Clasification' );
+		$phases[] = JText::_( 'Clasification' );
 		if ($teamscount > 12) {
-			$phases[1] = JText::_( 'Round of 16' );
+			$phases[] = JText::_( 'Round of 16' );
 		}
-		$phases[2] = JText::_( 'Quarter-finals' ); 
-		$phases[3] = JText::_( 'Semi-finals' ); 
-		$phases[4] = JText::_( 'Match for third place' );
-		$phases[5] = JText::_( 'Final' );
+		$phases[] = JText::_( 'Quarter-finals' ); 
+		$phases[] = JText::_( 'Semi-finals' ); 
+		$phases[] = JText::_( 'Match for third place' );
+		$phases[] = JText::_( 'Final' );
 
 		return $phases;
 	}
