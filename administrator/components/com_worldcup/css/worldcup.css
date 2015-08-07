@@ -1,0 +1,164 @@
+/* Toolbar */
+.icon-48-worldcup {
+    background: url(../images/soccer_3_48.png) no-repeat left;
+}
+
+/* Button ? */
+
+#jc_button {
+	text-align: center;
+}
+
+a.button {
+    background: transparent url('../images/bg_button_a.gif') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    //float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+		margin-top: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+a.button span {
+    background: transparent url('../images/bg_button_span.gif') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+}
+
+/* CPANEL */
+
+table.cpanel_about {
+	background-color: #F7F8F9;
+	border: solid 1px #d5d5d5;
+	width: 100%;
+	padding: 10px;
+	border-collapse: collapse;
+}
+table.cpanel_about tr.row0 {
+	background-color: #F7F8F9;
+}
+table.cpanel_about tr.row1 {
+	background-color: #eeeeee;
+}
+table.cpanel_about th {
+	font-size: 15px;
+	font-weight:normal;
+	font-variant:small-caps;
+	padding-top: 6px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	text-align: left;
+	height: 25px;
+	color: #666666;
+	background: url(../images/background.gif);
+	background-repeat: repeat;
+}
+table.cpanel_about td {
+	padding: 3px;
+	text-align: left;
+	border: 1px;
+	border-style:solid;
+	border-bottom-color:#EFEFEF;
+	border-right-color:#EFEFEF;
+	border-left-color:#EFEFEF;
+	border-top-color:#EFEFEF;
+}
+
+table.cpanel_icon {
+	background-color: #F7F8F9;
+	border: solid 1px #d5d5d5;
+	width: 100%;
+	padding: 5px;
+}
+table.cpanel_icon td {
+	padding: 5px;
+	text-align: center;
+	border: 1x;
+	border-style: solid;
+	border-bottom-color:#EFEFEF;
+	border-right-color:#EFEFEF;
+	border-left-color:#EFEFEF;
+	border-top-color:#EFEFEF;
+}
+.cpanel_icon td:hover {
+	background-color: #B5CDE8;
+	border:	1px solid #30559C;
+}
+
+/* Select list */
+
+.userslist {
+	width: 300px;
+	height: 200px;
+}
+
+.counter {
+	display: block;
+}
+
+/* Groups Table */
+
+table caption {font-size: 14px;font-weight:bold;color:#666;text-align:left;line-height:20px;}
+td.l, th.l{text-align:left;}
+td.r, th.r{text-align:right;}
+th.c, td.c{text-align:left;}
+thead {font-size: 12px;color:#666;background: #DBDBDB repeat-x;background-position: 0px -130px;}
+thead tr {height: 30px;}
+.firefox thead {background-position: 0px -128px;}
+thead td {border-top: 4px solid #CCCCCE;border-bottom: 1px solid #CCCCCE;}
+tbody tr { height: 20px; }
+tbody tr td, thead tr td {padding-left: 5px;padding-right: 5px;}
+
+tbody tr td a{color:#000;text-decoration:none;}
+tbody tr td a:hover{text-decoration:underline;}
+tr.odd td{
+	background:#fff;
+	border-bottom: 1px solid #CCCCCE;
+	font-size: 9pt;
+}
+tr.even td{border-bottom: 1px solid #CCCCCE;}
+.fixture td.mNum{width:5%}
+.fixture td.dt{width:25%}
+.fixture td.v{width:25%}
+.fixture td.homeTeam{width:20%}
+.fixture td.awayTeam{width:20%}
+.fixture td.nw {white-space:nowrap}
+
+.input_result {
+	border: 1px solid #ccc;
+	height: 15px;
+	width: 25px;
+}
+.input_result2 {
+	position: absolute;
+	border: 1px solid #ccc;
+	height: 15px;
+	width: 25px;
+}
+
+.save {
+  cursor: pointer;
+	width: 24px;
+	height: 24px;
+	float: left;
+}
+
+.edit {
+  cursor: pointer;
+	width: 24px;
+	height: 24px;
+	float: left;
+}
+
+.delete {
+  cursor: pointer;
+	width: 24px;
+	height: 24px;
+	float: left;
+}
+

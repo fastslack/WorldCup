@@ -1,0 +1,55 @@
+<?php
+/**
+ * WorldCup
+ *
+ * @author      Matias Aguirre
+ * @email       maguirre@matware.com.ar
+ * @url         http://www.matware.com.ar
+ * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ */
+defined('_JEXEC') or die('Restricted access');
+
+/*
+function recursiveArraySearch($haystack, $needle, $index = null) {
+	$aIt     = new RecursiveArrayIterator($haystack);
+	$it    = new RecursiveIteratorIterator($aIt);
+   
+  while($it->valid()) {       
+    if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+        return $aIt->key();
+    }
+   
+    $it->next();
+  }
+ 
+  return false;
+} 
+*/
+$teams = $this->teams;
+$matches = $this->matches;
+$results = $this->results;
+$groups = $this->groups;
+$data = $this->data;
+
+$url = JURI::root()."administrator/components/com_worldcup/ajax/save.php";
+$urld = JURI::root()."administrator/components/com_worldcup/ajax/delete.php";
+
+$format = 'd/m H:i';
+
+?>
+<script type="text/javascript" src="components/com_worldcup/js/results.js"></script>
+<link rel="stylesheet" href="components/com_worldcup/css/worldcup.css" type="text/css" />
+<form action="index.php?option=com_worldcup" method="post" name="adminForm">
+
+<?php echo $this->getResultList(0); ?>
+<?php //echo $this->getResultList(1); ?>
+<?php //echo $this->getResultList(2); ?>
+
+<input type="hidden" name="option" value="com_worldcup" />
+<input type="hidden" name="controller" value="results" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" />
+<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+<?php echo JHTML::_( 'form.token' ); ?>
+</form>

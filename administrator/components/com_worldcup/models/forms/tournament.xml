@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset name="tournament">
+    <field name="id" type="hidden" />
+
+    <field name="title" type="text" label="COM_WORLDCUP_TOURNAMENT_TITLE" description="COM_WORLDCUP_TOURNAMENT_TITLE_DESC" size="6" class="input-xxlarge" default="" />
+
+		<field	name="place" type="text"	label="COM_WORLDCUP_TOURNAMENT_PLACE" description="COM_WORLDCUP_TOURNAMENT_PLACE_DESC"
+			size="20"	class="input-xxlarge"	default="" />
+
+		<field name="mode" type="list" default="0"
+			label="COM_WORLDCUP_TOURNAMENT_MODE"
+			description="COM_WORLDCUP_TOURNAMENT_MODE_DESC"
+			class="span2 small" >
+			<option value="1">COM_WORLDCUP_TOURNAMENT_CHAMPIONSHIP</option>
+			<option value="2">COM_WORLDCUP_TOURNAMENT_LEAGUE</option>
+		</field>
+
+		<field name="published" type="list" default="0"
+			label="COM_WORLDCUP_TOURNAMENT_ENABLED"
+			description="COM_WORLDCUP_TOURNAMENT_ENABLED_DESC"
+			class="span2 small" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+  </fieldset>
+</form>

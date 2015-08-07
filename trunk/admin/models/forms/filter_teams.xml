@@ -17,9 +17,9 @@
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
-		<field name="tid" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="t.id, t.title AS name" sql_from="#__worldcup_tournaments AS t" sql_order="t.id DESC" sql_filter="" key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" />
+		<field name="tid" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="t.id, t.title AS name" sql_from="#__worldcup_tournaments AS t" sql_order="t.id DESC" sql_filter="" key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" context="com_worldcup.teams" />
 
-		<field name="group" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="g.id, g.name AS name" sql_from="#__worldcup_groups AS g" sql_group="name" sql_order="g.id ASC" sql_filter="tid"	key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" />
+		<field name="group" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="g.id, g.name AS name" sql_from="#__worldcup_groups AS g" sql_group="name" sql_order="g.id ASC" sql_filter="tid"	key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" context="com_worldcup.teams" />
 
 	</fields>
 	<fields name="list">

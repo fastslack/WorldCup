@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_CONTENT_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="published"
+			type="status"
+			label="COM_CONTENT_FILTER_PUBLISHED"
+			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field name="tid" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="t.id, t.title AS name" sql_from="#__worldcup_tournaments AS t" sql_order="t.id DESC" sql_filter="" key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" context="com_worldcup.teams" />
+
+		<field name="group" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" sql_select="g.id, g.name AS name" sql_from="#__worldcup_groups AS g" sql_group="name" sql_order="g.id ASC" sql_filter="tid"	key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" context="com_worldcup.teams" />
+
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="COM_CONTENT_LIST_FULL_ORDERING"
+			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			onchange="this.form.submit();"
+			default="t.group ASC"
+			>
+			<option value="t.name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="t.name DESC">JGLOBAL_NAME_DESC</option>
+			<option value="t.group ASC">JGLOBAL_GROUP_ASC</option>
+			<option value="t.group DESC">JGLOBAL_GROUP_DESC</option>
+			<option value="t.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="t.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			class="inputbox input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

@@ -148,7 +148,7 @@ class WorldcupModelTeams extends JModelList
 		}
 
 		// Filter by tournament id
-		if ($tid = $this->getState('filter.tid'))
+		if ($tid = $this->getState('filter.tid', 1))
 		{
 			$query->where('t.tid = ' . (int) $tid);
 		}
@@ -161,15 +161,8 @@ class WorldcupModelTeams extends JModelList
 
 		// Add the list ordering clause.
 		$ordering = $this->state->get('list.fullordering');
-		//$query->order($db->escape($ordering));
-
-		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 't.name');
-		$orderDirn = $this->state->get('list.direction', 'ASC');
-
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
-
-
+		$query->order($db->escape($ordering));
+//echo $query->__toString();
 		return $query;
 	}
 
