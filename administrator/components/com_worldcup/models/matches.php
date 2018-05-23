@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -60,7 +60,7 @@ class WorldcupModelMatches extends JModelList
 	* @return      JTable  A database object
 	* @since       2.5
 	*/
-	public function getTable($type = 'Match', $prefix = 'WorldcupTable', $config = array()) 
+	public function getTable($type = 'Match', $prefix = 'WorldcupTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -132,7 +132,7 @@ class WorldcupModelMatches extends JModelList
 	*/
 	protected function getListQuery()
 	{
-		// Create a new query object.           
+		// Create a new query object.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		// Select some fields
@@ -190,6 +190,8 @@ class WorldcupModelMatches extends JModelList
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering', 't.id');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
+
+echo str_replace('#__', $this->_db->getPrefix(), $query->__toString());exit;
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 

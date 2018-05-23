@@ -12,7 +12,7 @@
 			description="COM_WORLDCUP_CONFIG_TITLE_DESC"
 			default="5"
 		/>
-		
+
 		<field
 			name="exactmatch"
 			type="text"
@@ -48,7 +48,7 @@
 	>
 
 		<field name="rules" type="rules"
-			component="com_WORLDCUP"
+			component="com_worldcup"
 			filter="rules"
 			validate="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"

@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -28,7 +28,7 @@ class WorldcupHelper
 	 *
 	 * @since   1.0
 	 */
-	public function getPhases($teamscount = 0) { 
+	static public function getPhases($teamscount = 0) { 
 
 		// Declare phases
 		$phases = array();
@@ -36,8 +36,8 @@ class WorldcupHelper
 		if ($teamscount > 12) {
 			$phases[] = JText::_( 'Round of 16' );
 		}
-		$phases[] = JText::_( 'Quarter-finals' ); 
-		$phases[] = JText::_( 'Semi-finals' ); 
+		$phases[] = JText::_( 'Quarter-finals' );
+		$phases[] = JText::_( 'Semi-finals' );
 		$phases[] = JText::_( 'Match for third place' );
 		$phases[] = JText::_( 'Final' );
 
@@ -53,7 +53,7 @@ class WorldcupHelper
 	 *
 	 * @since   1.0
 	 */
-	public function _orderBy($data) { 
+	public function _orderBy($data) {
 
 		foreach ($data as $key => $row) {
 				$points[$key]  = $row['points'];
@@ -64,6 +64,6 @@ class WorldcupHelper
 
 		$res = @array_multisort($points, SORT_DESC, $diff, SORT_DESC, $gf, SORT_DESC, $ge, SORT_ASC, $data);
 
-		return $data; 
+		return $data;
 	}
 }

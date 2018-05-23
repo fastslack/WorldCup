@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -142,6 +142,7 @@ class JFormFieldMSQL extends JFormFieldList
 				$conditions = array();
 				$conditions['select'] = (string) $this->element['sql_select'];
 				$conditions['from'] = (string) $this->element['sql_from'];
+				$conditions['where'] = (string) $this->element['sql_where'];
 				$conditions['join'] = $this->element['sql_join'] ? (string) $this->element['sql_join'] : '';
 				$conditions['group'] = $this->element['sql_group'] ? (string) $this->element['sql_group'] : '';
 				$conditions['order'] = (string) $this->element['sql_order'];
@@ -187,6 +188,13 @@ class JFormFieldMSQL extends JFormFieldList
 		{
 			$query->join('LEFT', $conditions['join']);
 		}
+
+		// Where
+		if (!empty($conditions['where']))
+		{
+			$query->where($conditions['where']);
+		}
+
 		// Group by
 		if (!empty($conditions['group']))
 		{
@@ -206,7 +214,7 @@ class JFormFieldMSQL extends JFormFieldList
 			// Get the filters in state
 			$html_filters = JFactory::getApplication()->getUserState($this->context.'.filter');
 
-print_r($html_filters);
+//print_r($html_filters);
 
 			// Explode the user defined filters
 			$filters = explode(",", $this->filter);

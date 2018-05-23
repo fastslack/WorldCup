@@ -4,12 +4,13 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
 * @license GNU General Public License version 2 or later; see LICENSE
 */
+
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 
@@ -17,7 +18,7 @@ $user		= JFactory::getUser();
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 
-foreach($this->items as $i => $item): 
+foreach($this->items as $i => $item):
 
 	$ordering   = ($listOrder == 't.id');
 	$canCreate  = $user->authorise('core.create',     'com_worldcup.team.'.$item->id);
@@ -32,14 +33,15 @@ foreach($this->items as $i => $item):
 		</td>
 		<td class="center" width="50">
 			<div class="btn-group">
-				<?php echo JHtml::_('jgrid.published', $item->published, $i, 'places.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				<?php
+				echo JHtml::_('jgrid.published', $item->published, $i, 'places.', $canChange, 'cb', $item->publish_up, $item->publish_down);
+
 				// Create dropdown items
 				$action = ($item->published == 1) ? 'unpublish' : 'publish';
 				JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'places');
 
 				// Render dropdown list
-				echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+				echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
 				?>
 			</div>
 		</td>

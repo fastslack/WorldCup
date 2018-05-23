@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -15,9 +15,12 @@ defined('_JEXEC') or die('Restricted access');
 
 // get document to add scripts
 $document	= JFactory::getDocument();
+
+
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_worldcup&view=team&layout=edit&tid=3&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
-	
+
 <div class="row-fluid">
 
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>

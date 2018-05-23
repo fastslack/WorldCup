@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
 <extension type="component" version="2.5" method="upgrade">
 	<name>WorldCup</name>
 	<creationDate>2009-11-16</creationDate>
   <author>Matias Aguirre</author>
   <authorEmail>maguirre@matware.com.ar</authorEmail>
   <authorUrl>http://www.matware.com.ar</authorUrl>
-  <copyright>Copyleft 2004 - 2014</copyright>
+  <copyright>Copyleft 2004 - 2018</copyright>
   <license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
 	<version>1.0.0</version>
 	<description/>
@@ -16,7 +15,6 @@
 		</sql>
   </install>
 	<files folder="site">
-		<filename>index.html</filename>
 		<filename>worldcup.php</filename>
 		<filename>view.php</filename>
 		<filename>controller.php</filename>
@@ -39,11 +37,9 @@
 		<menu img="components/com_worldcup/images/jworldcup.png">World Cup</menu>
 		<files folder="admin">
 			<filename>worldcup.php</filename>
+			<filename>worldcup.xml</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
-			<filename>worldcup_config.php</filename>
-			<filename>worldcup_config.php.orig</filename>
-			<folder>ajax</folder>
+			<filename>config.xml</filename>
 			<folder>controllers</folder>
 			<folder>css</folder>
 			<folder>helpers</folder>
@@ -67,4 +63,3 @@
 	</administration>
 
 </extension>
-

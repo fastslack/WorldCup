@@ -4,20 +4,22 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
 * @license GNU General Public License version 2 or later; see LICENSE
 */
+
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-// import the Joomla modellist library
-jimport('joomla.application.component.modellist');
+
+use Joomla\CMS\MVC\Model\ListModel;
+
 /**
  * WorldcupModelPlaces Model
  */
-class WorldcupModelPlaces extends JModelList
+class WorldcupModelPlaces extends ListModel
 {
 	/**
 	 * Constructor.
@@ -51,7 +53,7 @@ class WorldcupModelPlaces extends JModelList
 	* @return      JTable  A database object
 	* @since       2.5
 	*/
-	public function getTable($type = 'Place', $prefix = 'WorldcupTable', $config = array()) 
+	public function getTable($type = 'Place', $prefix = 'WorldcupTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -115,7 +117,7 @@ class WorldcupModelPlaces extends JModelList
 	*/
 	protected function getListQuery()
 	{
-		// Create a new query object.           
+		// Create a new query object.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		// Select some fields

@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -17,7 +17,7 @@ $user		= JFactory::getUser();
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 
-foreach($this->items as $i => $item): 
+foreach($this->items as $i => $item):
 
 	$ordering   = ($listOrder == 't.id');
 	$canCreate  = $user->authorise('core.create',     'com_worldcup.group.'.$item->id);
@@ -39,7 +39,7 @@ foreach($this->items as $i => $item):
 				JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'groups');
 
 				// Render dropdown list
-				echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+				echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
 				?>
 			</div>
 		</td>
