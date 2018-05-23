@@ -45,33 +45,35 @@ $results = $this->results;
 	}
 //-->
 </script>
-<link rel="stylesheet" type="text/css" href="components/com_worldcup/css/worldcup.css" />
+<link rel="stylesheet" type="text/css" href="components/com_worldcup/css/worldcup222.css" />
 
-<div class="table table-striped table-bordered box">
-  <div class="tab-header">
-		<i class="icon-th-list"></i>
-		 <?php echo JText::_( "My Bet" ); ?>
+<div class="container">
+	<div class="row">
+
+		<div class="grid_12">
+        <h2 class="wow bounceInRight"><?php echo JText::_( "My Bet" ); ?></h2>
+    </div>
 	</div>
-  <div class="padded">
+
+	<form action="index.php?option=com_worldcup&task=bets&step=2" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
+	<div class="row">
+
+		<div class="grid_12">
 
 		<?php
-
-//print_r($groups);
-
 			for ($i=0;$i<count($groups);$i++){
 		?>
-		<form action="index.php?option=com_worldcup&task=bets&step=2" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
-		<table class="fixture" width="100%">
+		<table id="table1" class="wow bounceInDown">
 		<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$i]->name; ?></caption>
 		<thead>
 			<tr>
-				<td width="95"><?php echo JText::_( "Date" ); ?> - <?php echo JText::_( "Hour" ); ?></td>
-				<!--<td width="150"><?php echo JText::_( "Seat" ); ?></td>-->
-				<td></td>
-				<td width="20"></td>
-				<td width="120" align="center"><?php echo JText::_( "Result" ); ?></td>
-				<td width="20"></td>
-				<td></td>
+				<th><?php echo JText::_( "Date" ); ?> - <?php echo JText::_( "Hour" ); ?></th>
+				<!--<th width="150"><?php echo JText::_( "Seat" ); ?></th>-->
+				<th></th>
+				<th></th>
+				<th align="center"><?php echo JText::_( "Result" ); ?></th>
+				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -136,4 +138,5 @@ $results = $this->results;
 		</form>
 
 	</div>
+</div>
 </div>

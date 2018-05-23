@@ -17,7 +17,7 @@
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
-		<field name="tid" type="msql" size="1" default="1" label="COM_WORLDCUP_TEAMS_TID" query="SELECT t.id, t.title AS name FROM #__worldcup_tournaments AS t WHERE published = 1 ORDER BY t.id DESC" key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" />
+		<field name="tid" type="msql" size="1" default="4" label="COM_WORLDCUP_TEAMS_TID" query="SELECT t.id, t.title AS name FROM #__worldcup_tournaments AS t WHERE published = 1 ORDER BY t.id DESC" key_field="id" value_field="name" description="PARAMFILE" onchange="this.form.submit();" />
 
 		<field
 			name="phase"

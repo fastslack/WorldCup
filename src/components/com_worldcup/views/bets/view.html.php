@@ -20,7 +20,7 @@ class WorldCupViewBets extends WorldCupView {
 	function display($tpl = null)	{
 
 		// Get the patient id
-		$this->tid = JFactory::getApplication()->input->get('tid', 1);
+		$this->tid = JFactory::getApplication()->input->get('tid', 4);
 
 		if($this->getLayout() == 'step2') {
 		  $this->step2($tpl);
@@ -51,7 +51,7 @@ class WorldCupViewBets extends WorldCupView {
 		foreach ($this->groups as $group)
 		{
 			//$this->matches[] = $this->getMatches(1, $group->id);
-			$this->matches[] = $this->_matches->getMatchesList($this->tid, false, $group->id);		
+			$this->matches[] = $this->_matches->getMatchesList($this->tid, false, $group->id);
 		}
 
 		// Get the bets
@@ -74,7 +74,7 @@ class WorldCupViewBets extends WorldCupView {
 
 		// Get Matches of 8vo
 		//$this->matches = $this->getMatches(1, 0, 1);
-		$this->matches = $this->_matches->getMatchesList($this->tid, 1, 0);		
+		$this->matches = $this->_matches->getMatchesList($this->tid, 1, 0);
 
 		// Get the bets
 		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 1);
@@ -87,7 +87,7 @@ class WorldCupViewBets extends WorldCupView {
 
 		// Get Matches of 4to
 		//$this->matches = $this->getMatches(1, 0, 2);
-		$this->matches = $this->_matches->getMatchesList($this->tid, 2, 0);			
+		$this->matches = $this->_matches->getMatchesList($this->tid, 2, 0);
 
 		// Get the old bets
 		$this->oldbets = $this->getBets(1, 1);
@@ -105,7 +105,7 @@ class WorldCupViewBets extends WorldCupView {
 	function step4 ($tpl = null) {
 
 		// Get Matches of Semi
-		//$this->matches = $this->getMatches(1, 0, 3);		
+		//$this->matches = $this->getMatches(1, 0, 3);
 		$this->matches = $this->_matches->getMatchesList($this->tid, 3, 0);
 
 		// Get the old bets
@@ -126,7 +126,7 @@ class WorldCupViewBets extends WorldCupView {
 
 		// Get Matches of 4to
 		//$this->matches = $this->getMatches(1, 0, 4);
-		$this->matches = $this->_matches->getMatchesList($this->tid, 4, 0);			
+		$this->matches = $this->_matches->getMatchesList($this->tid, 4, 0);
 
 		// Get the old bets
 		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 3);
@@ -186,7 +186,7 @@ class WorldCupViewBets extends WorldCupView {
 	}
 
 
-	function _getTableData($groups) { 
+	function _getTableData($groups) {
 
 		$data = array();
 		$db =& JFactory::getDBO();
@@ -197,15 +197,15 @@ class WorldCupViewBets extends WorldCupView {
 			$query = "SELECT t.id, t.name
 				FROM #__worldcup_teams AS t
 				WHERE t.group = {$groups[$i]['id']}
-				AND t.tid = 1"; 
+				AND t.tid = 1";
 			$db->setQuery($query);
 			//echo $query;
 			$teams[$i] = $db->loadAssocList( 'id' );
 			//print_r($teams[$i]);
 			//echo "<br><br>";
 
-			$query = "SELECT b.mid, m.team1, m.team2, b.local, b.visit 
-				FROM #__worldcup_bets AS b 
+			$query = "SELECT b.mid, m.team1, m.team2, b.local, b.visit
+				FROM #__worldcup_bets AS b
 				LEFT JOIN #__worldcup_matches AS m ON m.id = b.mid
 				WHERE b.uid = {$my->id}
 				AND m.tid = 1
@@ -215,7 +215,7 @@ class WorldCupViewBets extends WorldCupView {
 			$db->setQuery($query);
 			//echo $query;
 			$bets = $db->loadObjectList( );
-			//echo "<br><br>";			
+			//echo "<br><br>";
 			//print_r($bets);
 
 			for($y=0;$y<count($bets);$y++) {
@@ -229,18 +229,18 @@ class WorldCupViewBets extends WorldCupView {
 					$teams[$i][$bet->team2]['points'] += 3;
 				}else if ($bet->local == $bet->visit ) {
 					$teams[$i][$bet->team1]['points'] += 1;
-					$teams[$i][$bet->team2]['points'] += 1;	
+					$teams[$i][$bet->team2]['points'] += 1;
 				}
 
 				$teams[$i][$bet->team1]['gf'] += $bet->local;
 				$teams[$i][$bet->team2]['gf'] += $bet->visit;
 
 				$teams[$i][$bet->team1]['ge'] += $bet->visit;
-				$teams[$i][$bet->team2]['ge'] += $bet->local;	
+				$teams[$i][$bet->team2]['ge'] += $bet->local;
 
 				//print_r($teams[$i]);echo ".<br><br>";
 			}
-	
+
 			//print_r($teams[$i]);
 			//echo "<br><br>";
 			$data[$i] = $this->orderBy($teams[$i]);
@@ -248,6 +248,6 @@ class WorldCupViewBets extends WorldCupView {
 			//echo "<br>======================================<br><br>";
 		}
 
-		return $data; 
+		return $data;
 	}
 }

@@ -24,6 +24,9 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php echo JText::_('COM_WORLDCUP_TEAMS_NAME'); ?>
 	</th>
 	<th>
+		<?php echo JText::_('COM_WORLDCUP_TEAMS_FLAG'); ?>
+	</th>
+	<th>
 		<?php echo JText::_('COM_WORLDCUP_TEAMS_GROUP'); ?>
 	</th>
 	<th width="5">

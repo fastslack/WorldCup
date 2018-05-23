@@ -172,10 +172,12 @@ class WorldcupModelMatches extends JModelList
 		}
 
 		// Filter by tournament id
-		if ($tid = $this->getState('filter.tid'))
-		{
-			$query->where('t.tid = ' . (int) $tid);
-		}
+		//if ($tid = $this->getState('filter.tid'))
+		//{
+		//	$query->where('t.tid = ' . (int) $tid);
+		//}
+		$query->where('t.tid =  4');
+
 
 		// Filter by phase id
 		$phase = !empty($this->getState('filter.phase')) ? $this->getState('filter.phase') : 0;
@@ -191,7 +193,7 @@ class WorldcupModelMatches extends JModelList
 		$orderCol = $this->state->get('list.ordering', 't.id');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
-echo str_replace('#__', $this->_db->getPrefix(), $query->__toString());exit;
+//echo str_replace('#__', $this->_db->getPrefix(), $query->__toString());exit;
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
