@@ -10,6 +10,7 @@
 * @link http://www.matware.com.ar/
 * @license GNU General Public License version 2 or later; see LICENSE
 */
+
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
