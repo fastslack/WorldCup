@@ -17,7 +17,7 @@ $user		= JFactory::getUser();
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 
-foreach($this->items as $i => $item): 
+foreach($this->items as $i => $item):
 
 	$ordering   = ($listOrder == 't.id');
 	$canCreate  = $user->authorise('core.create',     'com_worldcup.team.'.$item->id);
@@ -26,7 +26,7 @@ foreach($this->items as $i => $item):
 	//$canEditOwn = $user->authorise('core.edit.own',   'com_worldcup.team.'.$item->id) && $item->created_by == $userId;
 	$canChange  = $user->authorise('core.edit.state', 'com_worldcup.team.'.$item->id) && $canCheckin;
 
-	$date =& JFactory::getDate($item->date);          
+	$date =& JFactory::getDate($item->date);
 	$format = '%b/%d %H:%M';
 
 ?>

@@ -15,6 +15,8 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
+use Worldcup\Teams;
+
 class WorldcupViewMatches extends JViewLegacy {
 
 	protected $items;
@@ -37,16 +39,18 @@ class WorldcupViewMatches extends JViewLegacy {
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) 
+		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
 
-		$tid = $this->state->get('filter.tid');
+		// @@ TODO: Fix
+		$tid = 4;
 
 		// Get the teams
-		$this->teams = $model->getTeamsList($tid);
+		$teams = new Teams();
+		$this->teams = $teams->getTeamsList($tid);
 
 		// Count the teams
 		$teamscount = count($this->teams);
@@ -63,7 +67,7 @@ class WorldcupViewMatches extends JViewLegacy {
 	/**
 	* Setting the toolbar
 	*/
-	protected function addToolBar() 
+	protected function addToolBar()
 	{
 		$canDo = JHelperContent::getActions('com_worldcup', 'match', $this->state->get('filter.published'));
 		$user  = JFactory::getUser();

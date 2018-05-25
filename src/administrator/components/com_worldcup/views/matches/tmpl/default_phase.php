@@ -35,7 +35,7 @@ foreach($this->items as $i => $item):
 	//$canEditOwn = $user->authorise('core.edit.own',   'com_worldcup.team.'.$item->id) && $item->created_by == $userId;
 	$canChange  = $user->authorise('core.edit.state', 'com_worldcup.team.'.$item->id) && $canCheckin;
 
-	$date = JFactory::getDate($item->date);          
+	$date = JFactory::getDate($item->date);
 	$format = '%b/%d %H:%M';
 ?>
 		<tr class="<?php echo $i % 2; ?>">
@@ -69,7 +69,7 @@ foreach($this->items as $i => $item):
 					if ($phase > 0){
 						echo $item->team1;
 					}else{
-						?><img src="components/com_worldcup/<?php echo $this->teams[$item->team1]->flag; ?>">&nbsp;&nbsp;<?php
+						?><img src="../<?php echo $this->teams[$item->team1]->flag; ?>">&nbsp;&nbsp;<?php
 						echo $this->teams[$item->team1]->name;
 					}
 				?>
@@ -82,7 +82,7 @@ foreach($this->items as $i => $item):
 					if ($phase > 0){
 						echo $item->team2;
 					}else{
-						?><img src="components/com_worldcup/<?php echo $this->teams[$item->team2]->flag; ?>">&nbsp;&nbsp;<?php
+						?><img src="../<?php echo $this->teams[$item->team2]->flag; ?>">&nbsp;&nbsp;<?php
 						echo $this->teams[$item->team2]->name;
 					}
 				?>

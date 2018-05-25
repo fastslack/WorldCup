@@ -13,7 +13,7 @@
 
 		<field name="team1" type="msql" size="1" default="0" label="COM_WORLDCUP_MATCHES_TEAM1" sql_select="t.id, t.name AS name" sql_from="#__worldcup_teams AS t" sql_where="t.published = 1" sql_group="" sql_order="t.name ASC" sql_filter="tid" key_field="id" value_field="name" description="PARAMFILE" />
 
-		<field name="team2" type="msql" size="1" default="0" label="COM_WORLDCUP_MATCHES_TEAM2" sql_select="t.id, t.name AS name" sql_from="#__worldcup_teams AS t" sql_group="" sql_order="t.name ASC" sql_filter="tid" key_field="id" value_field="name" description="PARAMFILE" />
+		<field name="team2" type="msql" size="1" default="0" label="COM_WORLDCUP_MATCHES_TEAM2" sql_select="t.id, t.name AS name" sql_from="#__worldcup_teams AS t" sql_where="t.published = 1" sql_group="" sql_order="t.name ASC" sql_filter="tid" key_field="id" value_field="name" description="PARAMFILE" />
 
 		<field name="phase" type="list" default="0"
 			label="COM_WORLDCUP_MATCHES_PHASE"
