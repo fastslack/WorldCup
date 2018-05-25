@@ -16,6 +16,7 @@ jimport( 'joomla.application.component.view');
 
 use Joomla\CMS\Factory;
 use Worldcup\Bets;
+use Worldcup\Competitions;
 use Worldcup\Matches;
 use Worldcup\Results;
 use Worldcup\Teams;
@@ -35,6 +36,7 @@ class WorldCupView extends JViewLegacy
 
 		// Declare WorldCup objects
 		$this->_bets = new Bets();
+		$this->_competitions = new Competitions();
 		$this->_matches = new Matches();
 		$this->_teams = new Teams();
 		$this->_results = new Results();

@@ -24,7 +24,32 @@ use Worldcup\Teams;
  */
 class Results extends Base
 {
+  /**
+	 * Get the results of specific tournament
+	 *
+	 * @param  int  $tournament  The tournament id.
+	 *
+	 * @return object An object with the competitions data.
+	 */
+	public function getResultsList($tournament)
+	{
+		// Get the correct equipment
+		$query = $this->_db->getQuery(true);
 
+		// Select some values
+		$query->select("r.*");
+
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_results').' AS r');
+
+		// Conditions
+		$query->where("r.tid = {$tournament}");
+
+		$query->order("r.mid ASC");
+
+		// Retrieve the data.
+		return $this->_db->setQuery($query)->loadObjectList();
+	}
 
   function _getTableData($groups) {
 

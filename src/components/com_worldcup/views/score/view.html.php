@@ -1,38 +1,37 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 require_once (JPATH_COMPONENT.'/view.php');
 
 class WorldCupViewScore extends WorldCupView {
 
-	function display($tpl = null)	{
-		global $mainframe;
-
-    //include(JPATH_ADMINISTRATOR.DS.'/components'.DS.'com_worldcup'.DS.'worldcup_config.php');
-		//include(JPATH_COMPONENT.DS.'helpers'.DS.'helper.php');
+	function display($tpl = null)
+	{
 
 		$params = JFactory::getApplication()->getParams();
 
-		$db =& JFactory::getDBO();
-		$my =& JFactory::getUser();
+		// Get the tournament id
+		$this->tid = JFactory::getApplication()->input->get('tid', 4);
+		$this->cid = JFactory::getApplication()->input->get('cid', 0);
 
-		##
-		## Getting the results
-		##
-		$query = "SELECT r.*
-              FROM #__worldcup_results AS r
-		          ORDER BY r.mid ASC";
-		$db->setQuery($query);
-		$results = $db->loadObjectList();
+		$db = JFactory::getDBO();
+		$my = JFactory::getUser();
+
+		// Get results
+		$results = $this->_results->getResultsList($this->tid);
 
 		## TODOOOO
 		## Getting clasifieds data
@@ -93,11 +92,11 @@ class WorldCupViewScore extends WorldCupView {
 
 				##
 				## Results check
-				## 		
+				##
 	      if($result->local == $result->visit) {
 	        $game['result'] = "deuce";
 	      }
-			
+
 	      ## Simple
 	      if($result->local > $result->visit) {
 	        $game['result'] = "local";
@@ -107,7 +106,7 @@ class WorldCupViewScore extends WorldCupView {
 
 				##
 				## Who wins on bets
-				## 	
+				##
 				if (is_object($bet)) {
 				  if($bet->local > $bet->visit) {
 				    $game['bet'] = "local";
@@ -118,16 +117,16 @@ class WorldCupViewScore extends WorldCupView {
 
 				##
 				## Clasification count
-				## 
+				##
 				if ($result->mid <= 48) {
 
 					##
 					## Bets check
-					## 			
+					##
 					if (is_object($bet)) {
 					  if($bet->local == $bet->visit) {
 					    $game['bet'] = "deuce";
-					  }	
+					  }
 					}
 
 		      ## Adding score
@@ -141,10 +140,10 @@ class WorldCupViewScore extends WorldCupView {
 
 				##
 				## 8vos count
-				## 
+				##
 				}else if ($result->mid >= 49 && $result->mid <= 56){
 
-					## 
+					##
 					## Get team of result
 					##
 					if ($game['result'] == "local"){
@@ -154,13 +153,13 @@ class WorldCupViewScore extends WorldCupView {
 					}
 
 					##
-					## 
 					##
-					$query = "SELECT b.* FROM jos_worldcup_bets AS b 
-							WHERE (b.mid > 48 AND b.mid <= 57 AND b.uid = {$user->id} 
-									AND b.team1 = {$result_winner} AND local > visit) 
+					##
+					$query = "SELECT b.* FROM jos_worldcup_bets AS b
+							WHERE (b.mid > 48 AND b.mid <= 57 AND b.uid = {$user->id}
+									AND b.team1 = {$result_winner} AND local > visit)
 							OR
-							(b.mid > 48 AND b.mid <= 57 AND b.uid = {$user->id} 
+							(b.mid > 48 AND b.mid <= 57 AND b.uid = {$user->id}
 									AND b.team2 = {$result_winner} AND local < visit)
 				    	ORDER BY b.mid ASC LIMIT 1";
 					$db->setQuery($query);
@@ -169,7 +168,7 @@ class WorldCupViewScore extends WorldCupView {
 
 					##
 					## Who wins on bets
-					## 	
+					##
 					if (is_object($bets8vo)) {
 						if($bets8vo->local > $bets8vo->visit) {
 						  $game['bet'] = "local";
@@ -184,7 +183,7 @@ class WorldCupViewScore extends WorldCupView {
 						//echo "APUESTA=> {$bets8vo->local} - {$bets8vo->visit}<br>";
 
 						//echo "<br>".$query."<br>";
-						//echo $scoreArr[$i]['points']."<br>";				
+						//echo $scoreArr[$i]['points']."<br>";
 						//print_r($result_winner);echo "<br>";
 						//print_r($result);echo "<br>";
 						//print_r($bets8vo);
@@ -195,7 +194,7 @@ class WorldCupViewScore extends WorldCupView {
 						//echo "<br>";print_r($game);
 						//echo "<br>";
 						//echo $result8vo->$game['result'] ." - ". $bet->$game['bet'];
-						//echo "<br>";	
+						//echo "<br>";
 					}
 
 
@@ -229,7 +228,8 @@ class WorldCupViewScore extends WorldCupView {
 			##
       ## Insert Score to database
 			##
-			$sqlscore =& JTable::getInstance('WorldCupScore', 'Table');
+			//$sqlscore =& JTable::getInstance('WorldCupScore', 'Table');
+			$sqlscore = $this->get('Table');
 
 			if (!$sqlscore->bind( $scoreArr[$i] )) {
 			  return JError::raiseWarning( 500, $sqlscore->getError() );

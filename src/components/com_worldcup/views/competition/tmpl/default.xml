@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Default Competition Form">
+		<message>
+			<![CDATA[STANDARD ARTICLE LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Default Competition Form</name>
+		<description>Default Competition Form</description>
+		<params>
+		</params>
+	</state>
+</metadata>

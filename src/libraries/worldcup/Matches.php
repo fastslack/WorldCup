@@ -16,34 +16,13 @@ namespace Worldcup;
 // No direct access to this file
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-
-//JLoader::register('WorldcupTournaments', JPATH_COMPONENT_ADMINISTRATOR.'/includes/tournaments.php');
+use Worldcup\Base;
 
 /**
  * Worldcup Matches class
  */
-class Matches extends Registry
+class Matches extends Base
 {
-	/**
-	 * @param   JDatabase  An optional JDatabase instance.
-	 * @since  1.0
-	 */
-	public $_db = null;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  		 An optional associative array of configuration settings.
-	 * @see     WorldcupSessions
-	 * @since   1.0
-	 */
-	public function __construct($data = null)
-	{
-		$this->_db = Factory::getDbo();
-	}
-
 	/**
 	 * Get the matches of specific tournament
 	 *

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Default Competitions Layout">
+		<message>
+			<![CDATA[STANDARD ARTICLE LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Default Competitions Layout</name>
+		<description>Default Competitions Layout</description>
+		<params>
+		</params>
+	</state>
+</metadata>
