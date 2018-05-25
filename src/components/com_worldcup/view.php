@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -14,10 +14,12 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
 
-JLoader::register('WorldcupBets', JPATH_COMPONENT_ADMINISTRATOR.'/includes/bets.php');
-JLoader::register('WorldcupMatches', JPATH_COMPONENT_ADMINISTRATOR.'/includes/matches.php');
-JLoader::register('WorldcupTeams', JPATH_COMPONENT_ADMINISTRATOR.'/includes/teams.php');
-JLoader::register('WorldcupTournaments', JPATH_COMPONENT_ADMINISTRATOR.'/includes/tournaments.php');
+use Joomla\CMS\Factory;
+use Worldcup\Bets;
+use Worldcup\Matches;
+use Worldcup\Results;
+use Worldcup\Teams;
+use Worldcup\Tournaments;
 
 class WorldCupView extends JViewLegacy
 {
@@ -26,28 +28,31 @@ class WorldCupView extends JViewLegacy
 		parent::__construct($config);
 
 		// Create the db instance
-		$this->_db =& JFactory::getDBO();
+		$this->_db = Factory::getDBO();
+
 		// Create the JUser instance
-		$this->_my =& JFactory::getUser();
+		$this->_my = Factory::getUser();
+
 		// Declare WorldCup objects
-		$this->_bets = new WorldcupBets();
-		$this->_matches = new WorldcupMatches();
-		$this->_teams = new WorldcupTeams();
-		$this->_tournaments = new WorldcupTournaments();
+		$this->_bets = new Bets();
+		$this->_matches = new Matches();
+		$this->_teams = new Teams();
+		$this->_results = new Results();
+		$this->_tournaments = new Tournaments();
 	}
 
 	function recursiveArraySearch($haystack, $needle, $index = null) {
 		$aIt     = new RecursiveArrayIterator($haystack);
 		$it    = new RecursiveIteratorIterator($aIt);
-		 
-		while($it->valid()) {       
+
+		while($it->valid()) {
 		  if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
 		      return $aIt->key();
 		  }
-		 
+
 		  $it->next();
 		}
-	 
+
 		return false;
 	}
 

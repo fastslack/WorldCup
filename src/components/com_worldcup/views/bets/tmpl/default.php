@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -22,15 +22,13 @@ $teams = $this->teams;
 $matches = $this->matches;
 $results = $this->results;
 
-//print_r($teams);
-//include(JPATH_ADMINISTRATOR.'/components/com_worldcup/worldcup_config.php');
-
 ?>
 <script language="javascript">
 	function submitbutton(pressbutton)
 	{
 		var form = document.adminForm;
 
+/*
 		for(i=0;i<form.elements.length;i++) {
 			if (form.elements[i].value.length < 1 ) {
 				//alert(form.elements[i].value + ' - ' + form.elements[i].name);
@@ -38,6 +36,7 @@ $results = $this->results;
 				form.elements[i].focus();
 				return false;
 			}
+*/
 		}
 
 		form.submit();
@@ -47,15 +46,17 @@ $results = $this->results;
 </script>
 <link rel="stylesheet" type="text/css" href="components/com_worldcup/css/worldcup222.css" />
 
+<section>
 <div class="container">
 	<div class="row">
 
 		<div class="grid_12">
-        <h2 class="wow bounceInRight"><?php echo JText::_( "My Bet" ); ?></h2>
+			<br><br>
+      <h2 class="wow bounceInRight"><?php echo JText::_( "My Bet" ); ?></h2>
     </div>
 	</div>
 
-	<form action="index.php?option=com_worldcup&task=bets&step=2" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
+	<form action="index.php?option=com_worldcup&amp;view=bets&amp;layout=step2&amp;step=2" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
 	<div class="row">
 
 		<div class="grid_12">
@@ -63,17 +64,14 @@ $results = $this->results;
 		<?php
 			for ($i=0;$i<count($groups);$i++){
 		?>
-		<table id="table1" class="wow bounceInDown">
+		<table id="table1" class="wow bounceInDown" border="1">
 		<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$i]->name; ?></caption>
 		<thead>
 			<tr>
 				<th><?php echo JText::_( "Date" ); ?> - <?php echo JText::_( "Hour" ); ?></th>
-				<!--<th width="150"><?php echo JText::_( "Seat" ); ?></th>-->
-				<th></th>
-				<th></th>
-				<th align="center"><?php echo JText::_( "Result" ); ?></th>
-				<th></th>
-				<th></th>
+				<th width="150"></th>
+				<th width="150" align="center"><?php echo JText::_( "Result" ); ?></th>
+				<th width="150"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -102,20 +100,16 @@ $results = $this->results;
 		<tr class="odd">
 			<td><?php echo $date->format($format); ?></td>
 			<td align="right" style="text-align: right;">
-				<?php echo $teams[$matches[$i][$y]->team1]->name; ?>
-			</td>
-			<td>
-				<img src="<?php echo $teams[$matches[$i][$y]->team1]->flag; ?>">
+				<?php echo $teams[$matches[$i][$y]->team1]->name; ?>&nbsp;&nbsp;<img src="<?php echo $teams[$matches[$i][$y]->team1]->flag; ?>">
+				<input type="hidden" name="team1-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $teams[$matches[$i][$y]->team1]->id; ?>">
 			</td>
 			<td align="center">
-				<input class="input_result" size="1" type="text" name="l<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $local == '' && isset($disable) ? 'X' : $local; ?>" <?php echo isset($disable) ? 'readonly="readonly" style="background-color:#666"' : ''; ?>>&nbsp;-&nbsp;
-				<input class="input_result" size="1" type="text" name="v<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $visit == '' && isset($disable) ? 'X' : $visit; ?>" <?php echo isset($disable) ? 'readonly="readonly" style="background-color:#666"' : ''; ?>>
-			</td>
-			<td>
-				<img src="<?php echo $teams[$matches[$i][$y]->team2]->flag; ?>">
+				<input class="input_result" size="1" type="text" name="l-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $local == '' && isset($disable) ? 'X' : $local; ?>" <?php echo isset($disable) ? 'readonly="readonly" style="background-color:#666"' : ''; ?>>&nbsp;-&nbsp;
+				<input class="input_result" size="1" type="text" name="v-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $visit == '' && isset($disable) ? 'X' : $visit; ?>" <?php echo isset($disable) ? 'readonly="readonly" style="background-color:#666"' : ''; ?>>
 			</td>
 			<td align="left">
-				<?php echo $teams[$matches[$i][$y]->team2]->name; ?>
+				<img src="<?php echo $teams[$matches[$i][$y]->team2]->flag; ?>">&nbsp;&nbsp;<?php echo $teams[$matches[$i][$y]->team2]->name; ?>
+				<input type="hidden" name="team2-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $teams[$matches[$i][$y]->team2]->id; ?>"
 			</td>
 		</tr>
 		<?php
@@ -140,3 +134,4 @@ $results = $this->results;
 	</div>
 </div>
 </div>
+</section>

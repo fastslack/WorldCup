@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -40,24 +40,6 @@ class WorldcupControllerBets extends JControllerForm
 
 		// Redirect to the return page.
 		$this->setRedirect($this->getReturnPage());
-	}
-
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
-	 * @return  boolean  True if access level checks pass, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function save2()
-	{
-		//parent::cancel($key);
-echo "DSDsd";
-exit;
-		// Redirect to the return page.
-		$this->setRedirect('http://google.com');
 	}
 
 	/**

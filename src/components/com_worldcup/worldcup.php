@@ -13,8 +13,8 @@
 
 defined('_JEXEC') or die;
 
-//JLoader::register('UsersHelperRoute', JPATH_COMPONENT . '/helpers/route.php');
-
 $controller = JControllerLegacy::getInstance('Worldcup');
+
+$task = JFactory::getApplication()->input->get('task', '');
 $controller->execute(JFactory::getApplication()->input->get('task', 'subscribe'));
 $controller->redirect();

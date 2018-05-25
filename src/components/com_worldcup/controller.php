@@ -49,5 +49,7 @@ class WorldcupController extends JControllerLegacy
 								'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
 
 		parent::display($cachable, $safeurlparams);
+
+		return $this;
 	}
 }

@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -15,32 +15,37 @@ defined('_JEXEC') or die( 'Restricted access' );
 
 require_once (JPATH_COMPONENT.'/view.php');
 
-class WorldCupViewBets extends WorldCupView {
+class WorldCupViewBets extends WorldCupView
+{
 
-	function display($tpl = null)	{
-
+	function display($tpl = null)
+	{
 		// Get the patient id
 		$this->tid = JFactory::getApplication()->input->get('tid', 4);
 
-		if($this->getLayout() == 'step2') {
-		  $this->step2($tpl);
-		  return;
-		}else if($this->getLayout() == 'step3') {
-		  $this->step3($tpl);
-		  return;
-		}else if($this->getLayout() == 'step4') {
-		  $this->step4($tpl);
-		  return;
-		}else if($this->getLayout() == 'step5') {
-		  $this->step5($tpl);
-		  return;
-		}else if($this->getLayout() == 'step6') {
-		  $this->step6($tpl);
-		  return;
-		}
-
 		// Get the teams
 		$this->teams = $this->_teams->getTeamsList($this->tid);
+
+		switch ($this->getLayout()) {
+			case 'step2':
+				$this->step2($tpl);
+				return;
+			case 'step3':
+				$this->step3($tpl);
+				return;
+			case 'step4':
+				$this->step4($tpl);
+				return;
+			case 'step5':
+				$this->step5($tpl);
+				return;
+			case 'step6':
+				$this->step6($tpl);
+				return;
+			case 'step7':
+				$this->step7($tpl);
+				return;
+		}
 
 		// Get the groups
 		$this->groups = $this->_tournaments->getGroupsList($this->tid, '');
@@ -59,22 +64,29 @@ class WorldCupViewBets extends WorldCupView {
 
 
 		// Get the results
-		$this->results = $this->getResults();
+		//$this->results = $this->getResults();
 
 		parent::display($tpl);
 	}
 
-	function step2 ($tpl = null) {
+	function step2 ($tpl = null)
+	{
+		$data = JFactory::getApplication()->input->post->getArray();
 
-		// Getting the groups
+		$saveData = $this->sanitizeData($data);
+
+		$this->saveData($saveData);
+
+		// Get groups
 		$this->groups = $this->_tournaments->getGroupsList($this->tid);
 
 		// Get Data for table groups
-		$this->data = $this->_getTableData($groups);
+		//$this->data = $this->_getTableData($groups);
+		$this->data = $this->_bets->_getTableData($this->groups);
 
 		// Get Matches of 8vo
 		//$this->matches = $this->getMatches(1, 0, 1);
-		$this->matches = $this->_matches->getMatchesList($this->tid, 1, 0);
+		$this->matches = $this->_matches->getMatchesList($this->tid, 1);
 
 		// Get the bets
 		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 1);
@@ -85,79 +97,109 @@ class WorldCupViewBets extends WorldCupView {
 
 	function step3 ($tpl = null) {
 
+		$data = JFactory::getApplication()->input->post->getArray();
+		$saveData = $this->sanitizeData($data);
+		$this->saveData($saveData);
+
 		// Get Matches of 4to
-		//$this->matches = $this->getMatches(1, 0, 2);
 		$this->matches = $this->_matches->getMatchesList($this->tid, 2, 0);
 
 		// Get the old bets
-		$this->oldbets = $this->getBets(1, 1);
+		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 1);
 
 		// Get the bets
 		$this->bets = $this->_bets->getBetsList($this->tid, $this->_my->id, 2);
-		//$this->bets = $this->getBets(1, 2);
-
-		// Getting the teams
-		$this->teams = $this->_teams->getTeamsList($this->tid);
 
 		parent::display($tpl);
 	}
 
 	function step4 ($tpl = null) {
 
+		$data = JFactory::getApplication()->input->post->getArray();
+		$saveData = $this->sanitizeData($data);
+		$this->saveData($saveData);
+
 		// Get Matches of Semi
-		//$this->matches = $this->getMatches(1, 0, 3);
 		$this->matches = $this->_matches->getMatchesList($this->tid, 3, 0);
 
 		// Get the old bets
 		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 2);
-		//$this->oldbets = $this->getBets(1, 2);
 
 		// Get the bets
 		$this->bets = $this->_bets->getBetsList($this->tid, $this->_my->id, 3);
-		//$this->bets = $this->getBets(1, 3);
-
-		// Get the teams
-		$this->teams = $this->_teams->getTeamsList($this->tid);
 
 		parent::display($tpl);
 	}
 
 	function step5 ($tpl = null) {
 
+		$data = JFactory::getApplication()->input->post->getArray();
+		$saveData = $this->sanitizeData($data);
+		$this->saveData($saveData);
+
 		// Get Matches of 4to
-		//$this->matches = $this->getMatches(1, 0, 4);
 		$this->matches = $this->_matches->getMatchesList($this->tid, 4, 0);
 
 		// Get the old bets
 		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 3);
-		//$this->oldbets = $this->getBets(1, 3);
 
 		// Get the bets
 		$this->bets = $this->_bets->getBetsList($this->tid, $this->_my->id, 4);
-		//$this->bets = $this->getBets(1, 4);
-
-		// Get the teams
-		$this->teams = $this->_teams->getTeamsList($this->tid);
 
 		parent::display($tpl);
 	}
 
 	function step6 ($tpl = null) {
 
+		$data = JFactory::getApplication()->input->post->getArray();
+		$saveData = $this->sanitizeData($data);
+		$this->saveData($saveData);
+
 		// Get Matches of final
-		//$this->matches = $this->getMatches(1, 0, 5);
 		$this->matches = $this->_matches->getMatchesList($this->tid, 5, 0);
 
 		// Get the old bets
-		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 4);
-		//$this->oldbets = $this->getBets(1, 4);
+		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 3);
 
 		// Get the bets
 		$this->bets = $this->_bets->getBetsList($this->tid, $this->_my->id, 5);
-		//$this->bets = $this->getBets(1, 5);
 
-		// Get the teams
-		$this->teams = $this->_teams->getTeamsList($this->tid);
+		parent::display($tpl);
+	}
+
+	function step7 ($tpl = null)
+	{
+		$data = JFactory::getApplication()->input->post->getArray();
+		$saveData = $this->sanitizeData($data);
+		$this->saveData($saveData);
+
+		// Get groups
+		$this->groups = $this->_tournaments->getGroupsList($this->tid);
+
+		// Get Data, matches, bets
+		$this->data = $this->_bets->_getTableData($this->groups);
+		$this->matches = $this->_matches->getMatchesList($this->tid, 1);
+		$this->oldbets = $this->_bets->getBetsList($this->tid, $this->_my->id, 1);
+
+		// Get Matches of 4to
+		$this->matches2 = $this->_matches->getMatchesList($this->tid, 2, 0);
+		$this->oldbets2 = $this->_bets->getBetsList($this->tid, $this->_my->id, 1);
+		$this->bets2 = $this->_bets->getBetsList($this->tid, $this->_my->id, 2);
+
+		// Get Matches of Semi
+		$this->matches3 = $this->_matches->getMatchesList($this->tid, 3, 0);
+		$this->oldbets3 = $this->_bets->getBetsList($this->tid, $this->_my->id, 2);
+		$this->bets3 = $this->_bets->getBetsList($this->tid, $this->_my->id, 3);
+
+		// Get Matches of 4to
+		$this->matches4 = $this->_matches->getMatchesList($this->tid, 4, 0);
+		$this->oldbets4 = $this->_bets->getBetsList($this->tid, $this->_my->id, 3);
+		$this->bets4 = $this->_bets->getBetsList($this->tid, $this->_my->id, 4);
+
+		// Get Matches of final
+		$this->matches5 = $this->_matches->getMatchesList($this->tid, 5, 0);
+		$this->oldbets5 = $this->_bets->getBetsList($this->tid, $this->_my->id, 3);
+		$this->bets5 = $this->_bets->getBetsList($this->tid, $this->_my->id, 5);
 
 		parent::display($tpl);
 	}
@@ -185,69 +227,180 @@ class WorldCupViewBets extends WorldCupView {
 		}
 	}
 
+	/**
+	* Sanitize data
+	*
+	* @return      array
+	* @since       1.0
+	*/
+	protected function sanitizeData($data)
+	{
+		$return = array();
 
-	function _getTableData($groups) {
+		foreach ($data as $key => $value)
+		{
+			$letter = explode('-', $key);
+			$k = $letter[1];
 
-		$data = array();
-		$db =& JFactory::getDBO();
-		$my =& JFactory::getUser();
+			// @@ TODO: Fix hardcode
+			$return[$k]['tid'] = 4;
+			$return[$k]['mid'] = $k;
+			$return[$k]['uid'] = $this->_my->id;
 
-		for($i=1;$i<=count($groups);$i++) {
-
-			$query = "SELECT t.id, t.name
-				FROM #__worldcup_teams AS t
-				WHERE t.group = {$groups[$i]['id']}
-				AND t.tid = 1";
-			$db->setQuery($query);
-			//echo $query;
-			$teams[$i] = $db->loadAssocList( 'id' );
-			//print_r($teams[$i]);
-			//echo "<br><br>";
-
-			$query = "SELECT b.mid, m.team1, m.team2, b.local, b.visit
-				FROM #__worldcup_bets AS b
-				LEFT JOIN #__worldcup_matches AS m ON m.id = b.mid
-				WHERE b.uid = {$my->id}
-				AND m.tid = 1
-				AND m.group = {$groups[$i]['id']}
-				ORDER BY b.mid ASC";
-
-			$db->setQuery($query);
-			//echo $query;
-			$bets = $db->loadObjectList( );
-			//echo "<br><br>";
-			//print_r($bets);
-
-			for($y=0;$y<count($bets);$y++) {
-				$bet = &$bets[$y];
-				//print_r($bet);
-				//echo "<br><br>";
-
-				if ($bet->local > $bet->visit ) {
-					$teams[$i][$bet->team1]['points'] += 3;
-				}else if ($bet->local < $bet->visit ) {
-					$teams[$i][$bet->team2]['points'] += 3;
-				}else if ($bet->local == $bet->visit ) {
-					$teams[$i][$bet->team1]['points'] += 1;
-					$teams[$i][$bet->team2]['points'] += 1;
-				}
-
-				$teams[$i][$bet->team1]['gf'] += $bet->local;
-				$teams[$i][$bet->team2]['gf'] += $bet->visit;
-
-				$teams[$i][$bet->team1]['ge'] += $bet->visit;
-				$teams[$i][$bet->team2]['ge'] += $bet->local;
-
-				//print_r($teams[$i]);echo ".<br><br>";
+			if ($letter[0] == 'l')
+			{
+				$return[$k]['local'] = (int) $value;
 			}
-
-			//print_r($teams[$i]);
-			//echo "<br><br>";
-			$data[$i] = $this->orderBy($teams[$i]);
-			//print_r($data);
-			//echo "<br>======================================<br><br>";
+			elseif ($letter[0] == 'v') {
+				$return[$k]['visit'] = (int) $value;
+			}
+			elseif ($letter[0] == 'team1') {
+				$return[$k]['team1'] = $value;
+			}
+			elseif ($letter[0] == 'team2') {
+				$return[$k]['team2'] = $value;
+			}
 		}
 
-		return $data;
+		return $return;
 	}
+
+	/**
+	* Save data
+	*
+	* @return      array
+	* @since       1.0
+	*/
+	protected function saveData($data)
+	{
+		foreach ($data as $key => $value)
+		{
+			$table = $this->get('Table');
+			$load = $value;
+			$table->load($load);
+
+			if (!empty($table->id))
+			{
+				$table->load($load);
+			}
+
+			$table->save($load);
+		}
+	}
+
+
+	/**
+	* Print table header
+	*
+	* @return      array
+	* @since       1.0
+	*/
+	protected function printTableHeader()
+	{
+?>
+		<thead>
+			<tr>
+				<th width="10%" nowrap="nowrap">
+					<?php echo JText::_( 'Date' ); ?>
+				</th>
+				<th width="10%" nowrap="nowrap">
+					<?php echo JText::_( 'Place' ); ?>
+				</th>
+				<th width="10%" nowrap="nowrap" align="right">
+					<?php echo JText::_( 'Team' ); ?>
+				</th>
+				<th width="10%" nowrap="nowrap">
+					&nbsp;
+				</th>
+				<th width="10%" nowrap="nowrap">
+					<?php echo JText::_( 'Team' ); ?>
+				</th>
+			</tr>
+		</thead>
+<?php
+	}
+
+
+	/**
+	* Print table header
+	*
+	* @return      array
+	* @since       1.0
+	*/
+	protected function printTableRows($matches, $bets, $oldbets, $reverse = false, $readonly = '')
+	{
+
+		if ($readonly != '')
+		{
+			$readonly = "readonly='readonly'";
+		}
+
+
+		foreach ($matches as $key => $match) {
+
+				$date = JFactory::getDate($match->date);
+				$format = 'd/m H:M';
+
+				$winner1 = (int) substr($match->team1, 1, 3);
+				$winner2 = (int) substr($match->team2, 1, 3);
+
+				if ($reverse == true)
+				{
+					if ($oldbets[$winner1]->local < $oldbets[$winner1]->visit) {
+						$local = $oldbets[$winner1]->team1;
+					}else if ($oldbets[$winner1]->local > $oldbets[$winner1]->visit) {
+						$local = $oldbets[$winner1]->team2;
+					}
+
+					if ($oldbets[$winner2]->local < $oldbets[$winner2]->visit) {
+						$visit = $oldbets[$winner2]->team1;
+					}else if ($oldbets[$winner2]->local > $oldbets[$winner2]->visit) {
+						$visit = $oldbets[$winner2]->team2;
+					}
+				}
+				else
+				{
+					if ($oldbets[$winner1]->local > $oldbets[$winner1]->visit) {
+						$local = $oldbets[$winner1]->team1;
+					}else if ($oldbets[$winner1]->local < $oldbets[$winner1]->visit) {
+						$local = $oldbets[$winner1]->team2;
+					}
+
+					if ($oldbets[$winner2]->local > $oldbets[$winner2]->visit) {
+						$visit = $oldbets[$winner2]->team1;
+					}else if ($oldbets[$winner2]->local < $oldbets[$winner2]->visit) {
+						$visit = $oldbets[$winner2]->team2;
+					}
+				}
+
+		?>
+			<tr class="">
+				<td>
+					<?php echo $date->format($format); ?>
+				</td>
+				<td>
+					<?php echo $match->pname;?>
+				</td>
+				<td align="right">
+					<?php echo $this->teams[$local]->name;?>&nbsp;<img src="<?php echo $this->teams[$local]->flag; ?>">&nbsp;&nbsp;&nbsp;
+				</td>
+				<td align="center">
+					<input type="text" name="l-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->local; ?>" size="1" class="input_result" <?php echo $readonly; ?>>&nbsp;-&nbsp;
+					<input type="text" name="v-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->visit; ?>" size="1" class="input_result2" <?php echo $readonly; ?>>
+				</td>
+				<td>
+					<img src="<?php echo $this->teams[$visit]->flag; ?>">
+					<?php echo $this->teams[$visit]->name;?>
+				</td>
+				<input type="hidden" name="team1-<?php echo $match->id; ?>" value="<?php echo $this->teams[$local]->id; ?>" />
+				<input type="hidden" name="team2-<?php echo $match->id; ?>" value="<?php echo $this->teams[$visit]->id; ?>" />
+			</tr>
+		<?php
+				unset($pos1);unset($pos2);
+				unset($group1);unset($group2);
+			}
+
+	}
+
+
 }

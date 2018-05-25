@@ -4,7 +4,7 @@
 *
 * @version $Id:
 * @package Matware.Worldcup
-* @copyright Copyright (C) 2004 - 2014 Matware. All rights reserved.
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
 * @author Matias Aguirre
 * @email maguirre@matware.com.ar
 * @link http://www.matware.com.ar/
@@ -21,11 +21,7 @@ $data = $this->data;
 $groups = $this->groups;
 $matches = $this->matches;
 $oldbets = $this->oldbets;
-//print_r($groups);
-//echo "<br><br>";
-//print_r($data);
-//$key = recursiveArraySearch($groups, 'C');
-//echo ">".$key."<";
+
 ?>
 <script language="javascript">
 	function submitbutton(pressbutton)
@@ -47,163 +43,124 @@ $oldbets = $this->oldbets;
 	}
 //-->
 </script>
-<link rel="stylesheet" type="text/css" href="components/com_worldcup/css/worldcup.css" />
-<div><h3><?php echo JText::_( $worldcupConfig['title'] ); ?></h3></div>
-<table width="100%">
-<tr>
-  <td align="center">
-    <h2><b><a href="index.php?option=com_worldcup&view=bets"><?php echo JText::_( "My Bet" ); ?></a> - <a href="index.php?option=com_worldcup&view=score"><?php echo JText::_( "Table" ); ?></a> - <a href="index.php?option=com_worldcup&view=results"><?php echo JText::_( "Results" ); ?></a></b></h2>
-  </td>
-</tr>
-</table>
 
-<form action="index.php?option=com_worldcup&task=bets&step=3" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
-<table width="100%" border="0">
-<tr>
-<?php
-	$e = 1;
+<section id="content">
+<div class="wrapper8">
+    <div class="container">
+			<div class="row">
+				<div class="grid_12">
+			    <h2>Fase de grupos</h2>
 
-	for ($i=1;$i<=count($data);$i++){
-		if($e==4 || $e == 7 ){
-			echo "</tr><tr>";
-		}
-?>
-<td>
-<table width="100%" cellspacing="0" cellpadding="2" id="group_table">
-<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$i]['name']; ?></caption>
-<thead>
-	<tr>
-		<td><?php echo JText::_( "Team" ); ?></td>
-		<td width="10"><?php echo JText::_( "Points" ); ?></td>
-		<td width="10"><?php echo JText::_( "GF" ); ?></td>
-		<td width="10"><?php echo JText::_( "GE" ); ?></td>
-	</tr>
-</thead>
-<tbody>
-<?php
+					<form action="index.php?option=com_worldcup&amp;view=bets&amp;layout=step3&amp;step=3" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
+					<table width="100%" border="0">
+					<tr>
+					<?php
+						$e = 1;
 
-//print_r($data[$i]);
+						foreach ($data as $key => $value)
+						{
 
-		for ($y=0;$y<count($data[$i]);$y++){
+							if($e==3 || $e == 5 || $e == 7 ){
+								echo "</tr><tr>";
+							}
+					?>
+					<td>
+					<table width="100%" cellspacing="0" cellpadding="2" class="wow bounceInDown" id="table1">
+					<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$key]->name; ?></caption>
+					<thead>
+						<tr>
+							<th><?php echo JText::_( "Team" ); ?></th>
+							<th width="10"><?php echo JText::_( "Points" ); ?></th>
+							<th width="10"><?php echo JText::_( "GF" ); ?></th>
+							<th width="10"><?php echo JText::_( "GE" ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php
 
-//print_r($data[$i][$y]);
+							foreach ($value as $key2 => $val2)
+							{
+					?>
 
-?>
+							<tr>
+								<td>
+									<img src="<?php echo $this->teams[$val2['id']]->flag; ?>">&nbsp;<?php echo $data[$key][$key2]['name']; ?></td>
+								<td align="center"><?php echo $data[$key][$key2]['points'] ? $data[$key][$key2]['points'] : 0; ?></td>
+								<td><?php echo $data[$key][$key2]['gf'] ? $data[$key][$key2]['gf'] : 0; ?></td>
+								<td><?php echo $data[$key][$key2]['ge'] ? $data[$key][$key2]['ge'] : 0; ?></td>
+							</tr>
 
-		<tr>
-			<td>
-				<img src="components/com_worldcup/images/flags/<?php echo $data[$i][$y]['id']; ?>.png">&nbsp;<?php echo $data[$i][$y]['name']; ?></td>
-			<td align="center"><?php echo $data[$i][$y]['points'] ? $data[$i][$y]['points'] : 0; ?></td>
-			<td><?php echo $data[$i][$y]['gf'] ? $data[$i][$y]['gf'] : 0; ?></td>
-			<td><?php echo $data[$i][$y]['ge'] ? $data[$i][$y]['ge'] : 0; ?></td>
-		</tr>
+					<?php
+							}
+							echo "</tbody></table></td>";
 
-<?php
-		}
-		echo "</tbody></table></td>";
+							$e++;
+						}
+					?>
 
-		$e++;
-	}
-?>
+					</tr>
+					</table>
 
-</tr>
-</table>
+					<h2>Octavos de final</h2>
 
-<table>
-<tr>
-	<td align="left" width="100%">
-		<h3><?php //echo $this->phases[1]; ?></h3>
-	</td>
-</tr>
-</table>
-<table class="adminlist" width="100%" cellpadding="2" cellspacing="2" border="0">
-<thead>
-	<tr>
-		<th width="20">
-			<?php echo JText::_( 'ID' ); ?>
-		</th>
-		<th width="20%" nowrap="nowrap">
-			<?php echo JText::_( 'Date' ); ?>
-		</th>
-		<th width="20%" nowrap="nowrap">
-			<?php echo JText::_( 'Place' ); ?>
-		</th>
-		<th width="25%" nowrap="nowrap">
-			<?php echo JText::_( 'Team' ); ?>
-		</th>
-		<th width="12%" nowrap="nowrap">
-			&nbsp;
-		</th>
-		<th width="25%" nowrap="nowrap">
-			<?php echo JText::_( 'Team' ); ?>
-		</th>
-	</tr>
-</thead>
-<tbody>
-<?php		          
+					<table width="100%" cellpadding="2" cellspacing="2" border="1" class="wow bounceInDown" id="table1">
+					<?php echo $this->printTableHeader(); ?>
+					<tbody>
+					<?php
 
-//print_r($oldbets);
-//print_r($data[$group1][$pos1]['name']
+							for ($i=0, $n=count( $matches ); $i < $n; $i++) {
+								$match = &$matches[$i];
 
-		for ($i=0, $n=count( $matches ); $i < $n; $i++) {
-			$match = &$matches[$i];
+								$date =& JFactory::getDate($match->date);
+								$format = 'd/m H:M';
 
-			$date =& JFactory::getDate($match->date);          
-			$format = 'd/m H:M';
+								$pos1 = substr($match->team1, 0, 1);
+								$group1 = $this->recursiveArraySearch($groups, substr($match->team1, 1, 2) );
 
-			$pos1 = substr($match->team1, 0, 1);
-			$group1 = $this->recursiveArraySearch($groups, substr($match->team1, 1, 2) );
+								$pos2 = substr($match->team2, 0, 1);
+								$group2 = $this->recursiveArraySearch($groups, substr($match->team2, 1, 2) );
 
-			$pos2 = substr($match->team2, 0, 1);
-			$group2 = $this->recursiveArraySearch($groups, substr($match->team2, 1, 2) );
+								$idL = $data[$group1][$pos1-1]['id'];
+								$idV = $data[$group2][$pos2-1]['id'];
+					?>
+								<tr>
+									<td>
+										<?php echo $date->format($format); ?>
+									</td>
+									<td>
+										<?php echo $match->pname;?>
+									</td>
+									<td align="right">
+										<?php echo $data[$group1][$pos1-1]['name'];?>&nbsp;<img src="<?php echo $this->teams[$idL]->flag; ?>">
+									</td>
+									<td align="center">
+										<input type="text" name="l-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->local; ?>" size="1" class="input_result">&nbsp;-&nbsp;
+										<input type="text" name="v-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->visit; ?>" size="1" class="input_result2">
+									</td>
+									<td>
+										<img src="<?php echo $this->teams[$idV]->flag; ?>">
+										<?php echo $data[$group2][$pos2-1]['name'];?>
+									</td>
+									<input type="hidden" name="team1-<?php echo $match->id; ?>" value="<?php echo $idL; ?>" />
+									<input type="hidden" name="team2-<?php echo $match->id; ?>" value="<?php echo $idV; ?>" />
+								</tr>
+					<?php
+								unset($pos1);unset($pos2);
+								unset($group1);unset($group2);
+							}
+					?>
+					<tr>
+						<td align="center" colspan="7">
+							<input type="submit" value="<?php echo JText::_( 'Send' ); ?>" />
+						</td>
+					</tr>
 
-			//echo $group1 . "<br>";
-			//print_r($team1);
+					</tbody>
+					</table>
+					</form>
 
-			//$key = recursiveArraySearch($groups, 'C');
-
-			//print_r($group1);
-			//echo "<br><br>";
-
-
-?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td align="center">
-					<?php echo $match->id; ?>
-				</td>
-				<td align="center">
-					<?php echo $date->format($format); ?>
-				</td>
-				<td>
-					<?php echo $match->pname;?>
-				</td>
-				<td align="right">
-					<img src="components/com_worldcup/images/flags/<?php echo $data[$group1][$pos1-1]['id']; ?>.png">
-					<?php echo $data[$group1][$pos1-1]['name'];?>
-				</td>
-				<td align="center">
-					<input type="text" name="l<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->local; ?>" size="1" class="input_result">&nbsp;-&nbsp;
-					<input type="text" name="v<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->visit; ?>" size="1" class="input_result2">
-				</td>
-				<td>
-					<img src="components/com_worldcup/images/flags/<?php echo $data[$group2][$pos2-1]['id']; ?>.png">
-					<?php echo $data[$group2][$pos2-1]['name'];?>
-				</td>
-				<input type="hidden" name="team1-<?php echo $match->id; ?>" value="<?php echo $data[$group1][$pos1-1]['id']; ?>" />
-				<input type="hidden" name="team2-<?php echo $match->id; ?>" value="<?php echo $data[$group2][$pos2-1]['id']; ?>" />
-			</tr>
-<?php
-			unset($pos1);unset($pos2);
-			unset($group1);unset($group2);
-		}
-?>
-<tr>
-	<td align="center" colspan="8">
-		<input type="submit" value="<?php echo JText::_( 'Send' ); ?>" />
-	</td>
-</tr>
-
-</tbody>
-</table>
-</form>
-
+			</div>
+		</div>
+	</div>
+</div>
+</section>

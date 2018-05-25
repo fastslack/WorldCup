@@ -10,35 +10,47 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once (JPATH_COMPONENT.'/view.php');
 
-class WorldCupViewResults extends WorldCupView {
+class WorldCupViewResults extends WorldCupView
+{
 
-	function display($tpl = null) {
+	function display($tpl = null)
+	{
    	global $mainframe;
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
-		## 
-		## Getting the groups
-		##
-		$query = "SELECT g.*
-			FROM #__worldcup_groups AS g";
+		// Create a new query object.
+		$query	= $this->_db->getQuery(true);
+
+		// Select the required fields from the table.
+		$query->select("g.*");
+		$query->from('#__worldcup_groups AS g');
+		$query->where("published = 1");
+
+		// Set query
 		$db->setQuery($query);
-		//echo $query;
-		$groups = $db->loadAssocList( 'id' );
-		//print_r($groups);		
 
-		## 
+		// Execute the query
+		try {
+			$groups = $db->loadAssocList( 'id' );
+		} catch (RuntimeException $e) {
+			throw new RuntimeException($e->getMessage());
+		}
+
+		##
 		## Get Data for table groups
 		##
-		$data = $this->_getTableData($groups);
+		$data = $this->_results->_getTableData($groups);
 
-		## 
+		##
 		## Get matches
 		##
 		$where = array();
 		$where[] = "m.phase = 0";
+		$where[] = "m.tid = 4";
+
 
 		$where		= count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '';
 		$orderby	= ' ORDER BY m.id ASC';
@@ -54,7 +66,7 @@ class WorldCupViewResults extends WorldCupView {
 		print_r($db->getError());
 		//print_r($matches);
 
-		## 
+		##
 		## Get Matches of 8vo
 		##
 		$where = array();
@@ -70,7 +82,7 @@ class WorldCupViewResults extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches 4tos
 		##
 		$where = array();
@@ -86,7 +98,7 @@ class WorldCupViewResults extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches Semi
 		##
 		$where = array();
@@ -102,7 +114,7 @@ class WorldCupViewResults extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches 3rd
 		##
 		$where = array();
@@ -118,7 +130,7 @@ class WorldCupViewResults extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches final
 		##
 		$where = array();
@@ -134,7 +146,7 @@ class WorldCupViewResults extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get teams
 		##
 		$query = "SELECT id, name FROM #__worldcup_teams
@@ -142,10 +154,10 @@ class WorldCupViewResults extends WorldCupView {
 		$db->setQuery($query);
 		$teams = $db->loadAssocList('id');
 
-		## 
+		##
 		## Get results
 		##
-		$query = "SELECT * 
+		$query = "SELECT *
 							FROM #__worldcup_results
 		          ORDER BY mid";
 		$db->setQuery($query);
@@ -153,7 +165,7 @@ class WorldCupViewResults extends WorldCupView {
 		//echo $db->getErrorMsg();
 		//print_r($results);
 
-		## 
+		##
 		## Send data to template
 		##
 		$this->assignRef('data', $data);
@@ -167,35 +179,52 @@ class WorldCupViewResults extends WorldCupView {
 		parent::display($tpl);
 	}
 
-	function _getTableData($groups) { 
+	function _getTableData($groups) {
 
 		$data = array();
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
-		for($i=1;$i<=count($groups);$i++) {
+		//for($i=1;$i<=count($groups);$i++)
+		foreach ($groups as $key => $value)
+		{
+			// Create a new query object.
+			$query	= $this->_db->getQuery(true);
 
-			$query = "SELECT t.id, t.name
-				FROM #__worldcup_teams AS t
-				WHERE t.group = {$groups[$i]['id']}"; 
+			// Select the required fields from the table.
+			$query->select("t.id, t.name");
+			$query->from('#__worldcup_teams AS t');
+			$query->where("t.group = {$value['id']}");
+
+			// Set query
 			$db->setQuery($query);
-			//echo $query;
-			$teams[$i] = $db->loadAssocList( 'id' );
-			//print_r($teams[$i]);
-			//echo "<br><br>";
 
-			$query = "SELECT r.mid, m.team1, m.team2, r.local, r.visit 
-				FROM #__worldcup_results AS r
-				LEFT JOIN #__worldcup_matches AS m ON m.id = r.mid
-				WHERE m.group = {$groups[$i]['id']}
-				ORDER BY r.mid ASC";
+			// Execute the query
+			try {
+				$teams[$i] = $db->loadAssocList( 'id' );
+			} catch (RuntimeException $e) {
+				throw new RuntimeException($e->getMessage());
+			}
 
+			// Select the required fields from the table.
+			$query->select("r.mid, m.team1, m.team2, r.local, r.visit");
+			$query->from('#__worldcup_results AS r');
+			$query->join('LEFT', '#__worldcup_matches AS m ON m.id = r.mid');
+			$query->where("m.group = {$value['id']}");
+			$query->order("r.mid ASC");
+
+			// Set query
 			$db->setQuery($query);
-			//echo $query;
-			$bets = $db->loadObjectList( );
-			//echo "<br><br>";			
-			//print_r($bets);
 
-			for($y=0;$y<count($bets);$y++) {
+			// Execute the query
+			try {
+				$bets = $db->loadObjectList( );
+			} catch (RuntimeException $e) {
+				throw new RuntimeException($e->getMessage());
+			}
+
+			// bets
+			for($y=0;$y<count($bets);$y++)
+			{
 				$bet = &$bets[$y];
 				//print_r($bet);
 				//echo "<br><br>";
@@ -206,7 +235,7 @@ class WorldCupViewResults extends WorldCupView {
 					$teams[$i][$bet->team2]['points'] += 3;
 				}else if ($bet->local == $bet->visit ) {
 					$teams[$i][$bet->team1]['points'] += 1;
-					$teams[$i][$bet->team2]['points'] += 1;	
+					$teams[$i][$bet->team2]['points'] += 1;
 				}
 
 				$teams[$i][$bet->team1]['gf'] += $bet->local;
@@ -223,7 +252,7 @@ class WorldCupViewResults extends WorldCupView {
 
 				//print_r($teams[$i]);echo ".<br><br>";
 			}
-	
+
 			//print_r($teams[$i]);
 			//echo "<br><br>";
 			$data[$i] = $this->_orderBy($teams[$i]);
@@ -231,10 +260,10 @@ class WorldCupViewResults extends WorldCupView {
 			//echo "<br>======================================<br><br>";
 		}
 
-		return $data; 
-	} 
+		return $data;
+	}
 
-	function _orderBy($data) { 
+	function _orderBy($data) {
 
 		foreach ($data as $key => $row) {
 				$points[$key]  = $row['points'];
@@ -245,9 +274,8 @@ class WorldCupViewResults extends WorldCupView {
 
 		$res = array_multisort($points, SORT_DESC, $diff, SORT_DESC, $gf, SORT_DESC, $ge, SORT_ASC, $data);
 
-		return $data; 
+		return $data;
 	}
 
 }
 ?>
-
