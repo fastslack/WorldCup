@@ -19,7 +19,14 @@ defined('_JEXEC') or die;
     <div class="container">
         <div class="row">
             <div class="grid_12">
-                <h2 class="wow bounceInRight">competiciones</h2>
+                <h2 class="wow bounceInRight"><?php echo $this->competition->name; ?></h2>
+                <?php
+
+                  if ($this->competition->created_by == $this->_my->id) {
+                    echo '<h4 class="wow bounceInRight">Codigo: <b>'.$this->competition->code.'</b></h4>';
+                  }
+
+                ?>
             </div>
         </div>
         <div class="row">
@@ -27,27 +34,38 @@ defined('_JEXEC') or die;
                 <table id="table1" class="wow bounceInDown">
                     <thead>
                         <tr>
-                            <th>nombre</th>
-                            <th>termina</th>
-                            <th>creador</th>
-                            <th>cantidad de miembros</th>
-                            <th>Acciones</th>
+                            <th>nombre & usuario</th>
+                            <th>puntos</th>
+                            <th>acciones</th>
                         </tr>
                     </thead>
                     <tbody>
 <?php
 
-  foreach ($this->competitions as $key => $competition)
+  foreach ($this->competition_users as $key => $user)
   {
+    $l = JRoute::_('index.php?option=com_worldcup&view=bets&layout=step7&user_id='.$user->id.'&cid='.$this->competition->id);
+    $txt = '<a href="'.$l.'" data-type="submit" class="btn-default">Ver fixture</a>';
+
+    if ($this->_my->id == $user->id)
+    {
+      $l = JRoute::_('index.php?option=com_worldcup&view=bets&cid='.$this->competition->id);
+      $txt = $txt . '<br><a href="'.$l.'" data-type="submit" class="btn-default">Crear fixture</a>';
+    }
+
+    if ($this->competition->created_by == $this->_my->id && (int)$user->authorised == 1)
+    {
+      $txt = '<a href="#" data-cid="'.$this->competition->id.'" data-user_id="'.$user->id.'" data-type="submit" class="btn-default auth">autorizar</a>';
+    }
+
+
  ?>
 
                         <tr>
-                            <td data-title="tournament"><a href="#"><span class="main-text"><?php echo $competition->name; ?></span></a>
-                            <span class="secondary-text"><?php echo $competition->tname; ?></span></td>
-                            <td data-title="ends"><span class="white">25d</span></td>
-                            <td data-title="entry"><span class="white"><?php echo $competition->uname; ?></span></td>
-                            <td data-title="casino"><a href="#"><span class="white"><?php echo $this->_competitions->getCompetitionCount($competition->id); ?></span></a></td>
-                            <td><span class="white"></span></td>
+                            <td data-title="nombre"><span class="main-text"><?php echo $user->name; ?></span>
+                            <span class="secondary-text"><?php echo $user->username; ?></span></td>
+                            <td data-title="puntos"><span class="white">0</span></td>
+                            <td data-title="acciones"><span class="white"><?php echo $txt; ?></span></td>
                         </tr>
 <?php
   }
@@ -59,3 +77,39 @@ defined('_JEXEC') or die;
     </div>
 </div>
 </section>
+
+<script type="text/javascript">
+	jQuery(function($, undefined) {
+
+		var url = 'index.php?option=com_worldcup&format=raw&task=ajax.confirmAuth';
+
+    //
+  	// Authorization
+  	//
+  	$('.auth').click(function() {
+
+      var that = $(this);
+
+      url = url + '&cid=' + $(this).data('cid') + '&user_id=' + $(this).data('user_id');
+
+      $.get(url,	function(response) {
+
+        var row_object = JSON.parse(response);
+
+        if (parseInt(row_object.code) == 200) {
+
+          that.text('autorizado').css({
+              color: '#6363db'
+          });
+
+        }
+
+      });
+
+  		return false;
+  	});
+
+
+
+  });
+</script>

@@ -1,14 +1,18 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 include(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_worldcup'.DS.'worldcup_config.php');
@@ -16,17 +20,17 @@ include(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_worldcup'.DS.'worldcup_confi
 function recursiveArraySearch($haystack, $needle, $index = null) {
 	$aIt     = new RecursiveArrayIterator($haystack);
 	$it    = new RecursiveIteratorIterator($aIt);
-   
-  while($it->valid()) {       
+
+  while($it->valid()) {
     if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
         return $aIt->key();
     }
-   
+
     $it->next();
   }
- 
+
   return false;
-} 
+}
 
 $my =& JFactory::getUser();
 
@@ -105,9 +109,9 @@ window.addEvent( 'domready', function() {
 </script>
 <link rel="stylesheet" href="components/com_worldcup/css/worldcup.css" type="text/css" />
 <form action="index.php?option=com_worldcup" method="post" name="adminForm">
-<?php 
+<?php
 
-        
+
 ?>
 
 <table>
@@ -147,18 +151,18 @@ window.addEvent( 'domready', function() {
 <tbody>
 <?php
 	//print_r($bets);
-    
+
       $scoreArr = array();
       $scoreArr[$i] = array();
       $scoreArr[$i]['uid'] = $userid;
       $scoreArr[$i]['count'] = $user->count;
-      $scoreArr[$i]['points'] = 0;  
+      $scoreArr[$i]['points'] = 0;
 	for ($i=0, $n=count( $matches[0] ); $i < $n; $i++) {
 		$match = &$matches[0][$i];
-    
+
 		$date =& JFactory::getDate($match->date);
 		$format = '%b/%d %H:%M';
-    
+
     $result = &$results[$match->id];
     //print_r($result);
     $bet = &$bets[$match->id];
@@ -174,7 +178,7 @@ window.addEvent( 'domready', function() {
       //echo "<br>BETVISITE_ ".$betvisit;
       //$disabled = "disabled";
 
-        
+
         ## Deuce
         if($local == $visit) {
           $game['result'] = "deuce";
@@ -186,7 +190,7 @@ window.addEvent( 'domready', function() {
         //added by Piotr Mackowiak
         if (empty($betlocal)){
           $game['bet'] = "missed";
-        }        
+        }
         ## Simple
         if($local > $visit) {
           $game['result'] = "local";
@@ -200,7 +204,7 @@ window.addEvent( 'domready', function() {
         }
         //Punkte Pro spiel
         $pfad = 0;
-        
+
         if( ($game['bet'] == "deuce" && $game['result'] == "deuce")  && ($betlocal != $local) ) {
           $scoreArr[$i]['points'] = $scoreArr[$i]['points'] + $worldcupConfig['equalmatch'];
           $pfad = 2;
@@ -227,7 +231,7 @@ window.addEvent( 'domready', function() {
 				<?php echo $this->teams[$match->team1]['name'];?>
 			</td>
 			<td align="center">
-				
+
 			   <strong>
 				<?php echo $betlocal;?>
         <small>-</small>
@@ -290,7 +294,7 @@ window.addEvent( 'domready', function() {
 	</tr>
 </thead>
 <tbody>
-<?php		          
+<?php
 		//matches = $this->matches[1];
 		//print_r($data);
 
@@ -298,12 +302,12 @@ window.addEvent( 'domready', function() {
 			$match = &$matches[1][$i];
       // Match = stdClass Object ( [id] => 49 [date] => 2010-06-26 11:00:00 [group] => 0 [place] => 4 [team1] => 1A [team2] => 2B [phase] => 1 [pname] => Puerto Elizabeth )
       //print_r($match);
-			$date =& JFactory::getDate($match->date);          
+			$date =& JFactory::getDate($match->date);
 			$format = '%b/%d %H:%M';
 
 			$pos1 = substr($match->team1, 0, 1);
 			$group1 = recursiveArraySearch($groups, substr($match->team1, 1, 2) );
-      //print_r($groups); // Gruppen ID 
+      //print_r($groups); // Gruppen ID
       //echo "GROUP1: ".$group1;
 			$pos2 = substr($match->team2, 0, 1);
 			$group2 = recursiveArraySearch($groups, substr($match->team2, 1, 2) );
@@ -330,7 +334,7 @@ window.addEvent( 'domready', function() {
            $draw = " (Endstand:".$finallocal."-".$finalvisit."";
         }
         //echo "DRAW:".$draw;
-		    
+
 		    ## Deuce
         if($local == $visit) {
           $game['result'] = "deuce";
@@ -341,7 +345,7 @@ window.addEvent( 'domready', function() {
         ## MISSED TIPP added by Piotr Mackowiak
         if (empty($betlocal)){
           $game['bet'] = "missed";
-        }        
+        }
         ## Simple
         if($local > $visit) {
           $game['result'] = "local";
@@ -365,7 +369,7 @@ window.addEvent( 'domready', function() {
           $scoreArr[$i]['points'] = $scoreArr[$i]['points'] + $worldcupConfig['simplematch'];
           $pfad = 2;
         }
-		    
+
 		  }
 
 ?>
@@ -389,7 +393,7 @@ window.addEvent( 'domready', function() {
         (&nbsp;<?php echo $local;?>
         <small>-</small>
 				<?php echo $visit.")".$draw;?>&nbsp;)
-				
+
 			</td>
 			<td>
 				<img src="components/com_worldcup/images/flags/<?php echo $data[$group2][$pos2-1]['id']; ?>.png">
@@ -445,19 +449,19 @@ window.addEvent( 'domready', function() {
 	</tr>
 </thead>
 <tbody>
-<?php		          
+<?php
 		//$matches = $this->matches[2];
 		//print_r($matches[2]);
 
 		for ($i=0, $n=count( $matches[2] ); $i < $n; $i++) {
 			$match = &$matches[2][$i];
 
-			$date =& JFactory::getDate($match->date);          
+			$date =& JFactory::getDate($match->date);
 			$format = '%b/%d %H:%M';
 
 			$pos1 = substr($match->team1, 0, 1);
 			$group1 = recursiveArraySearch($groups, substr($match->team1, 1, 2) );
-      //print_r($groups); 
+      //print_r($groups);
 			$pos2 = substr($match->team2, 0, 1);
 			//$group2 =recursiveArraySearch($groups, substr($match->team2, 1, 2) );
 
@@ -480,7 +484,7 @@ window.addEvent( 'domready', function() {
            $draw = " (Endstand:".$finallocal."-".$finalvisit."";
         }
         //echo "DRAW:".$draw;
-		    
+
 		            ## Deuce
         if($local == $visit) {
           $game['result'] = "deuce";
@@ -492,7 +496,7 @@ window.addEvent( 'domready', function() {
         //added by Piotr Mackowiak
         if (empty($betlocal)){
           $game['bet'] = "missed";
-        }        
+        }
         ## Simple
         if($local > $visit) {
           $game['result'] = "local";
@@ -506,7 +510,7 @@ window.addEvent( 'domready', function() {
         }
         //Punkte Pro spiel
         $pfad = 0;
-        
+
         if( ($game['bet'] == "deuce" && $game['result'] == "deuce")  && ($betlocal != $local) ) {
           $scoreArr[$i]['points'] = $scoreArr[$i]['points'] + $worldcupConfig['equalmatch'];
           $pfad = 2;
@@ -546,7 +550,7 @@ window.addEvent( 'domready', function() {
 				<?php echo $data[$group2][$pos2-1]['name'];?>
 			</td>
       <td><center>+<?php echo $pfad;?></center></td>
-      <td></td>			
+      <td></td>
 
 		</tr>
 <?php
@@ -577,4 +581,3 @@ window.addEvent( 'domready', function() {
 <input type="hidden" name="boxchecked" value="0" />
 <?php echo JHTML::_( 'form.token' ); ?>
 </form>
-

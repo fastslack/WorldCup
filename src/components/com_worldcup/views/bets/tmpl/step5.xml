@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Step5 Bet Layout">
+		<message>
+			<![CDATA[STANDARD ARTICLE LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Step5 Bet Layout</name>
+		<description>Step5 Bet Layout</description>
+		<params>
+		</params>
+	</state>
+</metadata>

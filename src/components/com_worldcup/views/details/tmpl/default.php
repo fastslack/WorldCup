@@ -1,14 +1,18 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
@@ -53,4 +57,3 @@ $usersnames = $this->usersnames;
 
 </tbody>
 </table>
-

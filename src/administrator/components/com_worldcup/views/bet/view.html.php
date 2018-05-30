@@ -27,7 +27,7 @@ class WorldcupViewBet extends JViewLegacy
 	* display method of Exercise view
 	* @return void
 	*/
-	public function display($tpl = null) 
+	public function display($tpl = null)
 	{
 		// Loader
 		JLoader::import('helpers.worldcup', JPATH_COMPONENT_ADMINISTRATOR);
@@ -45,7 +45,7 @@ class WorldcupViewBet extends JViewLegacy
 		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) 
+		if (count($errors = $this->get('Errors')))
 		{
 	    JError::raiseError(500, implode('<br />', $errors));
 	    return false;
@@ -70,7 +70,7 @@ class WorldcupViewBet extends JViewLegacy
 		// Get bets
 		$this->bets = $betsObj->getBetsList($tid, $user_id);
 		// Get teams
-		$this->teams = $teamsObj->getTeamsList($tid);		
+		$this->teams = $teamsObj->getTeamsList($tid);
 		// Get the second phase table of this user
 		$this->data = $tournamentObj->getGroupsTable($tid, $user_id);
 		// Get Phases
@@ -86,7 +86,7 @@ class WorldcupViewBet extends JViewLegacy
 	/**
 	* Setting the toolbar
 	*/
-	protected function addToolBar() 
+	protected function addToolBar()
 	{
 		$input = JFactory::getApplication()->input;
 		$input->set('hidemainmenu', true);
@@ -104,16 +104,16 @@ class WorldcupViewBet extends JViewLegacy
   public function recursiveArraySearch($haystack, $needle, $index = null) {
 		$aIt     = new RecursiveArrayIterator($haystack);
 		$it    = new RecursiveIteratorIterator($aIt);
-		 
-		while($it->valid()) {       
+
+		while($it->valid()) {
 		  if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
 		      return $aIt->key();
 		  }
-		 
+
 		  $it->next();
 		}
-	 
+
 		return false;
-	} 
+	}
 
 }

@@ -12,10 +12,10 @@
 */
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
- 
+
 // import Joomla modelform library
 jimport('joomla.application.component.modeladmin');
- 
+
 /**
  * WorldcupModelMatch Model
  */
@@ -30,7 +30,7 @@ class WorldcupModelMatch extends JModelAdmin
 	* @return      JTable  A database object
 	* @since       2.5
 	*/
-	public function getTable($type = 'Match', $prefix = 'WorldcupTable', $config = array()) 
+	public function getTable($type = 'Match', $prefix = 'WorldcupTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
@@ -43,12 +43,12 @@ class WorldcupModelMatch extends JModelAdmin
 	* @return      mixed   A JForm object on success, false on failure
 	* @since       2.5
 	*/
-	public function getForm($data = array(), $loadData = true) 
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_worldcup.match', 'match',
     	array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) 
+		if (empty($form))
 		{
     	return false;
 		}
@@ -61,11 +61,11 @@ class WorldcupModelMatch extends JModelAdmin
 	* @return      mixed   The data for the form.
 	* @since       2.5
 	*/
-	protected function loadFormData() 
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_worldcup.edit.match.data', array());
-		if (empty($data)) 
+		if (empty($data))
 		{
 		  $data = $this->getItem();
 		}

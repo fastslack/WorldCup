@@ -11,8 +11,8 @@
 * @license GNU General Public License version 2 or later; see LICENSE
 */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+// No direct access to this file
+defined('_JEXEC') or die;
 
 ?>
 
@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 
           <h2>Cuartos de final</h2>
 
-          <form action="index.php?option=com_worldcup&amp;view=bets&amp;layout=step4" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
+          <form action="<?php echo JRoute::_('index.php?option=com_worldcup&view=bets&layout=step4&cid='.$this->competition->id); ?>" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
 
           <table width="100%" cellpadding="2" cellspacing="2" border="0" class="wow bounceInDown" id="table1">
           <?php echo $this->printTableHeader(); ?>

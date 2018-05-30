@@ -1,31 +1,35 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
 function recursiveArraySearch($haystack, $needle, $index = null) {
 	$aIt     = new RecursiveArrayIterator($haystack);
 	$it    = new RecursiveIteratorIterator($aIt);
-   
-  while($it->valid()) {       
+
+  while($it->valid()) {
     if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
         return $aIt->key();
     }
-   
+
     $it->next();
   }
- 
+
   return false;
-} 
+}
 
 $my =& JFactory::getUser();
 
@@ -136,14 +140,14 @@ $bets = $this->bets;
 	</tr>
 </thead>
 <tbody>
-<?php		          
+<?php
 		$matches = $this->matches[9];
 		//print_r($data);
 
 		for ($i=0, $n=count( $matches ); $i < $n; $i++) {
 			$match = &$matches[$i];
 
-			$date =& JFactory::getDate($match->date);          
+			$date =& JFactory::getDate($match->date);
 			$format = '%b/%d %H:%M';
 
 			$pos1 = substr($match->team1, 0, 1);
@@ -213,14 +217,14 @@ $bets = $this->bets;
 	</tr>
 </thead>
 <tbody>
-<?php		          
+<?php
 		$matches = $this->matches[10];
 		//print_r($bets);
 
 		for ($i=0, $n=count( $matches ); $i < $n; $i++) {
 			$match = &$matches[$i];
 
-			$date =& JFactory::getDate($match->date);          
+			$date =& JFactory::getDate($match->date);
 			$format = '%b/%d %H:%M';
 
 			$winner1 = substr($match->team1, 1, 3);
@@ -237,7 +241,7 @@ $bets = $this->bets;
 			}else if ($bets[$winner2]->local < $bets[$winner2]->visit) {
 				$visit = $bets[$winner2]->team2;
 			}
-		
+
 ?>
 	<tr class="<?php echo "row$k"; ?>">
 		<td align="left">
@@ -297,14 +301,14 @@ $bets = $this->bets;
 	</tr>
 </thead>
 <tbody>
-<?php		          
+<?php
 		$matches = $this->matches[11];
 		//print_r($bets);
 
 		for ($i=0, $n=count( $matches ); $i < $n; $i++) {
 			$match = &$matches[$i];
 
-			$date =& JFactory::getDate($match->date);          
+			$date =& JFactory::getDate($match->date);
 			$format = '%b/%d %H:%M';
 
 			$winner1 = substr($match->team1, 1, 3);
@@ -321,7 +325,7 @@ $bets = $this->bets;
 			}else if ($bets[$winner2]->local < $bets[$winner2]->visit) {
 				$visit = $bets[$winner2]->team2;
 			}
-		
+
 ?>
 	<tr class="<?php echo "row$k"; ?>">
 		<td align="left">
@@ -381,14 +385,14 @@ $bets = $this->bets;
 	</tr>
 </thead>
 <tbody>
-<?php		          
+<?php
 		$matches = $this->matches[12];
 		//print_r($bets);
 
 		for ($i=0, $n=count( $matches ); $i < $n; $i++) {
 			$match = &$matches[$i];
 
-			$date =& JFactory::getDate($match->date);          
+			$date =& JFactory::getDate($match->date);
 			$format = '%b/%d %H:%M';
 
 			$winner1 = substr($match->team1, 1, 3);
@@ -405,7 +409,7 @@ $bets = $this->bets;
 			}else if ($bets[$winner2]->local > $bets[$winner2]->visit) {
 				$visit = $bets[$winner2]->team2;
 			}
-		
+
 ?>
 	<tr class="<?php echo "row$k"; ?>">
 		<td align="left">
@@ -464,14 +468,14 @@ $bets = $this->bets;
 	</tr>
 </thead>
 <tbody>
-<?php		          
+<?php
 		$matches = $this->matches[13];
 		//print_r($bets);
 
 		for ($i=0, $n=count( $matches ); $i < $n; $i++) {
 			$match = &$matches[$i];
 
-			$date =& JFactory::getDate($match->date);          
+			$date =& JFactory::getDate($match->date);
 			$format = '%b/%d %H:%M';
 
 			$winner1 = substr($match->team1, 1, 3);
@@ -488,7 +492,7 @@ $bets = $this->bets;
 			}else if ($bets[$winner2]->local < $bets[$winner2]->visit) {
 				$visit = $bets[$winner2]->team2;
 			}
-		
+
 ?>
 	<tr class="<?php echo "row$k"; ?>">
 		<td align="left">
@@ -538,4 +542,3 @@ $bets = $this->bets;
 <input type="hidden" name="boxchecked" value="0" />
 <?php echo JHTML::_( 'form.token' ); ?>
 </form>
-

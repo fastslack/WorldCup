@@ -1,15 +1,18 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+// No direct access to this file
+defined('_JEXEC') or die;
 
 require_once (JPATH_COMPONENT.'/view.php');
 
@@ -21,6 +24,26 @@ class WorldCupViewCompetition extends WorldCupView
 		// Get the patient id
 		$this->tid = JFactory::getApplication()->input->get('tid', 4);
 
+    switch ($this->getLayout()) {
+			case 'show':
+				$this->show($tpl);
+				return;
+		}
+
+
+		parent::display($tpl);
+	}
+
+  function show($tpl = null)
+	{
+		$request = JFactory::getApplication()->input->get->getArray();
+
+    $id = $request['id'];
+
+    $this->competition = $this->_competitions->getCompetitionById($id);
+    $this->competition_users = $this->_competitions->getCompetitionUsers($id);
+
+    // TODO: Get real score
 
 		parent::display($tpl);
 	}

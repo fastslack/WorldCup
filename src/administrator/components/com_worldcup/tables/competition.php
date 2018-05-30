@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  * Worldcup Bet table class
  *
  */
-class WorldcupTableBet extends JTable
+class WorldcupTableCompetition extends JTable
 {
   /**
    * Constructor
@@ -26,6 +26,6 @@ class WorldcupTableBet extends JTable
    * @param object Database connector object
    */
 	function __construct(&$_db) {
-		parent::__construct('#__worldcup_bets', array('cid', 'tid', 'uid', 'mid'), $_db);
+		parent::__construct('#__worldcup_competitions', array('id'), $_db);
 	}
 }

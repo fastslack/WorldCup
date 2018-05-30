@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 /**
  * WorldCup Controller
  */
-class WorldcupControllerBets extends JControllerForm
+class WorldcupControllerCompetition extends JControllerForm
 {
 	/**
 	 * The URL view item variable.
@@ -54,7 +54,7 @@ class WorldcupControllerBets extends JControllerForm
 	 *
 	 * @since   1.5
 	 */
-	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
+	public function getModel($name = 'Competition', $prefix = '', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 
@@ -88,12 +88,15 @@ class WorldcupControllerBets extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = 'a_id')
 	{
-		$result = parent::save($key, $urlVar);
+    $model = $this->getModel();
+    $input = JFactory::getApplication()->input;
+
+    $result = $model->save($input->post->getArray());
 
 		// If ok, redirect to the return page.
 		if ($result)
 		{
-			$this->setRedirect($this->getReturnPage());
+			$this->setRedirect('index.php?option=com_worldcup&view=competitions');
 		}
 
 		return $result;

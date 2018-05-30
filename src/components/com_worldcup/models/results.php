@@ -14,19 +14,19 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
-require_once (JPATH_COMPONENT.'/view.php');
-
-class WorldCupViewCompetitions extends WorldCupView
+/**
+ * Content Component Article Model
+ *
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
+ */
+class WorldcupModelResults extends JModelItem
 {
-
-  function display($tpl = null)	{
-
-		// Get the tournament id
-		$this->tid = JFactory::getApplication()->input->get('tid', 4);
-
-    $this->competitions = $this->_competitions->getCompetitionsList($this->tid);
-
-		parent::display($tpl);
-	}
-
+	/**
+	 * Model context string.
+	 *
+	 * @var        string
+	 */
+	protected $_context = 'com_mets.results';
 }

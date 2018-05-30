@@ -10,8 +10,9 @@
 * @link http://www.matware.com.ar/
 * @license GNU General Public License version 2 or later; see LICENSE
 */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
@@ -51,7 +52,7 @@ $oldbets = $this->oldbets;
 				<div class="grid_12">
 			    <h2>Fase de grupos</h2>
 
-					<form action="index.php?option=com_worldcup&amp;view=bets&amp;layout=step3&amp;step=3" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
+					<form action="<?php echo JRoute::_('index.php?option=com_worldcup&view=bets&layout=step3&cid='.$this->competition->id); ?>" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
 					<table width="100%" border="0">
 					<tr>
 					<?php
@@ -115,9 +116,11 @@ $oldbets = $this->oldbets;
 								$format = 'd/m H:M';
 
 								$pos1 = substr($match->team1, 0, 1);
+
 								$group1 = $this->recursiveArraySearch($groups, substr($match->team1, 1, 2) );
 
 								$pos2 = substr($match->team2, 0, 1);
+
 								$group2 = $this->recursiveArraySearch($groups, substr($match->team2, 1, 2) );
 
 								$idL = $data[$group1][$pos1-1]['id'];

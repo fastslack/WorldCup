@@ -1,14 +1,18 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 /**
  * @package		Joomla
@@ -16,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class WorldCupHelper
 {
-	function _getTableData($groups) { 
+	function _getTableData($groups) {
 
 		$data = array();
 		$db =& JFactory::getDBO();
@@ -25,14 +29,14 @@ class WorldCupHelper
 
 			$query = "SELECT t.id, t.name
 				FROM #__worldcup_teams AS t
-				WHERE t.group = {$groups[$i]->id}"; 
+				WHERE t.group = {$groups[$i]->id}";
 			$db->setQuery($query);
 			//echo $query;
 			$teams[$i] = $db->loadAssocList( 'id' );
 			//print_r($teams[$i]);
 			//echo "<br><br>";
 
-			$query = "SELECT r.mid, m.team1, m.team2, r.local, r.visit 
+			$query = "SELECT r.mid, m.team1, m.team2, r.local, r.visit
 				FROM #__worldcup_results AS r
 				LEFT JOIN #__worldcup_matches AS m ON m.id = r.mid
 				WHERE m.group = {$groups[$i]->id}
@@ -41,7 +45,7 @@ class WorldCupHelper
 			$db->setQuery($query);
 			//echo $query;
 			$bets = $db->loadObjectList( );
-			//echo "<br><br>";			
+			//echo "<br><br>";
 			//print_r($bets);
 
 			for($y=0;$y<count($bets);$y++) {
@@ -55,7 +59,7 @@ class WorldCupHelper
 					$teams[$i][$bet->team2]['points'] += 3;
 				}else if ($bet->local == $bet->visit ) {
 					$teams[$i][$bet->team1]['points'] += 1;
-					$teams[$i][$bet->team2]['points'] += 1;	
+					$teams[$i][$bet->team2]['points'] += 1;
 				}
 
 				$teams[$i][$bet->team1]['gf'] += $bet->local;
@@ -72,7 +76,7 @@ class WorldCupHelper
 
 				//print_r($teams[$i]);echo ".<br><br>";
 			}
-	
+
 			//print_r($teams[$i]);
 			//echo "<br><br>";
 			$data[$i] = WorldCupHelper::_orderBy($teams[$i]);
@@ -80,8 +84,8 @@ class WorldCupHelper
 			//echo "<br>======================================<br><br>";
 		}
 
-		return $data; 
-	} 
+		return $data;
+	}
 
 	function _getSecondPhaseTable ($uid) {
 		global $mainframe;
@@ -103,17 +107,17 @@ class WorldCupHelper
 
 			$query = "SELECT t.id, t.name
 				FROM #__worldcup_teams AS t
-				WHERE t.group = {$groups[$i]['id']}"; 
+				WHERE t.group = {$groups[$i]['id']}";
 			$db->setQuery($query);
 			//echo $query;
 			$teams[$i] = $db->loadAssocList( 'id' );
 			//print_r($teams[$i]);
 			//echo "<br><br>";
 
-			$query = "SELECT b.mid, m.team1, m.team2, b.local, b.visit 
-				FROM #__worldcup_bets AS b 
+			$query = "SELECT b.mid, m.team1, m.team2, b.local, b.visit
+				FROM #__worldcup_bets AS b
 				LEFT JOIN #__worldcup_matches AS m ON m.id = b.mid
-				WHERE b.uid = {$uid} 
+				WHERE b.uid = {$uid}
 				AND m.group = {$groups[$i]['id']}
 				ORDER BY b.mid ASC";
 
@@ -132,7 +136,7 @@ class WorldCupHelper
 					$teams[$i][$bet->team2]['points'] += 3;
 				}else if ($bet->local == $bet->visit ) {
 					$teams[$i][$bet->team1]['points'] += 1;
-					$teams[$i][$bet->team2]['points'] += 1;	
+					$teams[$i][$bet->team2]['points'] += 1;
 				}
 
 				$teams[$i][$bet->team1]['gf'] += $bet->local;
@@ -150,7 +154,7 @@ class WorldCupHelper
 				//print_r($teams[$i]);echo ".<br><br>";
 
 			}
-	
+
 			//print_r($teams[$i]);
 			//echo "<br>";
 			$data[$i] = WorldCupHelper::_orderBy($teams[$i]);
@@ -162,7 +166,7 @@ class WorldCupHelper
 		return $data;
 	}
 
-	## 
+	##
 	## _getClasifiedTeams
 	##
 	function _getClasifiedTeams ($round, $uid = false) {
@@ -171,7 +175,7 @@ class WorldCupHelper
 		$data = array();
 		$db =& JFactory::getDBO();
 
-		## 
+		##
 		## Get groups
 		##
 		$query = "SELECT g.*
@@ -181,19 +185,19 @@ class WorldCupHelper
 		$groups = $db->loadObjectList('id');
 
 		if ($uid == false) {
-			## 
+			##
 			## Results
 			##
 			$query = "SELECT mid, local, visit FROM #__worldcup_results
 					      ORDER BY mid";
 			$db->setQuery($query);
 			$results = $db->loadAssocList('mid');
-			## 
+			##
 			## Get Data for table groups
 			##
 			$data = WorldCupHelper::_getTableData($groups);
 		}else{
-			## 
+			##
 			## Bets
 			##
 			$query = "SELECT mid, local, visit FROM #__worldcup_bets
@@ -202,14 +206,14 @@ class WorldCupHelper
 			$db->setQuery($query);
 			$results = $db->loadAssocList('mid');
 
-			## 
+			##
 			## Get Data for table groups
 			##
 			$data = WorldCupHelper::_getSecondPhaseTable($uid);
 
 		}
 
-		## 
+		##
 		## Get matches
 		##
 		$where = array();
@@ -226,7 +230,7 @@ class WorldCupHelper
 		$db->setQuery( $query );
 		$matches = $db->loadObjectList();
 
-		## 
+		##
 		## Get clasifieds
 		##
 		$clasifieds = array();
@@ -259,7 +263,7 @@ class WorldCupHelper
 		return $clasifieds;
 	}
 
-	function _orderBy($data) { 
+	function _orderBy($data) {
 
 		foreach ($data as $key => $row) {
 				$points[$key]  = $row['points'];
@@ -270,23 +274,23 @@ class WorldCupHelper
 
 		$res = array_multisort($points, SORT_DESC, $diff, SORT_DESC, $gf, SORT_DESC, $ge, SORT_ASC, $data);
 
-		return $data; 
+		return $data;
 	}
 
 	function _recursiveArraySearch($haystack, $needle, $index = null) {
 		$aIt     = new RecursiveArrayIterator($haystack);
 		$it    = new RecursiveIteratorIterator($aIt);
-		 
-		while($it->valid()) {       
-		  if (((isset($index) AND ($it->key() == $index)) 
+
+		while($it->valid()) {
+		  if (((isset($index) AND ($it->key() == $index))
 				OR (!isset($index))) AND ($it->current() == $needle)) {
 		      return $aIt->key();
 		  }
-		 
+
 		  $it->next();
 		}
-	 
+
 		return false;
-	} 
+	}
 
 }

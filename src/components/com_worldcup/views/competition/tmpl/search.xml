@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Competition Search">
+		<message>
+			<![CDATA[STANDARD ARTICLE LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Competition Search</name>
+		<description>Competition Search</description>
+		<params>
+		</params>
+	</state>
+</metadata>

@@ -5,7 +5,7 @@
 
 		<field name="tid" type="msql" size="1" default="" label="COM_WORLDCUP_TEAMS_TID" sql_select="t.id, t.title AS name" sql_from="#__worldcup_tournaments AS t" sql_where="t.published = 1" sql_order="t.id DESC" sql_filter="" key_field="id" value_field="name" description="PARAMFILE" />
 
-		<field	name="date" type="calendar"	label="COM_WORLDCUP_MATCHES_DATE" description="COM_WORLDCUP_MATCHES_DATE_DESC" size="10"	class="inputbox" primary="true" />
+		<field name="date" type="calendar" format="%Y-%m-%d %H:%M:%S" label="COM_WORLDCUP_MATCHES_DATE" description="COM_WORLDCUP_MATCHES_DATE_DESC" size="10" showtime="true" class="inputbox" primary="true" />
 
 		<field name="group" type="msql" size="1" default="0" label="COM_WORLDCUP_MATCHES_GROUP" sql_select="g.id, g.name AS name" sql_from="#__worldcup_groups AS g" sql_where="g.published = 1" sql_group="" sql_order="g.name ASC" sql_filter="tid" key_field="id" value_field="name" description="PARAMFILE" />
 

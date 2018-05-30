@@ -1,17 +1,20 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 require_once (JPATH_COMPONENT.DS.'view.php');
-
 
 ?>
 <table width="100%">
@@ -22,7 +25,7 @@ require_once (JPATH_COMPONENT.DS.'view.php');
 </tr>
 </table>
 <?php
-//ADDED PIOTR 
+//ADDED PIOTR
 class worldcupViewdetailscore extends WorldCupView {
 
 function display($tpl = null)	{
@@ -49,7 +52,7 @@ function display($tpl = null)	{
 
 
 
-		## 
+		##
 		## Get groups
 		##
 		$query = "SELECT g.*
@@ -58,12 +61,12 @@ function display($tpl = null)	{
 		$db->setQuery($query);
 		$groups = $db->loadObjectList('id');
 
-		## 
+		##
 		## Get Data for table groups
 		##
 		$data = WorldCupHelper::_getTableData($groups);
 
-		## 
+		##
 		## Get Matches clasification
 		##
 		$where = array();
@@ -83,7 +86,7 @@ function display($tpl = null)	{
 		print_r($db->getError());
 		//print_r($matches);
 
-		## 
+		##
 		## Get Matches of 8vo
 		##
 		$where = array();
@@ -99,7 +102,7 @@ function display($tpl = null)	{
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches 4tos
 		##
 		$where = array();
@@ -115,7 +118,7 @@ function display($tpl = null)	{
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Teams
 		##
 		$query = "SELECT id, name FROM #__worldcup_teams
@@ -124,19 +127,19 @@ function display($tpl = null)	{
 		$teams = $db->loadAssocList('id');
 
 //ADDED Piotr Mackowiak GET BETES
-		## 
+		##
 		## Get all Bets
 		##
-		$query = "SELECT mid, local, visit FROM #__worldcup_bets 
+		$query = "SELECT mid, local, visit FROM #__worldcup_bets
               WHERE uid = ".$userid."
 		          ORDER BY mid";
 		//echo $query;
-    //echo "<br>";          
+    //echo "<br>";
 		$db->setQuery($query);
 		$bets = $db->loadAssocList('mid');
   //print_r($bets);
 
-		## 
+		##
 		## Results
 		##
 		$query = "SELECT mid, local, visit, finallocal, finalvisit FROM #__worldcup_results
@@ -148,10 +151,10 @@ function display($tpl = null)	{
 		## Phases
 		##
 		$phases = array();
-		$phases[] = JText::_( 'Clasification' ); 
-		$phases[] = JText::_( 'Round of 16' ); 
-		$phases[] = JText::_( 'Quarter-finals' ); 
-		$phases[] = JText::_( 'Semi-finals' ); 
+		$phases[] = JText::_( 'Clasification' );
+		$phases[] = JText::_( 'Round of 16' );
+		$phases[] = JText::_( 'Quarter-finals' );
+		$phases[] = JText::_( 'Semi-finals' );
 		$phases[] = JText::_( 'Match for third place' );
 		$phases[] = JText::_( 'Final' );
 
@@ -174,4 +177,3 @@ function display($tpl = null)	{
 
 
 ?>
-

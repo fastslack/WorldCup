@@ -1,14 +1,18 @@
 <?php
 /**
- * WorldCup
- *
- * @author      Matias Aguirre
- * @email       maguirre@matware.com.ar
- * @url         http://www.matware.com.ar
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- */
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+* Worldcup
+*
+* @version $Id:
+* @package Matware.Worldcup
+* @copyright Copyright (C) 2004 - 2018 Matware. All rights reserved.
+* @author Matias Aguirre
+* @email maguirre@matware.com.ar
+* @link http://www.matware.com.ar/
+* @license GNU General Public License version 2 or later; see LICENSE
+*/
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 require_once (JPATH_COMPONENT.DS.'view.php');
 
@@ -55,7 +59,7 @@ class worldcupViewdetails extends WorldCupView {
 			//echo "<br><br><br>";
 		}
 
-		## 
+		##
 		## Get Matches of 8vo
 		##
 		$where = array();
@@ -71,7 +75,7 @@ class worldcupViewdetails extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches of 4to
 		##
 		$where = array();
@@ -87,7 +91,7 @@ class worldcupViewdetails extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches of Semi
 		##
 		$where = array();
@@ -103,7 +107,7 @@ class worldcupViewdetails extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches of 3rd
 		##
 		$where = array();
@@ -119,7 +123,7 @@ class worldcupViewdetails extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Get Matches of Final
 		##
 		$where = array();
@@ -135,13 +139,13 @@ class worldcupViewdetails extends WorldCupView {
 		$db->setQuery( $query );
 		$matches[] = $db->loadObjectList();
 
-		## 
+		##
 		## Getting the bets
 		##
-		$query = "SELECT b.mid, b.local, b.visit, b.team1, b.team2 
-			FROM #__worldcup_bets AS b 
+		$query = "SELECT b.mid, b.local, b.visit, b.team1, b.team2
+			FROM #__worldcup_bets AS b
 			LEFT JOIN #__worldcup_matches AS m ON m.id = b.mid
-			WHERE b.uid = {$id} 
+			WHERE b.uid = {$id}
 			ORDER BY b.id ASC";
 		$db->setQuery($query);
 		//echo $query;
@@ -152,10 +156,10 @@ class worldcupViewdetails extends WorldCupView {
 		##
 		$data = WorldCupHelper::_getSecondPhaseTable ($id);
 
-		## 
+		##
 		## Teams
 		##
-		$query = "SELECT id, name 
+		$query = "SELECT id, name
 			FROM #__worldcup_teams";
 
 		$db->setQuery($query);
@@ -166,10 +170,10 @@ class worldcupViewdetails extends WorldCupView {
 		## Phases
 		##
 		$phases = array();
-		$phases[] = JText::_( 'Clasification' ); 
-		$phases[] = JText::_( 'Round of 16' ); 
-		$phases[] = JText::_( 'Quarter-finals' ); 
-		$phases[] = JText::_( 'Semi-finals' ); 
+		$phases[] = JText::_( 'Clasification' );
+		$phases[] = JText::_( 'Round of 16' );
+		$phases[] = JText::_( 'Quarter-finals' );
+		$phases[] = JText::_( 'Semi-finals' );
 		$phases[] = JText::_( 'Match for third place' );
 		$phases[] = JText::_( 'Final' );
 
@@ -186,4 +190,3 @@ class worldcupViewdetails extends WorldCupView {
 
 }
 ?>
-

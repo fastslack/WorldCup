@@ -32,7 +32,7 @@ class Bets extends Base
 	 *
 	 * @return object An object with the bets data.
 	 */
-	public function getBetsList($tournament, $user_id = false, $phase_id = false)
+	public function getBetsList($competition, $user_id = false, $phase_id = false)
 	{
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
@@ -43,7 +43,7 @@ class Bets extends Base
 		// Join
 		$query->join('LEFT', '#__worldcup_matches AS m ON m.id = b.mid');
 		// Conditions
-		$query->where("b.tid = {$tournament}");
+		$query->where("b.cid = {$competition}");
 
 		if ($user_id !== false) {
 			$query->where("b.uid = {$user_id}");
@@ -95,7 +95,7 @@ class Bets extends Base
 		return $this->_db->setQuery($query)->loadObjectList('mid');
 	}
 
-  function _getTableData($groups)
+  function _getTableData($groups, $cid)
   {
 		$data = array();
 
@@ -112,8 +112,7 @@ class Bets extends Base
 			$query->from('#__worldcup_bets AS b');
 			$query->join('LEFT', '#__worldcup_matches AS m ON m.id = b.mid');
 			$query->where("b.uid = {$this->_my->id}");
-      // @@ TODO: Fix hardcode
-      $query->where("m.tid = 4");
+      $query->where("b.cid = {$cid}");
       $query->where("m.group = {$value->id}");
 			$query->order("b.mid ASC");
 

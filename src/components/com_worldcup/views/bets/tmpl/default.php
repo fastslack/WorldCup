@@ -10,8 +10,9 @@
 * @link http://www.matware.com.ar/
 * @license GNU General Public License version 2 or later; see LICENSE
 */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
@@ -20,7 +21,7 @@ $my =& JFactory::getUser();
 $groups = $this->groups;
 $teams = $this->teams;
 $matches = $this->matches;
-$results = $this->results;
+//$results = $this->results;
 
 ?>
 <script language="javascript">
@@ -29,22 +30,20 @@ $results = $this->results;
 		var form = document.adminForm;
 
 /*
-		for(i=0;i<form.elements.length;i++) {
+		for(i=0;i<form.elements.length;i++)
+		{
 			if (form.elements[i].value.length < 1 ) {
 				//alert(form.elements[i].value + ' - ' + form.elements[i].name);
 				alert('<?php echo JText::_( "Please complete all fields", true ); ?>');
 				form.elements[i].focus();
 				return false;
 			}
-*/
 		}
+*/
 
 		form.submit();
-
 	}
-//-->
 </script>
-<link rel="stylesheet" type="text/css" href="components/com_worldcup/css/worldcup222.css" />
 
 <section>
 <div class="container">
@@ -52,11 +51,12 @@ $results = $this->results;
 
 		<div class="grid_12">
 			<br><br>
-      <h2 class="wow bounceInRight"><?php echo JText::_( "My Bet" ); ?></h2>
+      <h2 class="wow bounceInRight"><?php echo $this->competition->name; ?></h2>
+			<h4 class="wow bounceInLeft">Mi Fixture</h4>
     </div>
 	</div>
 
-	<form action="index.php?option=com_worldcup&amp;view=bets&amp;layout=step2&amp;step=2" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
+	<form action="<?php echo JRoute::_('index.php?option=com_worldcup&view=bets&layout=step2&cid='.$this->competition->id); ?>" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
 	<div class="row">
 
 		<div class="grid_12">
@@ -77,7 +77,8 @@ $results = $this->results;
 		<tbody>
 		<?php
 
-				for ($y=0;$y<count($matches[$i]);$y++){
+				for ($y=0;$y<count($matches[$i]);$y++)
+				{
 
 					//$date = new JDate($matches[$i][$y]->date);
 					$date =& JFactory::getDate($matches[$i][$y]->date);
@@ -113,7 +114,7 @@ $results = $this->results;
 			</td>
 		</tr>
 		<?php
-				unset($disable);
+					unset($disable);
 				}
 			}
 

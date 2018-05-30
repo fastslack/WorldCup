@@ -10,8 +10,9 @@
 * @link http://www.matware.com.ar/
 * @license GNU General Public License version 2 or later; see LICENSE
 */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+
+// No direct access to this file
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
