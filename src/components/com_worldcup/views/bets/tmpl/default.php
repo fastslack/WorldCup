@@ -64,14 +64,22 @@ $matches = $this->matches;
 		<?php
 			for ($i=0;$i<count($groups);$i++){
 		?>
-		<table id="table1" class="wow bounceInDown" border="1">
+		<table id="table1" class="" border="1">
 		<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$i]->name; ?></caption>
 		<thead>
 			<tr>
-				<th><?php echo JText::_( "Date" ); ?> - <?php echo JText::_( "Hour" ); ?></th>
-				<th width="150"></th>
-				<th width="150" align="center"><?php echo JText::_( "Result" ); ?></th>
-				<th width="150"></th>
+				<th width="30%" nowrap="nowrap">
+					<?php echo JText::_( 'Match' ); ?>
+				</th>
+				<th width="20%" nowrap="nowrap">
+					<?php echo JText::_( 'Result' ); ?>
+				</th>
+				<th width="10%" nowrap="nowrap">
+					<?php echo JText::_( 'Date' ); ?>
+				</th>
+				<th width="20%" nowrap="nowrap">
+					<?php echo JText::_( 'Place' ); ?>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -99,19 +107,21 @@ $matches = $this->matches;
 					}
 		?>
 		<tr class="odd">
-			<td><?php echo $date->format($format); ?></td>
-			<td align="right" style="text-align: right;">
-				<?php echo $teams[$matches[$i][$y]->team1]->name; ?>&nbsp;&nbsp;<img src="<?php echo $teams[$matches[$i][$y]->team1]->flag; ?>">
-				<input type="hidden" name="team1-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $teams[$matches[$i][$y]->team1]->id; ?>">
+
+			<td align="" data-title="partido">
+				<?php echo $teams[$matches[$i][$y]->team1]->name;?>&nbsp;<img src="<?php echo $teams[$matches[$i][$y]->team1]->flag; ?>">&nbsp;&nbsp;&nbsp;vs&nbsp;&nbsp;&nbsp;<img src="<?php echo $teams[$matches[$i][$y]->team2]->flag; ?>">&nbsp;<?php echo $teams[$matches[$i][$y]->team2]->name;?>
 			</td>
-			<td align="center">
-				<input class="input_result" size="1" type="text" name="l-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $local == '' && isset($disable) ? 'X' : $local; ?>" <?php echo isset($disable) ? 'readonly="readonly" style="background-color:#666"' : ''; ?>>&nbsp;-&nbsp;
-				<input class="input_result" size="1" type="text" name="v-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $visit == '' && isset($disable) ? 'X' : $visit; ?>" <?php echo isset($disable) ? 'readonly="readonly" style="background-color:#666"' : ''; ?>>
+			<td align="" data-title="resultado">
+				<input type="text" name="l-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $local == '' && isset($disable) ? 'X' : $local; ?>" size="1" class="input_result" <?php echo $readonly; ?>>&nbsp;-&nbsp;
+				<input type="text" name="v-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $visit == '' && isset($disable) ? 'X' : $visit; ?>" size="1" class="input_result" <?php echo $readonly; ?>>
 			</td>
-			<td align="left">
-				<img src="<?php echo $teams[$matches[$i][$y]->team2]->flag; ?>">&nbsp;&nbsp;<?php echo $teams[$matches[$i][$y]->team2]->name; ?>
-				<input type="hidden" name="team2-<?php echo $matches[$i][$y]->id; ?>" value="<?php echo $teams[$matches[$i][$y]->team2]->id; ?>"
+			<td data-title="fecha">
+				<?php echo $date->format($format); ?>
 			</td>
+			<td data-title="lugar">
+				<?php echo $matches[$i][$y]->pname;?>
+			</td>
+
 		</tr>
 		<?php
 					unset($disable);

@@ -51,3 +51,21 @@ $matches = $this->matches;
 	</div>
 </div>
 </section>
+<script type="text/javascript">
+	jQuery(function($, undefined) {
+
+		$('.input_result').on('input', function() {
+
+			var that = $(this);
+			var mid = $(this).data('mid');
+
+			if ($('#l-'+mid).val() == $('#v-'+mid).val())
+			{
+				$('#pLocal-'+mid).prop('readonly', false);
+				$('#pVisit-'+mid).prop('readonly', false);
+			}
+
+		});
+
+  });
+</script>

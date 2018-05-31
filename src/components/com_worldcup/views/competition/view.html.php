@@ -30,12 +30,21 @@ class WorldCupViewCompetition extends WorldCupView
 				return;
 		}
 
-
 		parent::display($tpl);
 	}
 
   function show($tpl = null)
 	{
+    $my = JFactory::getUser();
+		$app = JFactory::getApplication();
+
+		if (empty($my->id))
+		{
+			// Redirect to the return page.
+			$app->redirect('index.php?option=com_users&view=registration');
+			$app->close();
+		}
+
 		$request = JFactory::getApplication()->input->get->getArray();
 
     $id = $request['id'];

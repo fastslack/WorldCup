@@ -37,7 +37,7 @@ class Bets extends Base
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
 		// Select some values
-		$query->select("b.mid, b.local, b.visit, b.team1, b.team2");
+		$query->select("b.*");
 		// Set the from table
 		$query->from($this->_db->qn('#__worldcup_bets').' AS b');
 		// Join
@@ -73,7 +73,7 @@ class Bets extends Base
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
 		// Select some values
-		$query->select("b.mid, m.team1, m.team2, b.local, b.visit");
+		$query->select("b.*");
 		// Set the from table
 		$query->from($this->_db->qn('#__worldcup_bets').' AS b');
 		// Join

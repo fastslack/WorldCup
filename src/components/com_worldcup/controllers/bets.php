@@ -88,6 +88,16 @@ class WorldcupControllerBets extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = 'a_id')
 	{
+		$my = JFactory::getUser();
+		$app = JFactory::getApplication();
+
+		if (empty($my->id))
+		{
+			// Redirect to the return page.
+			$app->redirect('index.php?option=com_users&view=registration');
+			$app->close();
+		}
+
 		$result = parent::save($key, $urlVar);
 
 		// If ok, redirect to the return page.

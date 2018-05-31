@@ -21,6 +21,16 @@ class WorldCupViewBets extends WorldCupView
 
 	function display($tpl = null)
 	{
+		$my = JFactory::getUser();
+		$app = JFactory::getApplication();
+
+		if (empty($my->id))
+		{
+			// Redirect to the return page.
+			$app->redirect('index.php?option=com_users&view=registration');
+			$app->close();
+		}
+
 		// Get the patient id
 		$this->tid = JFactory::getApplication()->input->get('tid', 4);
 		$this->cid = JFactory::getApplication()->input->get('cid', 0);
@@ -269,6 +279,12 @@ class WorldCupViewBets extends WorldCupView
 			elseif ($letter[0] == 'team2') {
 				$return[$k]['team2'] = $value;
 			}
+			elseif ($letter[0] == 'pLocal') {
+				$return[$k]['pLocal'] = $value;
+			}
+			elseif ($letter[0] == 'pVisit') {
+				$return[$k]['pVisit'] = $value;
+			}
 		}
 
 		return $return;
@@ -309,20 +325,20 @@ class WorldCupViewBets extends WorldCupView
 ?>
 		<thead>
 			<tr>
+				<th width="30%" nowrap="nowrap">
+					<?php echo JText::_( 'Match' ); ?>
+				</th>
+				<th width="20%" nowrap="nowrap">
+					<?php echo JText::_( 'Result' ); ?>
+				</th>
+				<th width="20%" nowrap="nowrap">
+					<?php echo JText::_( 'Penalties' ); ?>
+				</th>
 				<th width="10%" nowrap="nowrap">
 					<?php echo JText::_( 'Date' ); ?>
 				</th>
-				<th width="10%" nowrap="nowrap">
+				<th width="20%" nowrap="nowrap">
 					<?php echo JText::_( 'Place' ); ?>
-				</th>
-				<th width="10%" nowrap="nowrap" align="right">
-					<?php echo JText::_( 'Team' ); ?>
-				</th>
-				<th width="10%" nowrap="nowrap">
-					&nbsp;
-				</th>
-				<th width="10%" nowrap="nowrap">
-					<?php echo JText::_( 'Team' ); ?>
 				</th>
 			</tr>
 		</thead>
@@ -338,6 +354,7 @@ class WorldCupViewBets extends WorldCupView
 	*/
 	protected function printTableRows($matches, $bets, $oldbets, $reverse = false, $readonly = '')
 	{
+		$readonly2 = '';
 
 		if ($readonly != '')
 		{
@@ -345,71 +362,105 @@ class WorldCupViewBets extends WorldCupView
 		}
 
 
-		foreach ($matches as $key => $match) {
+		foreach ($matches as $key => $match)
+		{
 
-				$date = JFactory::getDate($match->date);
-				$format = 'd/m H:M';
+			$date = JFactory::getDate($match->date);
+			$format = 'd/m H:i';
 
-				$winner1 = (int) substr($match->team1, 1, 3);
-				$winner2 = (int) substr($match->team2, 1, 3);
+			$winner1 = (int) substr($match->team1, 1, 3);
+			$winner2 = (int) substr($match->team2, 1, 3);
 
-				if ($reverse == true)
+			if ($reverse == true)
+			{
+				if ($oldbets[$winner1]->local < $oldbets[$winner1]->visit) {
+					$local = $oldbets[$winner1]->team1;
+				}else if ($oldbets[$winner1]->local > $oldbets[$winner1]->visit) {
+					$local = $oldbets[$winner1]->team2;
+				}
+
+				if ($oldbets[$winner2]->local < $oldbets[$winner2]->visit) {
+					$visit = $oldbets[$winner2]->team1;
+				}else if ($oldbets[$winner2]->local > $oldbets[$winner2]->visit) {
+					$visit = $oldbets[$winner2]->team2;
+				}
+
+				if ($oldbets[$winner2]->local == $oldbets[$winner2]->visit || $oldbets[$winner1]->local == $oldbets[$winner1]->visit)
 				{
-					if ($oldbets[$winner1]->local < $oldbets[$winner1]->visit) {
+					if ($oldbets[$winner1]->pLocal < $oldbets[$winner1]->pVisit) {
 						$local = $oldbets[$winner1]->team1;
-					}else if ($oldbets[$winner1]->local > $oldbets[$winner1]->visit) {
+					}else if ($oldbets[$winner1]->pLocal > $oldbets[$winner1]->pVisit) {
 						$local = $oldbets[$winner1]->team2;
 					}
 
-					if ($oldbets[$winner2]->local < $oldbets[$winner2]->visit) {
+					if ($oldbets[$winner2]->pLocal < $oldbets[$winner2]->pVisit) {
 						$visit = $oldbets[$winner2]->team1;
-					}else if ($oldbets[$winner2]->local > $oldbets[$winner2]->visit) {
+					}else if ($oldbets[$winner2]->pLocal > $oldbets[$winner2]->pVisit) {
 						$visit = $oldbets[$winner2]->team2;
 					}
 				}
-				else
+			}
+			else
+			{
+				if ($oldbets[$winner1]->local > $oldbets[$winner1]->visit) {
+					$local = $oldbets[$winner1]->team1;
+				}else if ($oldbets[$winner1]->local < $oldbets[$winner1]->visit) {
+					$local = $oldbets[$winner1]->team2;
+				}
+
+				if ($oldbets[$winner2]->local > $oldbets[$winner2]->visit) {
+					$visit = $oldbets[$winner2]->team1;
+				}else if ($oldbets[$winner2]->local < $oldbets[$winner2]->visit) {
+					$visit = $oldbets[$winner2]->team2;
+				}
+
+				if ($oldbets[$winner2]->local == $oldbets[$winner2]->visit || $oldbets[$winner1]->local == $oldbets[$winner1]->visit)
 				{
-					if ($oldbets[$winner1]->local > $oldbets[$winner1]->visit) {
+					if ($oldbets[$winner1]->pLocal > $oldbets[$winner1]->pVisit) {
 						$local = $oldbets[$winner1]->team1;
-					}else if ($oldbets[$winner1]->local < $oldbets[$winner1]->visit) {
+					}else if ($oldbets[$winner1]->pLocal < $oldbets[$winner1]->pVisit) {
 						$local = $oldbets[$winner1]->team2;
 					}
 
-					if ($oldbets[$winner2]->local > $oldbets[$winner2]->visit) {
+					if ($oldbets[$winner2]->pLocal > $oldbets[$winner2]->pVisit) {
 						$visit = $oldbets[$winner2]->team1;
-					}else if ($oldbets[$winner2]->local < $oldbets[$winner2]->visit) {
+					}else if ($oldbets[$winner2]->pLocal < $oldbets[$winner2]->pVisit) {
 						$visit = $oldbets[$winner2]->team2;
 					}
 				}
+			}
+
+			if ($oldbets[$match->id]->pLocal == 0 && $oldbets[$match->id]->pVisit == 0)
+			{
+				$readonly2 = "readonly='readonly'";
+			}
 
 		?>
 			<tr class="">
-				<td>
+
+				<td align="" data-title="partido">
+					<?php echo $this->teams[$local]->name;?>&nbsp;<img src="<?php echo $this->teams[$local]->flag; ?>">&nbsp;&nbsp;&nbsp;vs&nbsp;&nbsp;&nbsp;<img src="<?php echo $this->teams[$visit]->flag; ?>">&nbsp;<?php echo $this->teams[$visit]->name;?>
+				</td>
+				<td align="" data-title="resultado">
+					<input type="text" data-mid="<?php echo $match->id; ?>" id="l-<?php echo $match->id; ?>" name="l-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->local; ?>" size="1" class="input_result" <?php echo $readonly; ?>>&nbsp;-&nbsp;
+					<input type="text" data-mid="<?php echo $match->id; ?>" id="v-<?php echo $match->id; ?>" name="v-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->visit; ?>" size="1" class="input_result" <?php echo $readonly; ?>>
+				</td>
+				<td align="" data-title="penales">
+					<input type="text" id="pLocal-<?php echo $match->id; ?>" name="pLocal-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->pLocal; ?>" size="1" <?php echo $readonly2; ?>>&nbsp;-&nbsp;
+					<input type="text" id="pVisit-<?php echo $match->id; ?>" name="pVisit-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->pVisit; ?>" size="1" <?php echo $readonly2; ?>>
+				</td>
+				<td data-title="fecha">
 					<?php echo $date->format($format); ?>
 				</td>
-				<td>
+				<td data-title="lugar">
 					<?php echo $match->pname;?>
-				</td>
-				<td align="right">
-					<?php echo $this->teams[$local]->name;?>&nbsp;<img src="<?php echo $this->teams[$local]->flag; ?>">&nbsp;&nbsp;&nbsp;
-				</td>
-				<td align="center">
-					<input type="text" name="l-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->local; ?>" size="1" class="input_result" <?php echo $readonly; ?>>&nbsp;-&nbsp;
-					<input type="text" name="v-<?php echo $match->id; ?>" value="<?php echo $bets[$match->id]->visit; ?>" size="1" class="input_result2" <?php echo $readonly; ?>>
-				</td>
-				<td>
-					<img src="<?php echo $this->teams[$visit]->flag; ?>">
-					<?php echo $this->teams[$visit]->name;?>
 				</td>
 				<input type="hidden" name="team1-<?php echo $match->id; ?>" value="<?php echo $this->teams[$local]->id; ?>" />
 				<input type="hidden" name="team2-<?php echo $match->id; ?>" value="<?php echo $this->teams[$visit]->id; ?>" />
 			</tr>
-		<?php
+<?php
 				unset($pos1);unset($pos2);
 				unset($group1);unset($group2);
-			}
-
+		}
 	}
-
-
 }

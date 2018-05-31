@@ -14,7 +14,28 @@
 // No direct access to this file
 defined('_JEXEC') or die;
 
+$return = 'index.php?option=com_worldcup&view=competitions';
 ?>
+<style>
+#competition-form input[type="text"] {
+    width: 100%;
+    border-radius: 0;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    color: #5e5e5e;
+    padding: 7px 10px;
+    outline: none;
+    height: 34px;
+    border: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    -webkit-appearance: none;
+    background: #202020;
+}
+</style>
 <section id="content" class="">
 <div class="wrapper8">
     <div class="container">
@@ -22,22 +43,23 @@ defined('_JEXEC') or die;
 				<div class="grid_12">
 				    <h2>crear una nueva competición</h2>
 
-						<form id="contact-form" action="<?php echo JRoute::_('index.php?option=com_worldcup&task=competition.save'); ?>" method="post" class="form-validate form-horizontal well">
+						<form id="competition-form" action="<?php echo JRoute::_('index.php?option=com_worldcup&task=competition.save'); ?>" method="post" class="form-validate form-horizontal well">
 							<fieldset>
 
                 <label class="name">
-                    <input name="name" id="" type="text" style="border: 1px dotted #313030;">
-                    <span class="empty-message">*This field is required.</span>
-                <span class="_placeholder" style="left: 0px; top: 0px; width: 360px; height: 34px;">Nombre de la competición:</span></label>
+                    <span class="_placeholder" style="left: 0px; top: 0px; width: 360px; height: 34px;">Nombre de la competición:</span>
+                    <input name="name" id="" type="text" style="border: 1px dotted #313030;" required="required">
+                    <span class="empty-message">* Este valor es requerido.</span>
+                </label>
 
 								<div class="control-group">
 									<div class="controls">
                     <br />
-                    <a href="javascript:{}" class="btn-default" onclick="document.getElementById('contact-form').submit(); return false;"><?php echo JText::_('JSUBMIT'); ?></a>
+                    <a href="javascript:{}" class="btn-default" onclick="document.getElementById('competition-form').submit(); return false;"><?php echo JText::_('JSUBMIT'); ?></a>
 									</div>
 								</div>
 
-								<input type="hidden" name="return" value="<?php //echo base64_encode($return); ?>" />
+								<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>" />
 								<?php echo JHtml::_('form.token'); ?>
 							</fieldset>
 						</form>
@@ -52,11 +74,18 @@ defined('_JEXEC') or die;
 
 	$(function() {
 
-
+    $('#competition-form').validate({
+        rules: {
+            name: {
+                required: true
+            }
+        }
+    });
+/*
     $('input,textarea').focus(function(){
        $('._placeholder').hide();
     });
-
+*/
     //$('.datepicker').datepicker();
 
   });

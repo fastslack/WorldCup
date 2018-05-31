@@ -65,9 +65,9 @@ class WorldcupModelCompetition extends JModelItem
     $data['published'] = 1;
 
     $table = $this->getTable();
-    $table->save($data);
+    //$table->save($data);
 
-		$this->createOwner($table->id, $uid);
+		//$this->createOwner($table->id, $uid);
 	}
 
 	/**

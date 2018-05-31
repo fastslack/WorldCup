@@ -88,6 +88,16 @@ class WorldcupControllerCompetition extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = 'a_id')
 	{
+		$my = JFactory::getUser();
+		$app = JFactory::getApplication();
+
+		if (empty($my->id))
+		{
+			// Redirect to the return page.
+			$this->setRedirect($this->getReturnPage());
+			$app->close();
+		}
+
     $model = $this->getModel();
     $input = JFactory::getApplication()->input;
 

@@ -24,27 +24,6 @@ $matches = $this->matches;
 $oldbets = $this->oldbets;
 
 ?>
-<script language="javascript">
-	function submitbutton(pressbutton)
-	{
-		var form = document.adminForm;
-
-		for(i=0;i<form.elements.length;i++) {
-			//alert(form.elements[i].name);
-			if (form.elements[i].value.length < 1 ) {
-				//alert(form.elements[i].value + ' - ' + form.elements[i].name);
-				alert('<?php echo JText::_( "Please complete all fields", true ); ?>');
-				form.elements[i].focus();
-				return false;
-			}
-		}
-
-		form.submit();
-
-	}
-//-->
-</script>
-
 <section id="content">
 <div class="wrapper8">
     <div class="container">
@@ -61,13 +40,13 @@ $oldbets = $this->oldbets;
 						foreach ($data as $key => $value)
 						{
 
-							if($e==3 || $e == 5 || $e == 7 ){
-								echo "</tr><tr>";
-							}
+							//if($e==3 || $e == 5 || $e == 7 ){
+							//	echo "</tr><tr>";
+							//}
 					?>
 					<td>
 					<table width="100%" cellspacing="0" cellpadding="2" class="wow bounceInDown" id="table1">
-					<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$key]->name; ?></caption>
+					<h5><?php echo JText::_( "Group" ); ?> <?php echo $groups[$key]->name; ?></h5>
 					<thead>
 						<tr>
 							<th><?php echo JText::_( "Team" ); ?></th>
@@ -84,16 +63,16 @@ $oldbets = $this->oldbets;
 					?>
 
 							<tr>
-								<td>
+								<td data-title="equipo">
 									<img src="<?php echo $this->teams[$val2['id']]->flag; ?>">&nbsp;<?php echo $data[$key][$key2]['name']; ?></td>
-								<td align="center"><?php echo $data[$key][$key2]['points'] ? $data[$key][$key2]['points'] : 0; ?></td>
-								<td><?php echo $data[$key][$key2]['gf'] ? $data[$key][$key2]['gf'] : 0; ?></td>
-								<td><?php echo $data[$key][$key2]['ge'] ? $data[$key][$key2]['ge'] : 0; ?></td>
+								<td data-title="puntos" align="center"><?php echo $data[$key][$key2]['points'] ? $data[$key][$key2]['points'] : 0; ?></td>
+								<td data-title="GF"><?php echo $data[$key][$key2]['gf'] ? $data[$key][$key2]['gf'] : 0; ?></td>
+								<td data-title="GE"><?php echo $data[$key][$key2]['ge'] ? $data[$key][$key2]['ge'] : 0; ?></td>
 							</tr>
 
 					<?php
 							}
-							echo "</tbody></table></td>";
+							echo "</tbody></table></td><tr>";
 
 							$e++;
 						}
@@ -104,16 +83,17 @@ $oldbets = $this->oldbets;
 
 					<h2>Octavos de final</h2>
 
-					<table width="100%" cellpadding="2" cellspacing="2" border="1" class="wow bounceInDown" id="table1">
+					<table width="100%" cellpadding="2" cellspacing="2" border="1" class="" id="table1">
 					<?php echo $this->printTableHeader(); ?>
 					<tbody>
 					<?php
 
-							for ($i=0, $n=count( $matches ); $i < $n; $i++) {
+							for ($i=0, $n=count( $matches ); $i < $n; $i++)
+							{
 								$match = &$matches[$i];
 
 								$date =& JFactory::getDate($match->date);
-								$format = 'd/m H:M';
+								$format = 'd/m H:i';
 
 								$pos1 = substr($match->team1, 0, 1);
 
@@ -125,25 +105,33 @@ $oldbets = $this->oldbets;
 
 								$idL = $data[$group1][$pos1-1]['id'];
 								$idV = $data[$group2][$pos2-1]['id'];
+
+								if ($oldbets[$match->id]->pLocal == 0 && $oldbets[$match->id]->pVisit == 0)
+								{
+									$readonly = "readonly='readonly'";
+								}
+
 					?>
 								<tr>
-									<td>
+
+									<td align="" data-title="partido">
+										<?php echo $data[$group1][$pos1-1]['name'];?>&nbsp;<img src="<?php echo $this->teams[$idL]->flag; ?>">&nbsp;&nbsp;&nbsp;vs&nbsp;&nbsp;&nbsp;<img src="<?php echo $this->teams[$idV]->flag; ?>">&nbsp;<?php echo $data[$group2][$pos2-1]['name'];?>
+									</td>
+									<td align="" data-title="resultado">
+										<input type="text" data-mid="<?php echo $match->id; ?>" id="l-<?php echo $match->id; ?>" name="l-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->local; ?>" size="1" class="input_result">&nbsp;-&nbsp;
+										<input type="text" data-mid="<?php echo $match->id; ?>" id="v-<?php echo $match->id; ?>" name="v-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->visit; ?>" size="1" class="input_result">
+									</td>
+									<td align="" data-title="penales">
+										<input type="text" id="pLocal-<?php echo $match->id; ?>" name="pLocal-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->pLocal; ?>" size="1" class="" <?php echo $readonly; ?>>&nbsp;-&nbsp;
+										<input type="text" id="pVisit-<?php echo $match->id; ?>" name="pVisit-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->pVisit; ?>" size="1" class="" <?php echo $readonly; ?>>
+									</td>
+									<td data-title="fecha">
 										<?php echo $date->format($format); ?>
 									</td>
-									<td>
+									<td data-title="lugar">
 										<?php echo $match->pname;?>
 									</td>
-									<td align="right">
-										<?php echo $data[$group1][$pos1-1]['name'];?>&nbsp;<img src="<?php echo $this->teams[$idL]->flag; ?>">
-									</td>
-									<td align="center">
-										<input type="text" name="l-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->local; ?>" size="1" class="input_result">&nbsp;-&nbsp;
-										<input type="text" name="v-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->visit; ?>" size="1" class="input_result2">
-									</td>
-									<td>
-										<img src="<?php echo $this->teams[$idV]->flag; ?>">
-										<?php echo $data[$group2][$pos2-1]['name'];?>
-									</td>
+
 									<input type="hidden" name="team1-<?php echo $match->id; ?>" value="<?php echo $idL; ?>" />
 									<input type="hidden" name="team2-<?php echo $match->id; ?>" value="<?php echo $idV; ?>" />
 								</tr>
@@ -167,3 +155,43 @@ $oldbets = $this->oldbets;
 	</div>
 </div>
 </section>
+<script type="text/javascript">
+	jQuery(function($, undefined) {
+
+		$('.input_result').on('input', function() {
+
+			var that = $(this);
+			var mid = $(this).data('mid');
+
+			if ($('#l-'+mid).val() == $('#v-'+mid).val())
+			{
+				$('#pLocal-'+mid).prop('readonly', false);
+				$('#pVisit-'+mid).prop('readonly', false);
+			}
+
+		});
+
+  });
+
+
+	function submitbutton(pressbutton)
+	{
+		var form = document.adminForm;
+
+/*
+		for(i=0;i<form.elements.length;i++)
+		{
+			//alert(form.elements[i].name);
+			if (form.elements[i].value.length < 1 )
+			{
+				//alert(form.elements[i].value + ' - ' + form.elements[i].name);
+				alert('<?php echo JText::_( "Please complete all fields", true ); ?>');
+				form.elements[i].focus();
+				return false;
+			}
+		}
+*/
+		form.submit();
+
+	}
+</script>
