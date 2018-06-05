@@ -190,6 +190,26 @@ class Competitions extends Base
     }
 	}
 
+  /**
+   * Get the competitions users count
+   *
+   * @param  int  $competition  The competition id.
+   *
+   * @return object An int with the total of users
+   */
+  public function revokeAuth($competition_id, $user_id)
+  {
+    // Insert needed value
+    $query = $this->_db->getQuery(true);
+    $query->delete('#__worldcup_competitions_map_users')
+      ->where("competition_id = {$competition_id}")->where("user_id = {$user_id}")->where("authorised = 1");
+
+    try {
+      return $this->_db->setQuery($query)->execute();
+    } catch (Exception $e) {
+      throw new Exception($e->getMessage());
+    }
+  }
 
   /**
 	 * Get the competitions users count

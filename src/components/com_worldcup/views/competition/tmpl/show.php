@@ -44,8 +44,16 @@ defined('_JEXEC') or die;
 
   foreach ($this->competition_users as $key => $user)
   {
-    $l = JRoute::_('index.php?option=com_worldcup&view=bets&layout=step7&user_id='.$user->id.'&cid='.$this->competition->id);
-    $txt = '<a href="'.$l.'" data-type="submit" class="btn-default">Ver fixture</a>';
+    // Check if bets is there
+    $betsCount = count($this->_bets->getBetsList($this->competition->id, $user->id));
+
+    if ($betsCount == 64)
+    {
+      $l = JRoute::_('index.php?option=com_worldcup&view=bets&layout=step7&user_id='.$user->id.'&cid='.$this->competition->id);
+      $txt = '<a href="'.$l.'" data-type="submit" class="btn-default">Ver fixture</a>';
+    }elseif ($betsCount < 64) {
+      $txt = '<a href="#" class="btn-warning">Fixture incompleto</a>';
+    }
 
     if ($this->_my->id == $user->id)
     {
@@ -56,6 +64,7 @@ defined('_JEXEC') or die;
     if ($this->competition->created_by == $this->_my->id && (int)$user->authorised == 1)
     {
       $txt = '<a href="#" data-cid="'.$this->competition->id.'" data-user_id="'.$user->id.'" data-type="submit" class="btn-default auth">autorizar</a>';
+      $txt = $txt . '<br><a href="#" data-cid="'.$this->competition->id.'" data-user_id="'.$user->id.'" data-type="submit" class="btn-default revoke">revocar</a>';
     }
 
 
@@ -109,7 +118,37 @@ defined('_JEXEC') or die;
   		return false;
   	});
 
+    var url1 = 'index.php?option=com_worldcup&format=raw&task=ajax.revokeAuth';
 
+    //
+  	// Revoke
+  	//
+  	$('.revoke').click(function() {
+
+      var that = $(this);
+
+      url1 = url1 + '&cid=' + $(this).data('cid') + '&user_id=' + $(this).data('user_id');
+
+      $.get(url1,	function(response) {
+
+        var row_object = JSON.parse(response);
+
+        if (parseInt(row_object.code) == 200) {
+
+          that.text('revocado').css({
+              color: '#6363db'
+          });
+
+        }
+
+      });
+
+  		return false;
+  	});
+
+    $('.btn-warning').click(function(e) {
+        e.preventDefault();
+    });
 
   });
 </script>

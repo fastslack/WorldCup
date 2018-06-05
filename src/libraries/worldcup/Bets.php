@@ -95,9 +95,14 @@ class Bets extends Base
 		return $this->_db->setQuery($query)->loadObjectList('mid');
 	}
 
-  function _getTableData($groups, $cid)
+  function _getTableData($groups, $cid, $uid = 0)
   {
 		$data = array();
+
+		if ($uid == 0)
+		{
+			$uid = $this->_my->id;
+		}
 
     foreach ($groups as $key => $value)
 		{
@@ -111,7 +116,7 @@ class Bets extends Base
 			$query->select("b.mid, m.team1, m.team2, b.local, b.visit");
 			$query->from('#__worldcup_bets AS b');
 			$query->join('LEFT', '#__worldcup_matches AS m ON m.id = b.mid');
-			$query->where("b.uid = {$this->_my->id}");
+			$query->where("b.uid = {$uid}");
       $query->where("b.cid = {$cid}");
       $query->where("m.group = {$value->id}");
 			$query->order("b.mid ASC");

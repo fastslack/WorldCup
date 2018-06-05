@@ -48,14 +48,14 @@ $return = 'index.php?option=com_worldcup&view=competitions';
 
                 <label class="name">
                     <span class="_placeholder" style="left: 0px; top: 0px; width: 360px; height: 34px;">Nombre de la competición:</span>
-                    <input name="name" id="" type="text" style="border: 1px dotted #313030;" required="required">
-                    <span class="empty-message">* Este valor es requerido.</span>
+                    <input name="name" id="name" type="text" style="border: 1px dotted #313030;" required="required">
+                    <span class="empty-message"></span>
                 </label>
 
 								<div class="control-group">
 									<div class="controls">
                     <br />
-                    <a href="javascript:{}" class="btn-default" onclick="document.getElementById('competition-form').submit(); return false;"><?php echo JText::_('JSUBMIT'); ?></a>
+                    <a href="javascript:{}" class="btn-default" onclick="document.getElementById('competition-form').submit(); return false;"><?php echo JText::_('CREATE'); ?></a>
 									</div>
 								</div>
 
@@ -76,17 +76,9 @@ $return = 'index.php?option=com_worldcup&view=competitions';
 
     $('#competition-form').validate({
         rules: {
-            name: {
-                required: true
-            }
+            name: "required",
         }
     });
-/*
-    $('input,textarea').focus(function(){
-       $('._placeholder').hide();
-    });
-*/
-    //$('.datepicker').datepicker();
 
   });
 

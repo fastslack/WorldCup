@@ -24,51 +24,24 @@ $matches = $this->matches;
 $oldbets = $this->oldbets;
 
 ?>
-<script language="javascript">
-	function submitbutton(pressbutton)
-	{
-		var form = document.adminForm;
-
-		for(i=0;i<form.elements.length;i++) {
-			//alert(form.elements[i].name);
-			if (form.elements[i].value.length < 1 ) {
-				//alert(form.elements[i].value + ' - ' + form.elements[i].name);
-				alert('<?php echo JText::_( "Please complete all fields", true ); ?>');
-				form.elements[i].focus();
-				return false;
-			}
-		}
-
-		form.submit();
-
-	}
-//-->
-</script>
-
 <section id="content">
 <div class="wrapper8">
     <div class="container">
 			<div class="row">
 				<div class="grid_12">
 
-        <h2>Resultados de tu fixture</h2>
+        <h2>Resultados del fixture de <?php echo $this->userObj->name; ?></h2>
 
-				<h4>Fase de grupos</h4>
+				<h4><?php echo $this->competition->name; ?></h4>
+				<h5>Fase de grupos</h5>
 
         <table width="100%" border="0">
         <tr>
         <?php
         	$e = 1;
 
-        	//for ($i=1;$i<=count($data);$i++){
-
         	foreach ($data as $key => $value) {
 
-
-
-        		if($e==3 || $e == 5 || $e == 7 ){
-        			echo "</tr><tr>";
-        		}
         ?>
         <td>
         <table width="100%" cellspacing="0" cellpadding="2" class="wow bounceInDown" id="table1">
@@ -98,7 +71,7 @@ $oldbets = $this->oldbets;
 
         <?php
         		}
-        		echo "</tbody></table></td>";
+        		echo "</tbody></table></td></tr>";
 
         		$e++;
         	}
@@ -107,12 +80,13 @@ $oldbets = $this->oldbets;
         </tr>
         </table>
 
-				<h4>Octavos de final</h4>
+				<h5>Octavos de final</h5>
 
         <table width="100%" cellpadding="2" cellspacing="2" border="1" class="wow bounceInDown" id="table1">
         <?php echo $this->printTableHeader(); ?>
         <tbody>
         <?php
+					$readonly = 'readonly="readonly"';
 
         		for ($i=0, $n=count( $matches ); $i < $n; $i++) {
         			$match = &$matches[$i];
@@ -130,23 +104,24 @@ $oldbets = $this->oldbets;
         			$idV = $data[$group2][$pos2-1]['id'];
         ?>
         			<tr>
-        				<td>
-        					<?php echo $date->format($format); ?>
-        				</td>
-        				<td>
-        					<?php echo $match->pname;?>
-        				</td>
-        				<td align="right">
-        					<?php echo $data[$group1][$pos1-1]['name'];?>&nbsp;<img src="<?php echo $this->teams[$idL]->flag; ?>">
-        				</td>
-        				<td align="center">
-        					<input type="text" name="l-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->local; ?>" size="1" readonly="readonly">&nbsp;-&nbsp;
-        					<input type="text" name="v-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->visit; ?>" size="1" readonly="readonly">
-        				</td>
-        				<td>
-        					<img src="<?php echo $this->teams[$idV]->flag; ?>">
-        					<?php echo $data[$group2][$pos2-1]['name'];?>
-        				</td>
+								<td align="" data-title="partido">
+									<?php echo $data[$group1][$pos1-1]['name'];?>&nbsp;<img src="<?php echo $this->teams[$idL]->flag; ?>">&nbsp;&nbsp;&nbsp;vs&nbsp;&nbsp;&nbsp;<img src="<?php echo $this->teams[$idV]->flag; ?>">&nbsp;<?php echo $data[$group2][$pos2-1]['name'];?>
+								</td>
+								<td align="" data-title="resultado">
+									<input type="text" data-mid="<?php echo $match->id; ?>" id="l-<?php echo $match->id; ?>" name="l-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->local; ?>" size="1" class="input_result" <?php echo $readonly; ?>>&nbsp;-&nbsp;
+									<input type="text" data-mid="<?php echo $match->id; ?>" id="v-<?php echo $match->id; ?>" name="v-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->visit; ?>" size="1" class="input_result" <?php echo $readonly; ?>>
+								</td>
+								<td align="" data-title="penales">
+									<input type="text" id="pLocal-<?php echo $match->id; ?>" name="pLocal-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->pLocal; ?>" size="1" class="" <?php echo $readonly; ?>>&nbsp;-&nbsp;
+									<input type="text" id="pVisit-<?php echo $match->id; ?>" name="pVisit-<?php echo $match->id; ?>" value="<?php echo $oldbets[$match->id]->pVisit; ?>" size="1" class="" <?php echo $readonly; ?>>
+								</td>
+								<td data-title="fecha">
+									<?php echo $date->format($format); ?>
+								</td>
+								<td data-title="lugar">
+									<?php echo $match->pname;?>
+								</td>
+
         				<input type="hidden" name="team1-<?php echo $match->id; ?>" value="<?php echo $idL; ?>" />
         				<input type="hidden" name="team2-<?php echo $match->id; ?>" value="<?php echo $idV; ?>" />
         			</tr>
@@ -159,7 +134,7 @@ $oldbets = $this->oldbets;
         </tbody>
         </table>
 
-				<h4>Cuartos de final</h4>
+				<h5>Cuartos de final</h5>
 
 				<table class="wow bounceInDown" id="table1" width="100%" cellpadding="2" cellspacing="2" border="0">
 				<?php echo $this->printTableHeader(); ?>
@@ -170,7 +145,7 @@ $oldbets = $this->oldbets;
 				</tbody>
 				</table>
 
-				<h4>Semifinal</h4>
+				<h5>Semifinal</h5>
 
 				<table class="wow bounceInDown" id="table1" width="100%" cellpadding="2" cellspacing="2" border="0">
 				<?php echo $this->printTableHeader(); ?>
@@ -181,7 +156,7 @@ $oldbets = $this->oldbets;
 				</tbody>
 				</table>
 
-				<h4>Tercer puesto</h4>
+				<h5>Tercer puesto</h5>
 
 				<table class="wow bounceInDown" id="table1" width="100%" cellpadding="2" cellspacing="2" border="0">
 				<?php echo $this->printTableHeader(); ?>
@@ -192,7 +167,7 @@ $oldbets = $this->oldbets;
 				</tbody>
 				</table>
 
-				<h4>Final</h4>
+				<h5>Final</h5>
 
 				<table class="wow bounceInDown" id="table1" width="100%" cellpadding="2" cellspacing="2" border="0">
 				<?php echo $this->printTableHeader(); ?>

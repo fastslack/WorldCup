@@ -116,6 +116,28 @@ class WorldcupControllerAjax extends AdminController
 	}
 
 	/**
+	 * Run confirmAuth
+	 */
+	public function revokeAuth()
+	{
+		// Create container
+		$this->createContainer();
+
+		$cid = $this->container->get('input')->get('cid');
+
+		if ($this->container->get('competitions')->checkAuth($cid, $this->container->get('my')->id) != 2)
+		{
+			$this->returnError(403, 'UNAUTHORISED');
+		}
+
+		$user_id = $this->container->get('input')->get('user_id');
+
+    $this->container->get('competitions')->revokeAuth($cid, $user_id);
+
+    $this->returnError(200, 'OK');
+	}
+
+	/**
 	 * returnError
 	 *
 	 * @return	none

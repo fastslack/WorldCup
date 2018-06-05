@@ -52,6 +52,8 @@ class WorldCupViewCompetition extends WorldCupView
     $this->competition = $this->_competitions->getCompetitionById($id);
     $this->competition_users = $this->_competitions->getCompetitionUsers($id);
 
+//echo '<pre>',@print_r($this->competition,1),'</pre>';exit;
+
     // TODO: Get real score
 
 		parent::display($tpl);

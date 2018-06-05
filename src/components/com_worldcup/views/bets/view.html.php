@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
 
 require_once (JPATH_COMPONENT.'/view.php');
 
+use Joomla\CMS\User\User;
+
 class WorldCupViewBets extends WorldCupView
 {
 
@@ -180,37 +182,50 @@ class WorldCupViewBets extends WorldCupView
 
 	function step7 ($tpl = null)
 	{
+		$user_id = JFactory::getApplication()->input->get('user_id', false);
+
+		if ($user_id == false)
+		{
+			$user_id = $this->_my->id;
+		}
+
+		$this->userObj = User::getInstance($user_id);
+
 		$data = JFactory::getApplication()->input->post->getArray();
-		$saveData = $this->sanitizeData($data);
-		$this->saveData($saveData);
+
+		if (!empty($data))
+		{
+			$saveData = $this->sanitizeData($data);
+			$this->saveData($saveData);
+		}
 
 		// Get groups
 		$this->groups = $this->_tournaments->getGroupsList($this->tid);
 
 		// Get Data, matches, bets
-		$this->data = $this->_bets->_getTableData($this->groups, $this->cid);
+		$this->data = $this->_bets->_getTableData($this->groups, $this->cid, $user_id);
 		$this->matches = $this->_matches->getMatchesList($this->tid, 1);
-		$this->oldbets = $this->_bets->getBetsList($this->cid, $this->_my->id, 1);
+		$this->oldbets = $this->_bets->getBetsList($this->cid, $user_id, 1);
 
 		// Get Matches of 4to
 		$this->matches2 = $this->_matches->getMatchesList($this->tid, 2, 0);
-		$this->oldbets2 = $this->_bets->getBetsList($this->cid, $this->_my->id, 1);
-		$this->bets2 = $this->_bets->getBetsList($this->cid, $this->_my->id, 2);
+		$this->oldbets2 = $this->_bets->getBetsList($this->cid, $user_id, 1);
+		$this->bets2 = $this->_bets->getBetsList($this->cid, $user_id, 2);
 
 		// Get Matches of Semi
 		$this->matches3 = $this->_matches->getMatchesList($this->tid, 3, 0);
-		$this->oldbets3 = $this->_bets->getBetsList($this->cid, $this->_my->id, 2);
-		$this->bets3 = $this->_bets->getBetsList($this->cid, $this->_my->id, 3);
+		$this->oldbets3 = $this->_bets->getBetsList($this->cid, $user_id, 2);
+		$this->bets3 = $this->_bets->getBetsList($this->cid, $user_id, 3);
 
 		// Get Matches of 4to
 		$this->matches4 = $this->_matches->getMatchesList($this->tid, 4, 0);
-		$this->oldbets4 = $this->_bets->getBetsList($this->cid, $this->_my->id, 3);
-		$this->bets4 = $this->_bets->getBetsList($this->cid, $this->_my->id, 4);
+		$this->oldbets4 = $this->_bets->getBetsList($this->cid, $user_id, 3);
+		$this->bets4 = $this->_bets->getBetsList($this->cid, $user_id, 4);
 
 		// Get Matches of final
 		$this->matches5 = $this->_matches->getMatchesList($this->tid, 5, 0);
-		$this->oldbets5 = $this->_bets->getBetsList($this->cid, $this->_my->id, 3);
-		$this->bets5 = $this->_bets->getBetsList($this->cid, $this->_my->id, 5);
+		$this->oldbets5 = $this->_bets->getBetsList($this->cid, $user_id, 3);
+		$this->bets5 = $this->_bets->getBetsList($this->cid, $user_id, 5);
 
 		parent::display($tpl);
 	}

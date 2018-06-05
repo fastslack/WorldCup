@@ -8,7 +8,7 @@
 		<field	name="name"	type="text"	label="COM_WORLDCUP_TEAMS_NAME" description="COM_WORLDCUP_TEAMS_NAME_DESC"
 			size="20"	class="input-xxlarge"	default="" primary="true" />
 
-		<field name="group" type="msql" size="1" default="0" label="COM_WORLDCUP_TEAMS_GROUP" sql_select="g.id, g.name AS name" sql_from="#__worldcup_groups AS g" sql_group="" sql_where="g.tid = 4" sql_order="g.name ASC" sql_filter="tid" key_field="id" value_field="name" description="PARAMFILE" />
+		<field name="group" context="com_worldcup.teams" type="msql" size="1" default="0" label="COM_WORLDCUP_TEAMS_GROUP" sql_select="g.id, g.name AS name" sql_from="#__worldcup_groups AS g" sql_group="" sql_where="" sql_order="g.name ASC" sql_filter="tid" key_field="id" value_field="name" description="PARAMFILE" />
 
 		<field	name="flag"	type="media"	label="COM_WORLDCUP_TEAMS_FLAG" description="COM_WORLDCUP_TEAMS_FLAG_DESC"
 			size="20"	class="input-xxlarge"	directory="flags" />

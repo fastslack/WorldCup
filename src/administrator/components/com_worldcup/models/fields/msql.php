@@ -204,17 +204,8 @@ class JFormFieldMSQL extends JFormFieldList
 		// Process the filters
 		if (!empty($this->filter))
 		{
-
-			//JFactory::getApplication()->setUserState('aaaa', 22);
-
-		//$session = JFactory::getSession();
-		//$registry = $session->get('registry');
-
-
 			// Get the filters in state
 			$html_filters = JFactory::getApplication()->getUserState($this->context.'.filter');
-
-//print_r($html_filters);
 
 			// Explode the user defined filters
 			$filters = explode(",", $this->filter);
@@ -227,7 +218,7 @@ class JFormFieldMSQL extends JFormFieldList
 				}
 			}
 		}
-//echo $query->__toString();
+
 		return $query;
 	}
 
