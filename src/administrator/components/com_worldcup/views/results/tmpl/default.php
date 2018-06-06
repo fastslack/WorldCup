@@ -13,17 +13,17 @@ defined('_JEXEC') or die('Restricted access');
 function recursiveArraySearch($haystack, $needle, $index = null) {
 	$aIt     = new RecursiveArrayIterator($haystack);
 	$it    = new RecursiveIteratorIterator($aIt);
-   
-  while($it->valid()) {       
+
+  while($it->valid()) {
     if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
         return $aIt->key();
     }
-   
+
     $it->next();
   }
- 
+
   return false;
-} 
+}
 */
 $teams = $this->teams;
 $matches = $this->matches;
@@ -85,7 +85,7 @@ $sortFields = $this->getSortFields();
 
 		for($i=0;$i<=$total;$i++)
 		{
-			echo $this->getResultList($i); 
+			echo $this->getResultList($i);
 		}
 	?>
 
@@ -93,7 +93,5 @@ $sortFields = $this->getSortFields();
 <input type="hidden" name="controller" value="results" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
 <?php echo JHTML::_( 'form.token' ); ?>
 </form>

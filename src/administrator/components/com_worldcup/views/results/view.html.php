@@ -15,10 +15,13 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view' );
 
-JLoader::register('WorldcupBets', JPATH_COMPONENT_ADMINISTRATOR.'/includes/bets.php');
-JLoader::register('WorldcupMatches', JPATH_COMPONENT_ADMINISTRATOR.'/includes/matches.php');
-JLoader::register('WorldcupTeams', JPATH_COMPONENT_ADMINISTRATOR.'/includes/teams.php');
-JLoader::register('WorldcupTournaments', JPATH_COMPONENT_ADMINISTRATOR.'/includes/tournaments.php');
+use Worldcup\Bets;
+use Worldcup\Competitions;
+use Worldcup\Matches;
+use Worldcup\Results;
+use Worldcup\Teams;
+use Worldcup\Tournaments;
+use Worldcup\Helper;
 
 /**
  * WorldcupViewResults View
@@ -36,17 +39,17 @@ class WorldcupViewResults extends JViewLegacy {
 		// Loader
 		JLoader::import('helpers.worldcup', JPATH_COMPONENT_ADMINISTRATOR);
 
-		$betsObj = new WorldcupBets();
-		$matchesObj = new WorldcupMatches();
-		$teamsObj = new WorldcupTeams();
-		$tournamentObj = new WorldcupTournaments();
+		$betsObj = new Bets();
+		$matchesObj = new Matches();
+		$teamsObj = new Teams();
+		$tournamentObj = new Tournaments();
 
 		$this->state		= $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) 
+		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
@@ -79,7 +82,7 @@ class WorldcupViewResults extends JViewLegacy {
 		$this->results = $matchesObj->getResultsList($tid);
 
 		// Get Phases
-		$this->phases =	WorldcupHelper::getPhases(count($this->teams));
+		$this->phases =	Helper::getPhases(count($this->teams));
 
 		// Add the toolbar
 		$this->addToolBar();
@@ -90,7 +93,7 @@ class WorldcupViewResults extends JViewLegacy {
 	/**
 	* Setting the toolbar
 	*/
-	protected function addToolBar() 
+	protected function addToolBar()
 	{
 		$canDo = JHelperContent::getActions('com_worldcup', 'result', $this->state->get('filter.published'));
 		$user  = JFactory::getUser();
@@ -148,11 +151,12 @@ class WorldcupViewResults extends JViewLegacy {
 	 *
 	 * @since   3.0
 	 */
-	function recursiveArraySearch($haystack, $needle, $index = null) {
+	function recursiveArraySearch($haystack, $needle, $index = null)
+	{
 		$aIt     = new RecursiveArrayIterator($haystack);
 		$it    = new RecursiveIteratorIterator($aIt);
 
-		while($it->valid()) {       
+		while($it->valid()) {
 			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
 				return $aIt->key();
 			}
@@ -161,7 +165,8 @@ class WorldcupViewResults extends JViewLegacy {
 		}
 
 		return false;
-	} 
+	}
+
 	/**
 	 * Returns the results list
 	 *
@@ -232,7 +237,7 @@ class WorldcupViewResults extends JViewLegacy {
 			$match = &$this->matches[$phase][$i];
 			// Get the correct date
 			$date =& JFactory::getDate($match->date);
-			// Get the result 
+			// Get the result
 			$result = & $this->results[$match->id];
 			// Declare variables
 			$local = $visit = $disabled = "";
@@ -261,7 +266,7 @@ class WorldcupViewResults extends JViewLegacy {
 					<input size="1" type="text" id="l<?php echo $match->id; ?>" class="span4" value="<?php echo $local; ?>" <?php echo $disabled; ?>>
 					<input type="hidden" id="t1-<?php echo $match->id; ?>" value="<?php echo $match->team1; ?>" />
 					&nbsp;<small>vs</small>&nbsp;
-					<input size="1" type="text" id="v<?php echo $match->id; ?>" class="span4" value="<?php echo $visit; ?>" <?php echo $disabled; ?>>	
+					<input size="1" type="text" id="v<?php echo $match->id; ?>" class="span4" value="<?php echo $visit; ?>" <?php echo $disabled; ?>>
 					<input type="hidden" id="t2-<?php echo $match->id; ?>" value="<?php echo $match->team2; ?>" />
 				</td>
 				<td>
@@ -305,7 +310,7 @@ class WorldcupViewResults extends JViewLegacy {
 			$match = &$this->matches[$phase][$i];
 			// Get the correct date
 			$date =& JFactory::getDate($match->date);
-			// Get the result 
+			// Get the result
 			$result = & $this->results[$match->id];
 			// Declare variables
 			$local = $visit = $local_id = $visit_id = $disabled = "";
@@ -317,7 +322,7 @@ class WorldcupViewResults extends JViewLegacy {
 			}
 
 
-var_dump($phase);
+//var_dump($phase);
 
 			// Check values
 			switch ($phase) {
@@ -340,9 +345,6 @@ var_dump($phase);
 					$visit_name = isset($this->data[$group2][$pos2-1]['name']) ? $this->data[$group2][$pos2-1]['name'] : '';
 				break;
 				case 2:
-
-
-echo "DDS";
 
 					$winner1 = substr($match->team1, 1, 3);
 					$winner2 = substr($match->team2, 1, 3);
@@ -430,7 +432,7 @@ echo "DDS";
 			}
 
 			$local_id = !empty($local_id) ? $local_id : 0;
-			$visit_id = !empty($visit_id) ? $visit_id : 0;	
+			$visit_id = !empty($visit_id) ? $visit_id : 0;
 ?>
 			<tr class="odd">
 				<td>
@@ -443,7 +445,7 @@ echo "DDS";
 					<?php echo $match->pname;?>
 				</td>
 				<td align="right">
-					<img src="components/com_worldcup/images/flags/<?php echo $local_id; ?>.png">
+					<img src="../<?php echo $this->teams[$local_id]->flag; ?>">
 					<?php echo $local_name;?>
 				</td>
 				<td align="center">
@@ -454,7 +456,7 @@ echo "DDS";
 					<input type="hidden" id="t2-<?php echo $match->id; ?>" value="<?php echo $visit_id; ?>" />
 				</td>
 				<td>
-					<img src="components/com_worldcup/images/flags/<?php echo $visit_id; ?>.png">
+					<img src="../<?php echo $this->teams[$visit_id]->flag; ?>">
 					<?php echo $visit_name;?>
 				</td>
 				<td align="center">
