@@ -49,10 +49,15 @@ class WorldCupViewCompetition extends WorldCupView
 
     $id = $request['id'];
 
+    // Get teams
+		$this->teams = $this->_teams->getTeamsList($this->tid);
+
     $this->competition = $this->_competitions->getCompetitionById($id);
     $this->competition_users = $this->_competitions->getCompetitionUsers($id);
 
-//echo '<pre>',@print_r($this->competition,1),'</pre>';exit;
+    $this->finalMatch = $this->_matches->getFinalMatch($this->tid);
+
+//echo '<pre>',@print_r($this->finalMatch,1),'</pre>';
 
     // TODO: Get real score
 

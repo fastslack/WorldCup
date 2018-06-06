@@ -34,7 +34,7 @@ class Bets extends Base
 	 */
 	public function getBetsList($competition, $user_id = false, $phase_id = false)
 	{
-		// Get the correct equipment
+		// Get query instance
 		$query = $this->_db->getQuery(true);
 		// Select some values
 		$query->select("b.*");
@@ -70,7 +70,7 @@ class Bets extends Base
 	 */
 	public function getBetsGroupList($tournament, $user_id = false, $group = false)
 	{
-		// Get the correct equipment
+		// Get query instance
 		$query = $this->_db->getQuery(true);
 		// Select some values
 		$query->select("b.*");
@@ -95,6 +95,49 @@ class Bets extends Base
 		return $this->_db->setQuery($query)->loadObjectList('mid');
 	}
 
+	/**
+	 * Get the bets of specific match and user
+	 *
+	 * @param  int  $mid  The match id.
+	 * @param  int  $user_id  The user id.
+	 *
+	 * @return object An object with the bets data.
+	 */
+	public function getBetByMid($mid, $user_id = false)
+	{
+		if ($user_id == false)
+		{
+			$user_id = $this->_my->id;
+		}
+
+		// Get query instance
+		$query = $this->_db->getQuery(true);
+
+		// Select some values
+		$query->select("b.*");
+
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_bets').' AS b');
+
+		// Conditions
+		$query->where("b.mid = {$mid}");
+		$query->where("b.uid = {$user_id}");
+
+		$query->setLimit(1);
+
+		// Retrieve the data.
+		return $this->_db->setQuery($query)->loadObject();
+	}
+
+	/**
+	 * Get table data
+	 *
+	 * @param  array  $groups  The groups list.
+	 * @param  int    $cid     The competition id.
+	 * @param  int    $uid     The user id.
+	 *
+	 * @return object An object with the bets data.
+	 */
   function _getTableData($groups, $cid, $uid = 0)
   {
 		$data = array();
@@ -107,7 +150,7 @@ class Bets extends Base
     foreach ($groups as $key => $value)
 		{
 			// Create a new query object.
-			$query	= $this->_db->getQuery(true);
+			$query = $this->_db->getQuery(true);
 
       // Get teams
       $teams[$key] = Teams::getTeamsByGroup($value->id);

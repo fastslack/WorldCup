@@ -28,7 +28,6 @@ defined('_JEXEC') or die;
                     <thead>
                         <tr>
                             <th>nombre</th>
-                            <th>termina</th>
                             <th>creador</th>
                             <th>cantidad de miembros</th>
                             <?php if ($this->_my->id) {  echo "<th>Acciones</th>"; } ?>
@@ -72,9 +71,8 @@ defined('_JEXEC') or die;
                               <?php echo $title; ?>
                               <span class="secondary-text"><?php echo $competition->tname; ?></span>
                             </td>
-                            <td data-title="termina"><span class="white">25d</span></td>
                             <td data-title="creador"><span class="white"><?php echo $competition->uname; ?></span></td>
-                            <td data-title="cantidad de miembros" align="center"><a href="#"><span class="white"><?php echo $this->_competitions->getCompetitionCount($competition->id); ?></span></a></td>
+                            <td data-title="cantidad de miembros" align="center"><span class="white"><?php echo $this->_competitions->getCompetitionCount($competition->id); ?></span></td>
 
 <?php
   if (!empty($this->_my->id)) {

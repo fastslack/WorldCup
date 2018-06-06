@@ -33,7 +33,7 @@ class Matches extends Base
 	 */
 	public function getMatchesList($tournament, $phase = false, $group = false)
 	{
-		// Get the correct equipment
+		// Get query instance
 		$query = $this->_db->getQuery(true);
 		// Select some values
 		$query->select("m.*, p.name AS pname");
@@ -68,7 +68,7 @@ class Matches extends Base
 	 */
 	public function getResultsList($tournament, $group = false)
 	{
-		// Get the correct equipment
+		// Get query instance
 		$query = $this->_db->getQuery(true);
 		// Select some values
 		$query->select("r.mid, m.team1, m.team2, r.local, r.visit");
@@ -90,15 +90,44 @@ class Matches extends Base
 	}
 
 	/**
+	 * Get the final matche for specific tournament
+	 *
+	 * @param  int  $tournament  The tournament id.
+	 *
+	 * @return object An object with the matches data.
+	 */
+	public function getFinalMatch($tournament)
+	{
+		// Get query instance
+		$query = $this->_db->getQuery(true);
+
+		// Select some values
+		$query->select("m.id, m.team1, m.team2");
+
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_matches').' AS m');
+
+		// Conditions
+		$query->where("m.tid = {$tournament}");
+		$query->where("m.phase = 5");
+
+		$query->setLimit(1);
+
+		// Retrieve the data.
+		return $this->_db->setQuery($query)->loadObject();
+	}
+
+	/**
 	* Order the table data
 	*
 	* @param  array  $data  The data to be ordered.
 	*
 	* @return object An object with the data.
 	*/
-	protected function __orderBy($data) {
-
-		foreach ($data as $key => $row) {
+	protected function __orderBy($data)
+	{
+		foreach ($data as $key => $row)
+		{
 				$points[$key]  = $row['points'];
 				$gf[$key] = $row['gf'];
 				$ge[$key] = $row['ge'];

@@ -24,7 +24,7 @@ class WorldCupViewCompetitions extends WorldCupView
 		// Get the tournament id
 		$this->tid = JFactory::getApplication()->input->get('tid', 4);
 
-    $this->competitions = $this->_competitions->getCompetitionsList($this->tid);
+    $this->competitions = $this->_competitions->getCompetitionsList();
 
 		parent::display($tpl);
 	}

@@ -37,7 +37,7 @@ class WorldCupViewBets extends WorldCupView
 		$this->tid = JFactory::getApplication()->input->get('tid', 4);
 		$this->cid = JFactory::getApplication()->input->get('cid', 0);
 
-		// Get the teams
+		// Get teams
 		$this->teams = $this->_teams->getTeamsList($this->tid);
 
 		$this->competition = $this->_competitions->getCompetitionById($this->cid);

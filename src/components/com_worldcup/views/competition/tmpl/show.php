@@ -36,6 +36,7 @@ defined('_JEXEC') or die;
                         <tr>
                             <th>nombre & usuario</th>
                             <th>puntos</th>
+                            <th>campeon & subcampeon</th>
                             <th>acciones</th>
                         </tr>
                     </thead>
@@ -44,6 +45,8 @@ defined('_JEXEC') or die;
 
   foreach ($this->competition_users as $key => $user)
   {
+    $champion = $subchampion = $txt = '';
+
     // Check if bets is there
     $betsCount = count($this->_bets->getBetsList($this->competition->id, $user->id));
 
@@ -51,8 +54,19 @@ defined('_JEXEC') or die;
     {
       $l = JRoute::_('index.php?option=com_worldcup&view=bets&layout=step7&user_id='.$user->id.'&cid='.$this->competition->id);
       $txt = '<a href="'.$l.'" data-type="submit" class="btn-default">Ver fixture</a>';
+
+      $championObj = $this->_bets->getBetByMid($this->finalMatch->id, $user->id);
+
+      if ($championObj->local > $championObj->visit) {
+        $champion = "<img src='{$this->teams[$championObj->team1]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team1]->name . "</span>";
+        $subchampion = "<img src='{$this->teams[$championObj->team2]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team2]->name . "</span>";
+      }else if ($championObj->local < $championObj->visit) {
+        $champion = "<img src='{$this->teams[$championObj->team2]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team2]->name . "</span>";
+        $subchampion = "<img src='{$this->teams[$championObj->team1]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team1]->name . "</span>";
+      }
+
     }elseif ($betsCount < 64) {
-      $txt = '<a href="#" class="btn-warning">Fixture incompleto</a>';
+      $champion = $txt = '<a href="#" class="btn-warning">Fixture incompleto</a>';
     }
 
     if ($this->_my->id == $user->id)
@@ -68,12 +82,14 @@ defined('_JEXEC') or die;
     }
 
 
+
  ?>
 
                         <tr>
                             <td data-title="nombre"><span class="main-text"><?php echo $user->name; ?></span>
                             <span class="secondary-text"><?php echo $user->username; ?></span></td>
                             <td data-title="puntos"><span class="white">0</span></td>
+                            <td data-title="campeon & subcampeon"><span class="white"><?php echo $champion; ?><br> <?php echo $subchampion; ?></span></td>
                             <td data-title="acciones"><span class="white"><?php echo $txt; ?></span></td>
                         </tr>
 <?php

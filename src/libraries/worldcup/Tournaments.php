@@ -16,7 +16,12 @@ namespace Worldcup;
 // No direct access to this file
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Worldcup\Base;
+use Worldcup\Bets;
+use Worldcup\Matches;
+use Worldcup\Teams;
+use Worldcup\Helper;
 
 /**
  * Worldcup Tournaments class
@@ -57,14 +62,14 @@ class Tournaments extends Base
 	public function getGroupsTable ($tournament, $user_id, $flag = 'bets') {
 
 		// Loader
-		JLoader::import('helpers.worldcup', JPATH_COMPONENT_ADMINISTRATOR);
+		//JLoader::import('helpers.worldcup', JPATH_COMPONENT_ADMINISTRATOR);
 
 		$data = array();
-		$db =& JFactory::getDBO();
+		$db = Factory::getDBO();
 
-		$betsObj = new WorldcupBets();
-		$matchesObj = new WorldcupMatches();
-		$teamsObj = new WorldcupTeams();
+		$betsObj = new Bets();
+		$matchesObj = new Matches();
+		$teamsObj = new Teams();
 
 		// Get the groups
 		$groups = $this->getGroupsList($tournament, null);
@@ -103,7 +108,7 @@ class Tournaments extends Base
 				$teams[$i][$bet->team2]['ge'] += $bet->local;
 			}
 
-			$data[$i] = WorldCupHelper::_orderBy($teams[$i]);
+			$data[$i] = Helper::orderBy($teams[$i]);
 
 			$i++;
 		}

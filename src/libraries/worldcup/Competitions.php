@@ -85,7 +85,7 @@ class Competitions extends Base
 	 *
 	 * @return object An object with the competitions data.
 	 */
-	public function getCompetitionsList($tournament)
+	public function getCompetitionsList($tournament = false)
 	{
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
@@ -98,12 +98,14 @@ class Competitions extends Base
 		$query->join('LEFT', '#__users AS u ON u.id = c.created_by');
 
 		// Conditions
-    // @@ TODO: allow list all tournaments
-		$query->where("c.tid = {$tournament}");
+    if ($tournament != false)
+    {
+      $query->where("c.tid = {$tournament}");
+    }
 
 		$query->where("c.hidden = 0");
 
-		$query->order("c.name ASC");
+		$query->order("c.start_date DESC");
 
 		// Retrieve the data.
 		return $this->_db->setQuery($query)->loadObjectList();
@@ -159,7 +161,7 @@ class Competitions extends Base
     $query->where("cmu.user_id = {$user_id}");
 
     try {
-      return $this->_db->setQuery($query)->loadResult();
+      return (int) $this->_db->setQuery($query)->loadResult();
     } catch (Exception $e) {
       throw new Exception($e->getMessage());
     }
@@ -220,6 +222,13 @@ class Competitions extends Base
 	 */
 	public function requestAuth($cid)
 	{
+    $checkAuth = (int) $this->checkAuth($cid, $this->_my->id);
+
+    if ($checkAuth > 0)
+    {
+      return false;
+    }
+
     // Insert needed value
     $query = $this->_db->getQuery(true);
     $query->insert('#__worldcup_competitions_map_users')

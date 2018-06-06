@@ -51,7 +51,7 @@ class Results extends Base
 		return $this->_db->setQuery($query)->loadObjectList();
 	}
 
-  function _getTableData($groups) {
+  function getTableData($groups) {
 
 		$data = array();
 		$db = JFactory::getDBO();
