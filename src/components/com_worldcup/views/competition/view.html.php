@@ -45,9 +45,7 @@ class WorldCupViewCompetition extends WorldCupView
 			$app->close();
 		}
 
-		$request = JFactory::getApplication()->input->get->getArray();
-
-    $id = $request['id'];
+		$id = JFactory::getApplication()->input->getInt('id');
 
     // Get teams
 		$this->teams = $this->_teams->getTeamsList($this->tid);
@@ -56,8 +54,6 @@ class WorldCupViewCompetition extends WorldCupView
     $this->competition_users = $this->_competitions->getCompetitionUsers($id);
 
     $this->finalMatch = $this->_matches->getFinalMatch($this->tid);
-
-//echo '<pre>',@print_r($this->finalMatch,1),'</pre>';
 
     // TODO: Get real score
 

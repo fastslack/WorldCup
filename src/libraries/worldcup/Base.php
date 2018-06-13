@@ -52,15 +52,16 @@ class Base extends Registry
 	 */
   function _orderBy($data)
   {
-		foreach ($data as $key => $row) {
-				$points[$key]  = $row['points'];
-				$gf[$key] = $row['gf'];
-				$ge[$key] = $row['ge'];
-				$diff[$key] = $row['diff'];
-		}
+    foreach ($data as $key => $row)
+    {
+      $points[$key]  = !empty($row['points']) ? $row['points'] : 0 ;
+      $gf[$key] = !empty($row['gf']) ? $row['gf'] : 0 ;
+      $ge[$key] = !empty($row['ge']) ? $row['ge'] : 0 ;
+      $diff[$key] = !empty($row['diff']) ? $row['diff'] : 0 ;
+    }
 
-		$res = array_multisort($points, SORT_DESC, $diff, SORT_DESC, $gf, SORT_DESC, $ge, SORT_ASC, $data);
+    $res = array_multisort($points, SORT_DESC, $diff, SORT_DESC, $gf, SORT_DESC, $ge, SORT_ASC, $data);
 
-		return $data;
-	}
+    return $data;
+  }
 }

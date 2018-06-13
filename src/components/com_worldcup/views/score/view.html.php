@@ -16,7 +16,8 @@ defined('_JEXEC') or die;
 
 require_once (JPATH_COMPONENT.'/view.php');
 
-class WorldCupViewScore extends WorldCupView {
+class WorldCupViewScore extends WorldCupView
+{
 
 	function display($tpl = null)
 	{

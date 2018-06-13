@@ -43,6 +43,8 @@ defined('_JEXEC') or die;
                     <tbody>
 <?php
 
+  $u = JUri::root();
+
   foreach ($this->competition_users as $key => $user)
   {
     $champion = $subchampion = $txt = '';
@@ -58,11 +60,11 @@ defined('_JEXEC') or die;
       $championObj = $this->_bets->getBetByMid($this->finalMatch->id, $user->id);
 
       if ($championObj->local > $championObj->visit) {
-        $champion = "<img src='{$this->teams[$championObj->team1]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team1]->name . "</span>";
-        $subchampion = "<img src='{$this->teams[$championObj->team2]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team2]->name . "</span>";
+        $champion = "<img src='{$u}/{$this->teams[$championObj->team1]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team1]->name . "</span>";
+        $subchampion = "<img src='{$u}/{$this->teams[$championObj->team2]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team2]->name . "</span>";
       }else if ($championObj->local < $championObj->visit) {
-        $champion = "<img src='{$this->teams[$championObj->team2]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team2]->name . "</span>";
-        $subchampion = "<img src='{$this->teams[$championObj->team1]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team1]->name . "</span>";
+        $champion = "<img src='{$u}/{$this->teams[$championObj->team2]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team2]->name . "</span>";
+        $subchampion = "<img src='{$u}/{$this->teams[$championObj->team1]->flag}'>   <span style='color: #5e5e5e;'>" . $this->teams[$championObj->team1]->name . "</span>";
       }
 
     }elseif ($betsCount < 64) {

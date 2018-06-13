@@ -35,7 +35,7 @@ class WorldCupViewBets extends WorldCupView
 
 		// Get the patient id
 		$this->tid = JFactory::getApplication()->input->get('tid', 4);
-		$this->cid = JFactory::getApplication()->input->get('cid', 0);
+		$this->cid = JFactory::getApplication()->input->getInt('cid');
 
 		// Get teams
 		$this->teams = $this->_teams->getTeamsList($this->tid);
@@ -94,16 +94,13 @@ class WorldCupViewBets extends WorldCupView
 		$this->groups = $this->_tournaments->getGroupsList($this->tid);
 
 		// Get Data for table groups
-		//$this->data = $this->_getTableData($groups);
 		$this->data = $this->_bets->_getTableData($this->groups, (int)$this->cid);
 
 		// Get Matches of 8vo
-		//$this->matches = $this->getMatches(1, 0, 1);
 		$this->matches = $this->_matches->getMatchesList($this->tid, 1);
 
 		// Get the bets
 		$this->oldbets = $this->_bets->getBetsList($this->cid, $this->_my->id, 1);
-		//$this->oldbets = $this->getBets(1, 1);
 
 		parent::display($tpl);
 	}
@@ -182,7 +179,7 @@ class WorldCupViewBets extends WorldCupView
 
 	function step7 ($tpl = null)
 	{
-		$user_id = JFactory::getApplication()->input->get('user_id', false);
+		$user_id = JFactory::getApplication()->input->getInt('user_id');
 
 		if ($user_id == false)
 		{
@@ -328,7 +325,6 @@ class WorldCupViewBets extends WorldCupView
 		}
 	}
 
-
 	/**
 	* Print table header
 	*
@@ -359,7 +355,6 @@ class WorldCupViewBets extends WorldCupView
 		</thead>
 <?php
 	}
-
 
 	/**
 	* Print table header

@@ -16,6 +16,7 @@ namespace Worldcup;
 // No direct access to this file
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Worldcup\Base;
 use Worldcup\Teams;
 
@@ -48,13 +49,13 @@ class Results extends Base
 		$query->order("r.mid ASC");
 
 		// Retrieve the data.
-		return $this->_db->setQuery($query)->loadObjectList();
+		return $this->_db->setQuery($query)->loadObjectList('mid');
 	}
 
   function getTableData($groups) {
 
 		$data = array();
-		$db = JFactory::getDBO();
+		$db = Factory::getDBO();
 
 		foreach ($groups as $key => $value)
 		{
@@ -62,13 +63,13 @@ class Results extends Base
 			$query	= $this->_db->getQuery(true);
 
       // Get teams
-      $teams[$key] = Teams::getTeamsByGroup($value->id);
+      $teams[$key] = Teams::getTeamsByGroup($key);
 
 			// Select the required fields from the table.
-			$query->select("r.mid, m.team1, m.team2, r.local, r.visit");
-			$query->from('#__worldcup_results AS r');
-			$query->join('LEFT', '#__worldcup_matches AS m ON m.id = r.mid');
-			$query->where("m.group = {$value->id}");
+			$query->select("m.id, m.team1, m.team2, r.local, r.visit");
+			$query->from('#__worldcup_matches AS m');
+			$query->join('LEFT', '#__worldcup_results AS r ON r.mid = m.id');
+			$query->where("m.group = {$key}");
 			$query->order("r.mid ASC");
 
 			// Set query
@@ -76,39 +77,42 @@ class Results extends Base
 
 			// Execute the query
 			try {
-				$bets = $db->loadObjectList( );
+				$results = $db->loadObjectList( );
 			} catch (RuntimeException $e) {
 				throw new RuntimeException($e->getMessage());
 			}
 
 			// bets
-			for($y=0;$y<count($bets);$y++)
+			for($y=0;$y<count($results);$y++)
 			{
-				$bet = &$bets[$y];
+				$bet = &$results[$y];
 
 				if ($bet->local > $bet->visit ) {
-					$teams[$i][$bet->team1]['points'] += 3;
+					$teams[$key][$bet->team1]['points'] += 3;
 				}else if ($bet->local < $bet->visit ) {
-					$teams[$i][$bet->team2]['points'] += 3;
-				}else if ($bet->local == $bet->visit ) {
-					$teams[$i][$bet->team1]['points'] += 1;
-					$teams[$i][$bet->team2]['points'] += 1;
+					$teams[$key][$bet->team2]['points'] += 3;
+				}else if ((!empty($bet->local) && !empty($bet->local)) && $bet->local == $bet->visit ) {
+					$teams[$key][$bet->team1]['points'] += 1;
+					$teams[$key][$bet->team2]['points'] += 1;
 				}
 
-				$teams[$i][$bet->team1]['gf'] += $bet->local;
-				$teams[$i][$bet->team2]['gf'] += $bet->visit;
+        if (!empty($bet->local) && !empty($bet->local))
+        {
+          $teams[$key][$bet->team1]['gf'] += $bet->local;
+          $teams[$key][$bet->team2]['gf'] += $bet->visit;
 
-				$teams[$i][$bet->team1]['ge'] += $bet->visit;
-				$teams[$i][$bet->team2]['ge'] += $bet->local;
+          $teams[$key][$bet->team1]['ge'] += $bet->visit;
+          $teams[$key][$bet->team2]['ge'] += $bet->local;
 
-				$teams[$i][$bet->team1]['diff'] += $bet->local;
-				$teams[$i][$bet->team1]['diff'] -= $bet->visit;
+          $teams[$key][$bet->team1]['diff'] += $bet->local;
+          $teams[$key][$bet->team1]['diff'] -= $bet->visit;
 
-				$teams[$i][$bet->team2]['diff'] += $bet->visit;
-				$teams[$i][$bet->team2]['diff'] -= $bet->local;
+          $teams[$key][$bet->team2]['diff'] += $bet->visit;
+          $teams[$key][$bet->team2]['diff'] -= $bet->local;
+        }
 			}
 
-			$data[$i] = $this->_orderBy($teams[$i]);
+			$data[$key] = $this->_orderBy($teams[$key]);
 		}
 
 		return $data;

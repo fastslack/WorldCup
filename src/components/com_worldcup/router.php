@@ -29,6 +29,23 @@ class WorldcupRouter extends JComponentRouterBase
 	{
 		$segments = array();
 
+		if (isset($query['view']))
+		{
+			$segments[] = $query['view'];
+			unset($query['view']);
+		}
+
+		if (isset($query['layout']))
+		{
+			if ($query['layout'] == 'step7')
+			{
+				$segments[] = 'show';
+			}else{
+				$segments[] = $query['layout'];
+			}
+			unset($query['layout']);
+		}
+
 		if (isset($query['task']))
 		{
 			$segments[] = $query['task'];
@@ -45,6 +62,18 @@ class WorldcupRouter extends JComponentRouterBase
 		{
 			$segments[] = $query['id'];
 			unset($query['id']);
+		}
+
+		if (isset($query['cid']))
+		{
+			$segments[] = $query['cid'];
+			unset($query['cid']);
+		}
+
+		if (isset($query['user_id']))
+		{
+			$segments[] = $query['user_id'];
+			unset($query['user_id']);
 		}
 
 		$total = count($segments);
@@ -68,40 +97,32 @@ class WorldcupRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
-		$vars = array();
 
-		for ($i = 0; $i < $total; $i++)
+		switch($segments[0])
 		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
-		}
+			case 'competition':
+				$vars['view'] = 'competition';
+				$vars['layout'] = $segments[1];
+				$vars['id'] = (int)$segments[2];
+				break;
+			case 'bets':
+				$vars['view'] = 'bets';
+				if ($segments[1] == 'show')
+				{
+					$vars['layout'] = 'step7';
+					$vars['cid'] = (int) $segments[2];
+					$vars['user_id'] = (int)$segments[3];
+				}else{
+					if (is_numeric($segments[1]))
+					{
+						$vars['cid'] = (int) $segments[1];
+					}elseif (is_string($segments[1])) {
+						$vars['layout'] = $segments[1];
+						$vars['cid'] = (int) $segments[2];
+					}
+				}
 
-		// View is always the first element of the array
-		$count = count($segments);
-
-		if ($count)
-		{
-			$count--;
-			$segment = array_shift($segments);
-
-			if (is_numeric($segment))
-			{
-				$vars['id'] = $segment;
-			}
-			else
-			{
-				$vars['task'] = $segment;
-			}
-		}
-
-		if ($count)
-		{
-			$segment = array_shift($segments);
-
-			if (is_numeric($segment))
-			{
-				$vars['id'] = $segment;
-			}
+				break;
 		}
 
 		return $vars;

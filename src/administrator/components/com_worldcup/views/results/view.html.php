@@ -309,9 +309,9 @@ class WorldcupViewResults extends JViewLegacy {
 			// Get the match
 			$match = &$this->matches[$phase][$i];
 			// Get the correct date
-			$date =& JFactory::getDate($match->date);
+			$date = JFactory::getDate($match->date);
 			// Get the result
-			$result = & $this->results[$match->id];
+			$result = $this->results[$match->id];
 			// Declare variables
 			$local = $visit = $local_id = $visit_id = $disabled = "";
 			// Check results

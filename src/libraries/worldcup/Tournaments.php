@@ -35,18 +35,23 @@ class Tournaments extends Base
 	 *
 	 * @return object An object with the groups data.
 	 */
-	public function getGroupsList($tournament, $flag = 'id')
+	public function getGroupsList($tournament, $flag = 'id', $published = 1)
 	{
 		// Get the correct equipment
 		$query = $this->_db->getQuery(true);
+
 		// Select some values
 		$query->select("g.*");
+
 		// Set the from table
 		$query->from($this->_db->qn('#__worldcup_groups').' AS g');
+
 		// Conditions
 		$query->where("g.tid = {$tournament}");
+		$query->where("published = {$published}");
 
 		$query->order("g.id ASC");
+
 		// Retrieve the data.
 		return $this->_db->setQuery($query)->loadObjectList($flag);
 	}

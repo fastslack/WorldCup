@@ -86,7 +86,7 @@ class Matches extends Base
 		$query->order("r.mid ASC");
 
 		// Retrieve the data.
-		return $this->_db->setQuery($query)->loadObjectList();
+		return $this->_db->setQuery($query)->loadObjectList('mid');
 	}
 
 	/**

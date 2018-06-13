@@ -88,7 +88,7 @@ class Teams extends Base
 		$query	= \Joomla\CMS\Factory::getDbo()->getQuery(true);
 
 		// Select the required fields from the table.
-		$query->select("t.id, t.name");
+		$query->select("t.id, t.name, 0 AS points, 0 AS gf, 0 AS ge, 0 AS diff");
 		$query->from('#__worldcup_teams AS t');
 		$query->where("t.group = {$group}");
 

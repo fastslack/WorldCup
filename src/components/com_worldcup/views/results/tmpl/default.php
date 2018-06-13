@@ -29,64 +29,58 @@ function recursiveArraySearch($haystack, $needle, $index = null) {
   return false;
 }
 
+$tid = 4;
 $matches = $this->matches;
 $results = $this->results;
 $data = $this->data;
 $groups = $this->groups;
 $teams = $this->teams;
 
-$document = &JFactory::getDocument();
-//$document->addScript('media/system/js/mootools.js' );
-//$document->addScript('components/com_worldcup/js/mootabs1.2.js' );
-
 ?>
-<!--<link rel="stylesheet" href="components/com_worldcup/css/worldcup.css" type="text/css" />-->
-<section id="content" class="negative-margin1">
+<section id="content" class="">
 <div class="wrapper8">
     <div class="container">
 			<div class="row">
 
-				<form action="index.php?option=com_worldcup&task=bets&step=3" method="post" name="adminForm" onSubmit="submitbutton(); return false;">
+				<h2>Fixture Rusia 2018 <?php //echo $this->userObj->name; ?></h2><br />
 
+				<h4>Clasificaci&oacute;n</h4>
 
 				<?php
 					$e = 1;
 
-					for ($i=1;$i<=count($data);$i++)
+					foreach ($data as $key => $value)
 					{
 
 				?>
 
-				<table width="100%" cellspacing="0" cellpadding="2" id="group_table" border="1">
-				<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$i]['name']; ?></caption>
+				<table width="100%" cellspacing="0" cellpadding="2" class="wow bounceInDown" id="table1">
+				<h5><?php echo JText::_( "Group" ); ?> <?php echo $groups[$key]->name; ?></h5>
 				<thead>
 					<tr>
-						<td><?php echo JText::_( "Team" ); ?></td>
-						<td width="10"><?php echo JText::_( "Pts" ); ?></td>
-						<td width="10"><?php echo JText::_( "Dif" ); ?></td>
-						<td width="10"><?php echo JText::_( "GF" ); ?></td>
-						<td width="10"><?php echo JText::_( "GE" ); ?></td>
+						<th><?php echo JText::_( "Team" ); ?></th>
+						<th width="10"><?php echo JText::_( "Pts" ); ?></th>
+						<th width="10"><?php echo JText::_( "Dif" ); ?></th>
+						<th width="10"><?php echo JText::_( "GF" ); ?></th>
+						<th width="10"><?php echo JText::_( "GE" ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
 				<?php
 
-				//print_r($data[$i]);
+				foreach ($value as $key2 => $val2)
+				{
+		?>
 
-						for ($y=0;$y<count($data[$i]);$y++){
+				<tr>
+					<td>
+						<img src="<?php echo $this->teams[$val2['id']]->flag; ?>">&nbsp;<?php echo $data[$key][$key2]['name']; ?></td>
+					<td align="center"><?php echo $data[$key][$key2]['points'] ? $data[$key][$key2]['points'] : 0; ?></td>
+					<td><?php echo $data[$key][$key2]['diff'] ? $data[$key][$key2]['diff'] : 0; ?></td>
+					<td><?php echo $data[$key][$key2]['gf'] ? $data[$key][$key2]['gf'] : 0; ?></td>
+					<td><?php echo $data[$key][$key2]['ge'] ? $data[$key][$key2]['ge'] : 0; ?></td>
+				</tr>
 
-				//print_r($data[$i][$y]);
-
-				?>
-
-						<tr>
-							<td>
-								<img src="components/com_worldcup/images/flags/<?php echo $data[$i][$y]['id']; ?>.png">&nbsp;<?php echo $data[$i][$y]['name']; ?></td>
-							<td align="center"><?php echo $data[$i][$y]['points'] ? $data[$i][$y]['points'] : 0; ?></td>
-							<td><?php //echo $data[$i][$y]['diff'] ? $data[$i][$y]['diff'] : 0; ?></td>
-							<td><?php //echo $data[$i][$y]['gf'] ? $data[$i][$y]['gf'] : 0; ?></td>
-							<td><?php //echo $data[$i][$y]['ge'] ? $data[$i][$y]['ge'] : 0; ?></td>
-						</tr>
 
 				<?php
 						}
@@ -96,7 +90,84 @@ $document = &JFactory::getDocument();
 
 				</tbody>
 				</table>
+			</div>
 
+				<div class="row">
+
+				<h4><?php echo JText::_( "Results" ); ?></h4><br>
+
+				<?php
+
+					$i = 0;
+
+					foreach ($groups as $key => $value)
+					{
+
+				?>
+				<table id="table1" class="" border="1">
+				<h5><?php echo JText::_( "Group" ); ?> <?php echo $value->name; ?></h5>
+				<thead>
+					<tr>
+						<th width="30%" nowrap="nowrap">
+							<?php echo JText::_( 'Match' ); ?>
+						</th>
+						<th width="20%" nowrap="nowrap">
+							<?php echo JText::_( 'Result' ); ?>
+						</th>
+						<th width="10%" nowrap="nowrap">
+							<?php echo JText::_( 'Date' ); ?>
+						</th>
+						<th width="20%" nowrap="nowrap">
+							<?php echo JText::_( 'Place' ); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+
+					$matches = $this->_matches->getMatchesList($tid, 0, $key);
+
+					for ($y=0;$y<count($matches);$y++)
+					{
+						//$date = new JDate($matches[$y]->date);
+						$date =& JFactory::getDate($matches[$y]->date);
+						$format = 'd/m H:i';
+
+						// Declare variables
+						$local = $visit = $disabled = 0;
+
+						$local = isset($this->results[$matches[$y]->id]->local) ? $this->results[$matches[$y]->id]->local : '';
+					  $visit = isset($this->results[$matches[$y]->id]->visit) ? $this->results[$matches[$y]->id]->visit : '';
+
+				?>
+				<tr class="odd">
+
+					<td align="" data-title="partido">
+						<?php echo $teams[$matches[$y]->team1]->name;?>&nbsp;<img src="<?php echo $teams[$matches[$y]->team1]->flag; ?>">&nbsp;&nbsp;&nbsp;vs&nbsp;&nbsp;&nbsp;<img src="<?php echo $teams[$matches[$y]->team2]->flag; ?>">&nbsp;<?php echo $teams[$matches[$y]->team2]->name;?>
+					</td>
+					<td align="" data-title="resultado">
+						<?php echo $local; ?>&nbsp;-&nbsp;<?php echo $visit; ?>
+					</td>
+					<td data-title="fecha">
+						<?php echo $date->format($format); ?>
+					</td>
+					<td data-title="lugar">
+						<?php echo $matches[$y]->pname;?>
+					</td>
+
+				</tr>
+				<?php
+
+							$i++;
+							unset($disable);
+						}
+					}
+				?>
+				</tbody>
+				</table>
+				</form>
+
+			</div>
 
 
 
