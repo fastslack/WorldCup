@@ -87,10 +87,10 @@ $matches = $this->matches;
 
 				for ($y=0;$y<count($matches[$i]);$y++)
 				{
-
-					//$date = new JDate($matches[$i][$y]->date);
-					$date =& JFactory::getDate($matches[$i][$y]->date);
+					$date = JFactory::getDate($matches[$i][$y]->date);
 					$format = 'd/m H:i';
+
+					$now = JFactory::getDate('now');
 
 					// Declare variables
 					$local = $visit = $disabled = 0;
@@ -98,13 +98,16 @@ $matches = $this->matches;
 					$local = isset($this->bets[$matches[$i][$y]->id]->local) ? $this->bets[$matches[$i][$y]->id]->local : '';
 				  $visit = isset($this->bets[$matches[$i][$y]->id]->visit) ? $this->bets[$matches[$i][$y]->id]->visit : '';
 
-		//			if ($worldcupConfig['disable']){
-		//				$disable = 1;
-		//			}
+					//if(isset($results[$matches[$i][$y]->id]->mid) && $results[$matches[$i][$y]->id]->mid == $matches[$i][$y]->id ){
+					//	$disable = 1;
+					//}
 
-					if(isset($results[$matches[$i][$y]->id]->mid) && $results[$matches[$i][$y]->id]->mid == $matches[$i][$y]->id ){
-						$disable = 1;
+					$readonly = "";
+					if ($now >= $date)
+					{
+						$readonly = "readonly='readonly'";
 					}
+
 		?>
 		<tr class="odd">
 
