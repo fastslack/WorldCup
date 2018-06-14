@@ -36,12 +36,16 @@ class Bets extends Base
 	{
 		// Get query instance
 		$query = $this->_db->getQuery(true);
+
 		// Select some values
 		$query->select("b.*");
+
 		// Set the from table
 		$query->from($this->_db->qn('#__worldcup_bets').' AS b');
+
 		// Join
 		$query->join('LEFT', '#__worldcup_matches AS m ON m.id = b.mid');
+
 		// Conditions
 		$query->where("b.cid = {$competition}");
 
@@ -72,12 +76,16 @@ class Bets extends Base
 	{
 		// Get query instance
 		$query = $this->_db->getQuery(true);
+
 		// Select some values
 		$query->select("b.*");
+
 		// Set the from table
 		$query->from($this->_db->qn('#__worldcup_bets').' AS b');
+
 		// Join
 		$query->join('LEFT', '#__worldcup_matches AS m ON m.id = b.mid');
+
 		// Conditions
 		$query->where("b.tid = {$tournament}");
 

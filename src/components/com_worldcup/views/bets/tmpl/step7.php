@@ -45,7 +45,7 @@ $oldbets = $this->oldbets;
         ?>
         <td>
         <table width="100%" cellspacing="0" cellpadding="2" class="wow bounceInDown" id="table1">
-        <caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$key]->name; ?></caption>
+        <h5><?php echo JText::_( "Group" ); ?> <?php echo $groups[$key]->name; ?></h5>
         <thead>
         	<tr>
         		<th><?php echo JText::_( "Team" ); ?></th>

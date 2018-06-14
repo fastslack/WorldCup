@@ -19,6 +19,7 @@ use Worldcup\Bets;
 use Worldcup\Competitions;
 use Worldcup\Matches;
 use Worldcup\Results;
+use Worldcup\Score;
 use Worldcup\Teams;
 use Worldcup\Tournaments;
 
@@ -39,6 +40,7 @@ class WorldCupView extends JViewLegacy
 		$this->_competitions = new Competitions();
 		$this->_matches = new Matches();
 		$this->_teams = new Teams();
+		$this->_score = new Score();
 		$this->_results = new Results();
 		$this->_tournaments = new Tournaments();
 	}

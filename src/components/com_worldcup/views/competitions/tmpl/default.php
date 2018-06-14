@@ -19,7 +19,8 @@ defined('_JEXEC') or die;
     <div class="container">
         <div class="row">
             <div class="grid_12">
-                <h2 class="wow bounceInRight">competiciones</h2>
+                <h2 class="wow bounceInRight">competiciones</h2><br />
+                <a href="/competitions/new"><h5 class="wow bounceInRight">crear competici&oacute;n</h5></a>
             </div>
         </div>
         <div class="row">

@@ -52,8 +52,8 @@ class Results extends Base
 		return $this->_db->setQuery($query)->loadObjectList('mid');
 	}
 
-  function getTableData($groups) {
-
+  function getTableData($groups)
+  {
 		$data = array();
 		$db = Factory::getDBO();
 

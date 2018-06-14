@@ -82,15 +82,11 @@ defined('_JEXEC') or die;
       $txt = '<a href="#" data-cid="'.$this->competition->id.'" data-user_id="'.$user->id.'" data-type="submit" class="btn-default auth">autorizar</a>';
       $txt = $txt . '<br><a href="#" data-cid="'.$this->competition->id.'" data-user_id="'.$user->id.'" data-type="submit" class="btn-default revoke">revocar</a>';
     }
-
-
-
  ?>
-
                         <tr>
                             <td data-title="nombre"><span class="main-text"><?php echo $user->name; ?></span>
                             <span class="secondary-text"><?php echo $user->username; ?></span></td>
-                            <td data-title="puntos"><span class="white">0</span></td>
+                            <td data-title="puntos"><span class="white"><?php echo $user->score; ?></span></td>
                             <td data-title="campeon & subcampeon"><span class="white"><?php echo $champion; ?><br> <?php echo $subchampion; ?></span></td>
                             <td data-title="acciones"><span class="white"><?php echo $txt; ?></span></td>
                         </tr>

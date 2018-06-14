@@ -45,17 +45,29 @@ class WorldCupViewCompetition extends WorldCupView
 			$app->close();
 		}
 
-		$id = JFactory::getApplication()->input->getInt('id');
+		$this->cid = JFactory::getApplication()->input->getInt('id');
 
     // Get teams
 		$this->teams = $this->_teams->getTeamsList($this->tid);
 
-    $this->competition = $this->_competitions->getCompetitionById($id);
-    $this->competition_users = $this->_competitions->getCompetitionUsers($id);
+    $this->competition = $this->_competitions->getCompetitionById($this->cid);
+    $this->competition_users = $this->_competitions->getCompetitionUsers($this->cid);
 
+    // Get score
+    foreach ($this->competition_users as $key => &$user) {
+      $user->score = $this->_score->getUserScore($this->cid, $user->id);
+    }
+
+    // Score sorting
+    function cmp($a, $b)
+    {
+        return strcmp($b->score, $a->score);
+    }
+
+    usort($this->competition_users, "cmp");
+
+    // Final
     $this->finalMatch = $this->_matches->getFinalMatch($this->tid);
-
-    // TODO: Get real score
 
 		parent::display($tpl);
 	}
