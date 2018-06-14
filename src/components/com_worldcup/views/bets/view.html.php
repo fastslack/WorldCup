@@ -71,15 +71,11 @@ class WorldCupViewBets extends WorldCupView
 
 		foreach ($this->groups as $group)
 		{
-			//$this->matches[] = $this->getMatches(1, $group->id);
 			$this->matches[] = $this->_matches->getMatchesList($this->tid, false, $group->id);
 		}
 
 		// Get the bets
 		$this->bets = $this->_bets->getBetsList($this->cid, $this->_my->id);
-
-		// Get the results
-		//$this->results = $this->getResults();
 
 		parent::display($tpl);
 	}
@@ -225,29 +221,6 @@ class WorldCupViewBets extends WorldCupView
 		$this->bets5 = $this->_bets->getBetsList($this->cid, $user_id, 5);
 
 		parent::display($tpl);
-	}
-
-	/**
-	* Get the results
-	*
-	* @return      object
-	* @since       1.0
-	*/
-	protected function getResults()
-	{
-		// Getting the results
-		$query = $this->_db->getQuery(true);
-		$query->select('r.mid');
-		$query->from(" #__worldcup_results AS r");
-		$query->order($this->_db->escape('r.id ASC'));
-
-		$this->_db->setQuery($query);
-
-		try {
-			return $this->_db->loadObjectList('mid');
-		} catch (RuntimeException $e) {
-			throw new RuntimeException($e->getMessage());
-		}
 	}
 
 	/**

@@ -51,8 +51,10 @@ $matches = $this->matches;
 
 		<div class="grid_12">
 			<br><br>
-      <h2 class="wow bounceInRight"><?php echo $this->competition->name; ?></h2>
-			<h4 class="wow bounceInLeft">Mi Fixture</h4>
+      <h2 class="wow bounceInRight"><?php echo $this->competition->name; ?></h2><br />
+			<h4 class="wow bounceInLeft">Mi Fixture</h4><br />
+			<span class="wow bounceInLeft">Copiar fixture de:</span>
+			<?php echo $this->_bets->getCompetitionsWithBets($this->_my->id); ?>
     </div>
 	</div>
 
@@ -65,7 +67,7 @@ $matches = $this->matches;
 			for ($i=0;$i<count($groups);$i++){
 		?>
 		<table id="table1" class="" border="1">
-		<caption><?php echo JText::_( "Group" ); ?> <?php echo $groups[$i]->name; ?></caption>
+		<h5><?php echo JText::_( "Group" ); ?> <?php echo $groups[$i]->name; ?></h5>
 		<thead>
 			<tr>
 				<th width="30%" nowrap="nowrap">

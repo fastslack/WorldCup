@@ -138,6 +138,58 @@ class Bets extends Base
 	}
 
 	/**
+	 * Get the competitions select list if bets are completed
+	 *
+	 * @param  int  $user_id  The user id.
+	 *
+	 * @return object An object with the competitions data.
+	 */
+	public function getCompetitionsWithBets($user_id = false)
+	{
+		if ($user_id == false)
+		{
+			$user_id = $this->_my->id;
+		}
+
+		// Get query instance
+		$query = $this->_db->getQuery(true);
+
+		// Select some values
+		$query->select("c.id AS cid, c.name, COUNT(b.id) AS betCount");
+
+		// Set the from table
+		$query->from($this->_db->qn('#__worldcup_bets').' AS b');
+
+		// Join
+		$query->join('LEFT', '#__worldcup_competitions AS c ON c.id = b.cid');
+
+		// Conditions
+		$query->where("b.uid = {$user_id}");
+
+		$query->group('uid, cid');
+
+		// Retrieve the data.
+		$list = $this->_db->setQuery($query)->loadObjectList();
+
+		$return = '<select id="copyFixture">';
+
+		$return .= "<option name='0'> - Ninguno</option>";
+
+		foreach ($list as $key => $value)
+		{
+			 if ((int)$value->betCount == 64)
+			 {
+				 $return .= "<option name='{$value->cid}' data-cid='{$value->cid}'> - {$value->name}</option>";
+			 }
+		}
+
+		$return .= '</select>';
+
+		return $return;
+	}
+
+
+	/**
 	 * Get table data
 	 *
 	 * @param  array  $groups  The groups list.
